@@ -1,0 +1,474 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+@mixin t-black-18-500 {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    color: #000000;
+    border: none;
+    background: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+@mixin t-black-24-600 {
+    @include t-black-18-500();
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.unniversitetBlock{
+    width: 1500px;
+    .top{
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        h1{
+            @include t-black-24-600();
+            font-size: 26px;
+            font-weight: bold;
+        }
+        div{
+            display: flex;
+            align-items: center;
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+            h2{
+                @include t-black-24-600();
+                margin-left: 12px;
+                font-size: 16px;
+                span{
+                    @include t-black-18-500();
+                    font-weight: 500;
+                    display: block;
+
+                }
+            }
+        }
+    } // end top
+
+    .bottom{
+        width: auto;
+        padding-left: 30px;
+        margin-bottom: 75px;
+        .result{
+            padding: 20px 20px 0 20px;
+        }
+        .settSearch{    
+            margin-top: 23px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            justify-content: space-between;
+            .searchUniv{
+                background: #FFFFFF;
+                box-shadow: 0px -2px 8px rgb(0 0 0 / 9%), 2px 4px 9px rgb(0 0 0 / 10%);
+                border-radius: 14px;
+                display: flex;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                padding: 0 20px;
+                img{
+                    padding: 15px;
+                    margin-right: 10px;
+                    cursor: pointer;
+                }
+                input{
+                    font-family: Raleway;
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 20px;
+                    letter-spacing: 0.02em;
+                    color: #7595A3;
+                    outline: none;
+                    background: none;
+                    border: none;
+                    width: 100%;
+                }
+            }
+            .settingsUniver{
+                border: none;
+                height: 100%;
+                width: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #FFFFFF;
+                box-shadow: 0px -2px 8px rgb(0 0 0 / 9%), 2px 4px 9px rgb(0 0 0 / 10%);
+                border-radius: 10px;
+                margin-left: 20px;
+                cursor: pointer;
+                img{
+                    vertical-align: middle;
+                    border-style: none;
+                }
+            }
+        }
+        .FilterFix{
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 102;
+            height: 100vh;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            .fixLeft{
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.35);
+            }
+            .FilterUniver{
+                background: #fff;
+                padding: 30px 46px 0 32px;
+                .selectCountry{
+                    padding: 0 16px;
+                    border: 1px solid #00587F;
+                    border-radius: 8px;
+                    select{
+                        padding: 12px 0;
+                        width: 100%;
+                        font-family: Raleway;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 16px;
+                        letter-spacing: 0.02em;
+                        color: #00121A;
+                        border: none;
+                        outline: none;
+                    }
+                }
+                button{
+                    padding: 18px 0;
+                    width: 100%;
+                    margin-top: 44px;
+                    background: #00587F;
+                    border-radius: 10px;
+                    font-family: Raleway;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 20px;
+                    line-height: 23px;
+                    color: #FFFFFF;
+                    cursor: pointer;
+                    outline: none;
+                    border: none;
+                }
+            }
+        }
+        & > h1{
+            @include t-black-24-600();
+            margin-bottom: 36px;
+        }
+        .cardSwipperBlock{
+            padding: 0 0 20px 20px;
+            .card{
+                height: 592px;
+                width: 417px;
+                background: #E2F1F8;
+                border-radius: 12px;
+                 &:hover{
+                    box-shadow: 0px 4px 8px 0px rgba(114,106,106,0.71);
+                    -webkit-box-shadow: 0px 4px 8px 0px rgba(114,106,106,0.71);
+                    -moz-box-shadow: 0px 4px 8px 0px rgba(114,106,106,0.71);
+                 }
+                .buttonContainer{
+                    position: absolute;
+                    bottom: 20px;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    button{
+                        width: 374px;
+                        max-width: 90%;
+                        cursor: pointer;
+                        height: 64px;
+                        background: #00587F;
+                        border-radius: 10px;
+                        border: none;
+                        color: #FFFFFF;
+                        font-size: 20px;
+                        line-height: 23px;
+                        transition: 0.4s;
+                        &:hover{
+                            border: 1px solid #00587F;
+                            background:transparent;
+                            color: #00587F;
+                        }
+                    }
+                }
+                img{
+                    height: 250px;
+                    width: 100%;
+                    border-top-left-radius: 12px;
+                    border-top-right-radius: 12px;
+                }
+                h1{
+                    @include t-black-24-600();
+                    font-weight: bold;
+                    padding: 22px 0 12px 22px
+                }
+                p{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding: 0 22px 10px 22px;
+                    line-height: 30px;
+                }
+                h3{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding-left: 22px;
+                    span{
+                        font-weight: bold;
+                    }
+                }
+                h4{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding: 14px 22px;
+
+                }
+                h5{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding-left: 22px;
+                    span{
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        .document{
+            margin-top: 75px;
+            & > h1{
+                @include t-black-24-600();
+                margin-bottom: 36px;
+            }
+            .card{
+                height: 640px;
+                width: 417px;
+                background: #E2F1F8;
+                border-radius: 12px;
+                img{
+                    height: 250px;
+                    width: 100%;
+                    border-top-left-radius: 12px;
+                    border-top-right-radius: 12px;
+                }
+                h1{
+                    @include t-black-24-600();
+                    font-weight: bold;
+                    padding: 22px 0 12px 22px
+                }
+                p{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding: 0 22px 22px 22px;
+                    line-height: 30px;
+                }
+                h3{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding-left: 22px;
+                    span{
+                        font-weight: bold;
+                    }
+                }
+                h4{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding: 14px 22px;
+
+                }
+                h5{
+                    @include t-black-18-500();
+                    font-size: 20px;
+                    padding-left: 22px;
+                    span{
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+@media (max-width:1800px){
+    .unniversitetBlock{
+        width: 1400px;
+    }
+}
+@media (max-width:1700px){
+    .unniversitetBlock{
+        width: 1300px;
+    }
+}
+@media (max-width:1600px){
+    .unniversitetBlock{
+        width: 1200px;
+    }
+}
+@media (max-width:1500px){
+    .unniversitetBlock{
+        width: 1100px;
+    }
+}
+@media (max-width:1440px){
+    .unniversitetBlock{
+        width: 1140px;
+    }
+}
+@media (max-width:1280px){
+    .unniversitetBlock{
+        width: 1000px;
+    }
+}
+@media (max-width:1200px){
+    .unniversitetBlock{
+        width: 950px;
+    }
+}
+@media (max-width:1100px){
+    .unniversitetBlock{
+        width: 870px;
+    }
+}
+@media (max-width:1024px){
+    .unniversitetBlock{
+        width: 720px;
+        .top{
+            padding-left: 15px;
+        }
+        .bottom{
+            padding-left: 15px;
+        }
+        .bottom .cardSwipperBlock .card{
+            width: 320px;
+            img{
+                height: 192px;
+            }
+            h1{
+                padding-left: 10px;
+                padding-top: 10px;
+                
+            }
+            p{
+                padding-left: 10px;
+                
+            }
+            h3{
+                padding-left: 10px;
+                
+            }
+            h4{
+                padding-left: 10px;
+                
+            }
+            h5{
+                padding-left: 10px;
+
+            }
+        }
+    }
+}
+
+
+@media (max-width:768px){
+    .unniversitetBlock{
+        width: 750px;
+    }
+    .unniversitetBlock .bottom .cardSwipperBlock .card{
+        height: 560px;
+        h3{
+            font-size: 17px;
+        }
+        h4{
+            font-size: 17px;
+        }   
+        p{
+            padding-right: 10px;
+            font-size: 17px;
+            padding-bottom: 15px;
+        }
+        h1{
+            font-size: 22px;
+        }
+    }
+    .unniversitetBlock .top{
+        padding-top: 60px;
+    }
+    .unniversitetBlock .bottom .document .card{
+        height: 560px;
+        width: 320px;
+        img{
+            height: 192px;
+        }
+        h3{
+            font-size: 17px;
+            padding-left: 10px;
+        }
+        h4{
+            font-size: 17px;
+            padding-left: 10px;
+        }   
+        h5{
+            padding-left: 10px;
+        }
+        p{
+            font-size: 17px;
+            padding:0 10px 15px 10px
+        }
+        h1{
+            padding: 10px 0 10px 10px;
+            font-size: 22px;
+        }
+    }
+}
+
+@media (max-width:500px){
+    .unniversitetBlock{
+        width: 490px;
+    }
+}
+
+@media (max-width:425px){
+    .unniversitetBlock{
+        width: 400px;
+        .top{
+            align-items: flex-start;
+            flex-direction: column-reverse;
+            align-items: center;
+            padding-top: 5px;
+            & >     div{
+                align-self: flex-end;
+                margin-bottom: 20px;
+            }
+            h1{
+                font-size: 24px;
+                margin-bottom: 10px;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+@media (max-width:390px){
+    .unniversitetBlock{
+        width: 370px;
+    }
+}
+@media (max-width:320px){
+    .unniversitetBlock{
+        width: 320px;
+    }
+}

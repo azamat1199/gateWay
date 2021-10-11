@@ -1,0 +1,20 @@
+router {
+	" npm install react-router-dom "
+}
+
+material ui {
+	" npm install @material-ui/core "
+	" npm install @material-ui/lab "
+	" npm install @material/checkbox "
+}
+
+number format {
+	" npm install react-number-format --save "
+}
+
+copy text {
+	" npm install react-copy-text "
+}
+google map {
+	" npm install --save google-map-react "
+}

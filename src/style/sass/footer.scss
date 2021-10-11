@@ -1,0 +1,497 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+@mixin title26 {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 31px;
+    color: #FFFFFF;
+    margin: 0;
+    outline: none;
+    border: none;
+    background: none;
+}
+
+
+.footer{
+ 
+    & > p{
+        @include title26();
+        font-weight: bold;
+        font-size: 25px;
+        color: #000;
+        margin-bottom: 32px;
+        padding: 0 40px;
+    }
+    .top{
+        background: #E2F1F8;
+        padding: 65px 40px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        h1{
+            @include title26();
+            color: #000;
+            margin-bottom: 32px;
+        }
+        & > div > div {
+            border: 1.5px solid #00587F;
+            
+            border-radius: 11px;
+            width: 440px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            input{
+                @include title26();
+                color: #000;
+                font-weight: 500;
+                padding: 15px 22px;
+                outline: none;
+                background: none;
+                border: none;
+                width: 100%;
+            }
+            input::placeholder{
+                @include title26();
+                font-weight: 500;
+                color: #94ADB8;
+            }
+        }
+        & > div button{
+            @include title26();
+            font-size: 22px;
+            font-weight: 500;
+            color: #fff;
+            width: 100%;
+            background: #00587F;
+            border-radius: 12px;
+            padding: 28px 0;
+            margin-top: 38px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            width: 440px;
+        }
+        
+        // checkbox
+        // checkbox
+        .custom-checkbox{
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-checkbox p{
+            margin: 0 0 0 8px;
+            font-family: Raleway;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 0.02em;
+            color: #000000;
+        }
+
+        .custom-checkbox input {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+        }
+        
+        /* для элемента label, связанного с .custom-checkbox */
+        .custom-checkbox span {
+            display: flex;
+            align-items: center;
+            user-select: none;
+        }
+        
+        /* создание в label псевдоэлемента before со следующими стилями */
+        .custom-checkbox span::before {
+            content: '';
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            flex-grow: 0;
+            background: #E0E7EB;
+            border-radius: 0.25em;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 50% 50%;
+        }
+        
+        /* стили при наведении курсора на checkbox */
+        .custom-checkbox > input:not(:disabled):not(:checked) + span:hover::before {
+            border-color: #b3d7ff;
+        }
+        /* стили для чекбокса, находящегося в состоянии checked */
+        .custom-checkbox > input:checked + span::before {
+            border-color: #006aff00;
+            background: #E0E7EB;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23006aff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+        }
+        // checkbox
+        // checkbox
+    
+    } // end top
+    
+    .down{
+        background: #00587F;
+        padding: 54px 40px 100px 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 80px;
+
+        .left{
+            h1{
+                @include title26();
+                margin-bottom: 35px;
+            }
+            p{
+                @include title26();
+                font-size: 24px;
+                font-weight: 500;
+                margin-bottom: 10px;
+            }
+            h2{
+                @include title26();
+                font-size: 24px;
+                margin-bottom: 40px;
+                font-weight: 600;
+            }
+        } // end left
+        .center{
+            h1{
+                @include title26();
+                margin-bottom: 35px;
+            }
+            p{
+                @include title26();
+                font-size: 24px;
+                font-weight: normal;
+            }
+        }// end center
+        .right{
+            h1{
+                @include title26();
+                margin-bottom: 35px; 
+            }
+            p{
+                @include title26();
+                font-size: 24px;
+                font-weight: normal;
+            }
+            .email{
+                border: 1.5px solid #FFFFFF;
+                border-radius: 12px;
+                margin: 20px 0;
+                input{
+                    @include title26();
+                    font-size: 20px;
+                    font-weight: normal;
+                    width: 450px;
+                    padding: 22px 31px;
+                }
+                input::placeholder{
+                    color: #fff;
+                }
+            }
+            button{
+                @include title26();
+                color: #000;
+                font-weight: 500;
+                background: #E2F1F8;
+                border-radius: 12px;
+                width: 100%;
+                padding-top: 28px;
+                padding-bottom: 28px;
+                cursor: pointer;
+            }
+            h4{
+                @include title26();
+                font-size: 24px;
+                margin-top: 58px;
+            }
+            .social{
+                margin-top: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                #telegram{
+                    margin: 0 40px;
+                }
+                svg{
+                    width: 35px;
+                    cursor: pointer;
+                }
+            }
+        }// end right
+    } // end down
+    #copyrightFooter{
+        @include title26();
+        font-size: 20px;
+        font-weight: normal;
+        color: #D1DCE0;
+        text-align: center;
+        background: #00587F;
+    }
+} // end footer
+
+
+@media(max-width:1280px){
+    .footer{
+        .down .right .email input{
+            width: 250px;
+        }
+        .down{
+            column-gap: 20px;
+            .left{
+                h1{
+                    font-size: 22px;
+                }
+                h2{
+                    font-size: 18px;
+                    margin-bottom: 20px;
+                }
+                p{
+                    font-size: 20px;
+                }
+            }
+            .center{
+                h1{
+                    font-size: 22px;
+                }
+                p{
+                    font-size: 18px;
+                    line-height: 28px;
+                }
+            }
+            .right{
+                h1{
+                    font-size: 22px;
+                }
+                p{
+                    font-size: 18px;
+                    line-height: 28px;
+                }
+                .email{
+                    input{
+                        padding: 18px 20px;
+                    }
+                }
+                button{
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                }
+                h4{
+                    margin-top: 35px;
+                    font-size: 20px;
+                }
+                .social{
+                    margin-top: 20px;   
+                }
+            }
+        }
+    }
+}
+
+
+// 1024
+@media(max-width:1024px){
+    .footer{
+        .down .right .email input{
+          
+        }
+        
+    }
+}
+
+
+// 768
+@media(max-width:768px){
+    .footer{
+        .down .right .email input{
+           width: 160px;
+           font-size: 18px;
+           padding: 14px 20px;
+        }
+        .down{
+            .left{
+                h1{
+                    margin-bottom: 20px;
+                    font-size: 20px;
+                }
+                h2{
+                    font-size: 15px;
+                }
+                p{
+                }
+            }
+            .center{
+                h1{
+                    margin-bottom: 20px;
+                }
+                p{
+                }
+            }
+            .right{
+                h1{
+                    margin-bottom: 20px;
+                }
+                p{
+                }
+                .email{
+                    input{
+                    }
+                }
+                button{
+                    font-size: 20px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;   
+                }
+                h4{
+                }
+                .social{ 
+                }
+            }
+        }
+    }
+}
+
+// 425
+@media(max-width:425px){
+    .footer{
+        & >p{
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .down .right .email input{
+        }
+        .top{
+            padding: 20px 20px 40px 20px;
+            h1{
+                font-size: 16px;    
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            & > div{
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                & > div{
+                    display: block;
+                    width: auto;
+                    input{
+                        width: 330px;
+                        font-size: 18px;
+                        padding-top: 12px;
+                        padding-bottom: 12px;
+                    }
+                    input::placeholder{
+                        font-size: 18px;
+                    }
+                }
+                button{
+                    width: 330px;
+                    font-size: 20px;
+                    font-size: 15px;
+                    padding-top: 18px;
+                    padding-bottom: 18px;
+                }
+            }
+           
+        }
+        .down{
+            padding: 40px 20px 60px 20px;
+            grid-template-columns: 1fr;
+            .left{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                h1{
+                    text-align: center;
+                }
+                h2{
+                    text-align: center;
+                }
+                p{
+                    text-align: center;
+                }
+            }
+            .center{
+                margin-bottom: 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                h1{
+                }
+                p{
+                    text-align: center;
+                }
+            }
+            .right{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                h1{
+                }
+                p{
+                    text-align: center;
+                }
+                .email{
+                    input{
+                        width: 220px;
+                    }
+                }
+                button{
+                }
+                h4{
+                }
+                .social{ 
+                    svg{
+                        height: 24px;
+                    }
+                }
+            }
+        }
+        #copyrightFooter{
+            font-size: 16px;
+        }
+    }
+}
+
+
+// 375
+@media (max-width:375px) {
+    .footer{
+        .top{
+            & > div > div input{
+                width: 270px;
+            }
+        } 
+        .down .right button{
+            width: 260px;
+        }
+    }
+}
+
+// 320
+@media (max-width:320px) {
+    .footer{
+        .top{
+            & > div button{
+                width: 270px;
+            }
+            & > div > div input{
+                width: 230px;
+                padding: 12px 20px;
+            }
+        } 
+        .down .right button{
+            width: 260px;
+        }
+    }
+}

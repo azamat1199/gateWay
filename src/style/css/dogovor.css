@@ -1,0 +1,236 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.dogovor {
+  padding: 30px;
+}
+
+.dogovor .top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.dogovor .top h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.dogovor .top div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.dogovor .top div img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.dogovor .top div h2 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  margin-left: 12px;
+  font-size: 16px;
+}
+
+.dogovor .top div h2 span {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+  display: block;
+}
+
+.dogovor .bootm {
+  margin-top: 48px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  padding: 22px 33px;
+}
+
+.dogovor .bootm .print {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 40px;
+}
+
+.dogovor .bootm .print button {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  width: 260px;
+  font-size: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+  background: #F3F5F7;
+  border-radius: 10px;
+  color: #00587F;
+}
+
+.dogovor .bootm .print button img {
+  margin-right: 12px;
+}
+
+.dogovor .bootm .print button:nth-child(2) {
+  margin: 0 30px;
+}
+
+.dogovor .bootm > .main * {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 166.7%;
+  letter-spacing: 0.015em;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+.dogovor .bootm > .main .titleP1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.dogovor .bootm > .main .titleP1 span {
+  margin-left: 140px;
+}
+
+.dogovor .bootm > .main .titleP2 {
+  text-indent: 40px;
+}
+
+.dogovor .bootm > .main h3 {
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.dogovor .bootm > .main .titleP3 span {
+  display: block;
+  text-indent: 40px;
+}
+
+@media (max-width: 1024px) {
+  .dogovor .bootm .print button {
+    font-size: 18px;
+    width: 180px;
+  }
+  .dogovor .bootm .print button img {
+    margin-right: 5px;
+  }
+  .dogovor .bootm > .main * {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dogovor {
+    padding: 60px 10px 30px 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .dogovor .bootm .print {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .dogovor .bootm .print button {
+    width: 303px;
+    margin-bottom: 15px !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .dogovor {
+    padding-top: 5px;
+  }
+  .dogovor .top {
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding-top: 5px;
+  }
+  .dogovor .top > div {
+    -ms-flex-item-align: end;
+        align-self: flex-end;
+    margin-bottom: 25px;
+  }
+  .dogovor .bottom {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}

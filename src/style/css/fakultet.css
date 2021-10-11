@@ -1,0 +1,231 @@
+.Up_navbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.Up_navbar .strelka {
+  margin-left: 14px;
+  margin-right: 14px;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+.Up_navbar .account-analaytics {
+  margin: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26px;
+  color: #000000;
+}
+.Up_navbar h4 {
+  margin: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 31px;
+  color: #000000;
+}
+.Up_navbar h5 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 26px;
+  color: #000000;
+}
+.Up_navbar .head-img {
+  align-items: center;
+  display: flex;
+}
+.Up_navbar .head-img img {
+  width: 40px;
+}
+.Up_navbar div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Up_navbar div img {
+  border-radius: 36px;
+  width: 40px;
+  margin-left: 14px;
+  margin-right: 14px;
+}
+.Up_navbar div div {
+  display: flex;
+  flex-direction: column;
+}
+.Up_navbar div div h5 {
+  line-height: 26px;
+  color: #000000;
+  margin: 0;
+  margin-bottom: 4px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 16px;
+  color: #000000;
+}
+.Up_navbar div div p {
+  margin: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #5c7c8a;
+}
+
+.fakultet {
+  width: 100% !important;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.fakultet table {
+  width: 140% !important;
+}
+.fakultet table td {
+  padding-right: 50px;
+}
+
+.SidebarUniverstitet {
+  margin-bottom: 10px !important;
+}
+
+.talabalar {
+  width: 100% !important;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.talabalar table {
+  width: 200% !important;
+  position: fixed;
+  overflow-x: scroll;
+}
+.talabalar table td {
+  padding-right: 50px;
+}
+.talabalar button {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.back_btn {
+  background: none !important;
+  outline: none !important;
+  border: none !important;
+  color: #00587f !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.talaba_modal {
+  height: 100%;
+  width: 30%;
+  margin: 10px 0;
+  overflow-y: scroll;
+}
+
+.class1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  overflow: hidden;
+}
+
+#scroll_bar::-webkit-scrollbar-track {
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+#scroll_bar::-webkit-scrollbar {
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+}
+
+#scroll_bar::-webkit-scrollbar-thumb {
+  margin: 10px 0;
+  border-radius: 10px;
+  background-color: #00587f;
+}
+
+@media (max-width: 1024px) {
+  .card_3tali {
+    flex-wrap: nowrap;
+  }
+  .card_3tali .card h4 {
+    font-size: 20px !important;
+  }
+}
+@media (max-width: 425px) {
+  .asos .Up_navbar h4 {
+    font-size: 18px;
+    width: 60%;
+  }
+  .asos .Up_navbar h5 {
+    font-size: 16px;
+  }
+  .asos .Up_navbar p {
+    font-size: 16px;
+  }
+  .asos .Up_navbar div img {
+    width: 40px;
+    height: 40px;
+  }
+  .asos .Up_navbar div {
+    align-items: center;
+  }
+  .asos .Up_navbar div .nav-bugalter {
+    align-items: flex-start;
+    margin-left: 13px;
+    margin-top: 30px;
+  }
+
+  .talabalar table {
+    width: 370% !important;
+  }
+
+  .fakultet table {
+    width: 250% !important;
+  }
+
+  .sideGlavny .block_1 {
+    margin-bottom: 10px;
+  }
+
+  .card_3tali {
+    flex-wrap: wrap;
+  }
+  .card_3tali .card h4 {
+    font-size: 18px !important;
+  }
+
+  .SidebarUniverstitet .fakultet table thead::before {
+    top: 60px !important;
+  }
+
+  .sideGlavny .block_2 > div:nth-child(1) {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+
+  .sideGlavny .block_1 .card h4 {
+    text-align: center;
+  }
+
+  .sideGlavny .block_2 > div:nth-child(1) {
+    margin-bottom: 20px !important;
+  }
+}
+
+/*# sourceMappingURL=fakultet.css.map */

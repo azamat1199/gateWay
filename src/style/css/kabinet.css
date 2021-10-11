@@ -1,0 +1,462 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.lichKabinet .top {
+  background-image: url("../../assets/images/back.png");
+  height: 327px;
+  background-size: cover;
+  width: 100%;
+}
+
+.lichKabinet .top .settings {
+  padding: 30px 30px 0 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.lichKabinet .top .settings h6 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #FFFFFF;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.lichKabinet .top .settings span svg {
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.lichKabinet .top .person {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0 auto;
+  padding-top: 12px;
+}
+
+.lichKabinet .top .person img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.lichKabinet .top .person h4 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #FFFFFF;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 6px;
+  margin-bottom: 10px;
+}
+
+.lichKabinet .top .person h3 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #FFFFFF;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lichKabinet .bottom {
+  margin-top: 48px;
+  padding: 0 30px 70px 30px;
+}
+
+.lichKabinet .bottom .progress {
+  padding: 22px 32px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+}
+
+.lichKabinet .bottom .progress h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+
+.lichKabinet .bottom .progress .progressTdiv {
+  width: 100%;
+  background: #E5F7FF;
+  border-radius: 34.5px;
+  height: 69px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.lichKabinet .bottom .progress .progressTdiv .progressIdiv {
+  height: 100%;
+  background: linear-gradient(5.35deg, #00587F 8.92%, rgba(0, 88, 127, 0) 320.51%);
+  border-radius: 34.5px 0px 0px 34.5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.lichKabinet .bottom .progress .progressTdiv .progressIdiv h6 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  color: #fff;
+}
+
+.lichKabinet .bottom .progress .progressTitle {
+  padding-top: 34px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.lichKabinet .bottom .progress .progressTitle > p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 200px;
+  position: relative;
+}
+
+.lichKabinet .bottom .progress .progressTitle > p::before {
+  content: "";
+  position: absolute;
+  background: #7595A3;
+  height: 18px;
+  width: 4px;
+  top: -22px;
+  left: 100px;
+}
+
+.lichKabinet .bottom .danni {
+  margin-top: 44px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  padding: 22px 0;
+}
+
+.lichKabinet .bottom .danni .izmenit {
+  margin-bottom: 22px;
+  padding: 0 32px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.lichKabinet .bottom .danni .izmenit h2 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.lichKabinet .bottom .danni .izmenit button {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  color: #00587F;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.lichKabinet .bottom .danni table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.lichKabinet .bottom .danni table tr {
+  height: 75px;
+}
+
+.lichKabinet .bottom .danni table tr td {
+  font-size: 22px;
+  font-weight: 600;
+  padding: 0 32px;
+}
+
+.lichKabinet .bottom .danni table tr th {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  text-align: start;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.lichKabinet .bottom .danni table tr th img {
+  width: 21px;
+  height: 27px;
+  cursor: pointer;
+}
+
+.lichKabinet .bottom .danni table tr th:nth-child(1) {
+  font-size: 22px;
+  font-weight: 600;
+  width: 200px;
+}
+
+.lichKabinet .bottom .danni table tr th:nth-child(2) {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.lichKabinet .bottom .danni table tr:nth-child(even) {
+  background: #F0FAFF;
+}
+
+.lichKabinet .bottom .danni button {
+  height: 64px;
+  width: 600px;
+  position: relative;
+  left: calc(50% - 300px);
+  top: 13px;
+  color: #fff;
+  margin: auto;
+  cursor: pointer;
+  border: none;
+  font-size: 20px;
+  background: #00587F;
+  border-radius: 10px;
+  -webkit-transition: .4s;
+  transition: .4s;
+  font-weight: 500;
+}
+
+.lichKabinet .bottom .danni button:hover {
+  border: 1px solid #00587F;
+  background: transparent;
+  color: #00587F;
+}
+
+@media (max-width: 1024px) {
+  .lichKabinet .bottom .progress .progressTitle > p::before {
+    left: 65px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    width: 140px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .lichKabinet .top .settings {
+    padding-top: 75px;
+  }
+  .lichKabinet .top .person img {
+    width: 100px;
+    height: 100px;
+  }
+  .lichKabinet .top .person h4 {
+    font-size: 22px;
+  }
+  .lichKabinet .top .person h3 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .lichKabinet .bottom .progress .progressTdiv .progressIdiv h6 {
+    font-size: 16px;
+  }
+  .lichKabinet .bottom .progress .progressTdiv {
+    height: 40px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p::before {
+    left: 40px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    width: 90px;
+    font-size: 15px;
+  }
+  .lichKabinet .bottom {
+    padding: 0 10px 50px 10px;
+  }
+  .lichKabinet .bottom .danni .izmenit button {
+    font-size: 15px;
+  }
+  .lichKabinet .bottom .danni .izmenit h2 {
+    font-size: 20px;
+  }
+  .lichKabinet .bottom .danni table tr {
+    height: auto;
+  }
+  .lichKabinet .bottom .danni table tr th {
+    padding: 10px 15px;
+  }
+  .lichKabinet .bottom .danni table tr th:nth-child(1) {
+    font-size: 18px;
+    padding-right: 5px !important;
+  }
+  .lichKabinet .bottom .danni table tr th:nth-child(2) {
+    font-size: 17px;
+    padding-left: 0 !important;
+  }
+  .lichKabinet .bottom .danni table tr th img {
+    width: 17px;
+    height: 18px;
+  }
+  .lichKabinet .bottom .danni .izmenit {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .lichKabinet .top .settings h6 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 425px) {
+  .lichKabinet .top .settings {
+    padding: 60px 10px 0px 10px;
+  }
+  .lichKabinet .top .settings h6 {
+    font-size: 21px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    width: 70px;
+    font-size: 12px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p::before {
+    left: 35px;
+    width: 3px;
+    height: 15px;
+  }
+  .lichKabinet .bottom .progress {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .lichKabinet .bottom {
+    margin-top: 20px;
+  }
+  .lichKabinet .bottom .danni {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 375px) {
+  .lichKabinet .top .settings {
+    padding: 60px 10px 0px 10px;
+  }
+  .lichKabinet .top .settings h6 {
+    font-size: 21px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    font-size: 11px;
+  }
+  .lichKabinet .bottom .progress h1 {
+    margin-bottom: 20px;
+  }
+  .lichKabinet .bottom .progress .progressTdiv {
+    height: 25px;
+  }
+}

@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+
+.Login{
+    background:  #E5E5E5;
+    height: 100vh;
+    padding-bottom: 70px;
+    
+    .background_login{
+        background:  #E5E5E5;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        z-index: -1;
+    }
+
+    .container{
+        max-width: 1250px;
+        margin: 0 auto;
+
+        & > .title{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 67px;
+            margin-bottom: 70px;
+
+            h2{
+                font-family: Raleway;
+                font-weight: 600;
+                color: #000000;
+                margin: 0 0 0 28px;
+                text-align: center;
+            }
+        } // end title
+
+        & > .block{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .blockBox{
+                width: 60%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                background: #FFFFFF;
+                box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+                border-radius: 16px;
+                padding: 22px 102px 33px 102px;
+
+                & > h3{
+                    margin: 0 0 28px 0;
+                    text-align: center;
+                    font-family: Raleway;
+                    font-weight: 600;
+                    color: #000000;
+                }
+                & > .radioBlock{
+                    margin-bottom: 25px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    
+                    label{
+                        margin-left: 28px;
+                        font-family: Raleway;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 15px;
+                        letter-spacing: 0.02em;
+                        color: #00587F;
+                        display: flex;
+                        align-items: center;
+
+                        input{
+                            margin: 0 10px 0 0;
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
+                }
+                & > .loginInput{
+                    margin-top: 24px;
+
+                    p{
+                        margin: 0 0 8px 0;
+                        font-family: Raleway;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 15px;
+                        letter-spacing: 0.02em;
+                        color: #000000;
+                    }
+
+                    div{
+                        width: 100%; 
+                        border: 1.5px solid #47606B;
+                        box-sizing: border-box;
+                        border-radius: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 0 15px;
+                        
+                        input{
+                            color: #00587F;
+                            font-family: Raleway;
+                            font-weight: 600;
+                            font-size: 22px;
+                            width: 80%;
+                            padding: 15px 0;
+                            outline: none;
+                            border: none;
+                            background: none;
+                        }
+
+                        img{
+                            cursor: pointer;
+                            padding: 5px;
+                        }
+                        
+                    }
+                } // end loginInput
+
+                .loginRemberMe{
+                    margin-top: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    // 
+                    // 
+                    .custom-checkbox{
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .custom-checkbox p{
+                        margin: 0 0 0 8px;
+                        font-family: Raleway;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 14px;
+                        letter-spacing: 0.02em;
+                        color: #7595A3;
+                    }
+
+                    .custom-checkbox input {
+                        position: absolute;
+                        z-index: -1;
+                        opacity: 0;
+                    }
+                    
+                    /* для элемента label, связанного с .custom-checkbox */
+                    .custom-checkbox span {
+                        display: flex;
+                        align-items: center;
+                        user-select: none;
+                    }
+                    
+                    /* создание в label псевдоэлемента before со следующими стилями */
+                    .custom-checkbox span::before {
+                        content: '';
+                        display: inline-block;
+                        width: 22px;
+                        height: 22px;
+                        flex-shrink: 0;
+                        flex-grow: 0;
+                        background: #E0E7EB;
+                        border-radius: 0.25em;
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        background-size: 50% 50%;
+                    }
+                    
+                    /* стили при наведении курсора на checkbox */
+                    .custom-checkbox > input:not(:disabled):not(:checked) + span:hover::before {
+                        border-color: #b3d7ff;
+                    }
+                    /* стили для чекбокса, находящегося в состоянии checked */
+                    .custom-checkbox > input:checked + span::before {
+                        border-color: #006aff00;
+                        background: #E0E7EB;
+                        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23006aff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+                    }
+                    // 
+                    // 
+
+
+
+                }
+
+                & > button{
+                    text-decoration: none;
+                    display: flex;
+                    justify-content: center;
+                    margin: 41px 0 0 0;
+                    width: 100%;
+                    background: #00587F;
+                    border-radius: 10px;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    font-family: Raleway;
+                    font-weight: 500;
+                    font-size: 20px;
+                    color: #FFFFFF;
+                    cursor: pointer;
+
+                }
+
+                .forgetPass{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 22px;
+                    margin-bottom: 33px;
+
+                    p{
+                        margin: 0;
+                        font-family: Raleway;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 18px;
+                        letter-spacing: 0.02em;
+                        color: #000000;
+                        
+                        a{
+                            text-decoration: none;
+                            color: #00587F;
+                            font-weight: 600;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            } // end blockBox
+        } // end block
+    }
+} // end Login
+
+
+@media(max-width:768px){
+    .Login{
+        .container{
+            & > .block{
+                .blockBox {
+                    padding: 20px 45px 20px 45px;
+                    width: 70%;
+                    & > .radioBlock{
+                        label{
+                            margin-left: 15px;
+                            input{
+                                margin-right: 4px;
+                            }
+                        }
+                    }
+                }
+            }
+        }  
+    }
+}
+
+
+
+@media(max-width:425px){
+    .Login{
+        .container{
+            .title{
+                padding-top: 30px;
+                margin-bottom: 30px;
+            }
+            & > .block{
+                .blockBox {
+                    .loginInput div{
+                        padding-right: 5px;
+                    }
+                    & > a{
+                        margin-top: 20px;
+                        padding: 15px 0;
+                        font-size: 18px;
+                    }
+                    width: 95%;
+                    & > .radioBlock{
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        margin-bottom: 0;
+                        label{
+                            margin-bottom: 8px;
+                            input{
+                            }
+                        }
+                    }
+                    .forgetPass p{
+                        font-size: 16px;
+                    }
+                }
+            }
+        } 
+        .container > .block .blockBox > .loginInput div input {
+            padding: 8px 0;
+            font-size: 18px;
+        } 
+    }
+}
+
+
+
+@media(max-width:375px){
+    .Login{
+        .container{
+            .title{
+            }
+            & > .block{
+                .blockBox {
+                    width: 90%;
+                    padding: 20px 25px;
+                    & > .radioBlock{
+                        label{
+                            input{
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media(max-width:320px){
+    .Login{
+        .container{
+            .title{
+            }
+            & > .block{
+                .blockBox {
+                    & > a{
+                        font-size: 16px;
+                        padding-top: 12px;
+                        padding-bottom: 12px;
+                    }
+                    & > .radioBlock{
+                        label{
+                            font-size: 13px;
+                            input{
+                            }
+                        }
+                    }
+                    .forgetPass p{
+                        font-size: 14px;
+                    }
+                }
+            }
+        } 
+        .container > .block .blockBox > .loginInput div input {
+         
+        } 
+    }
+}

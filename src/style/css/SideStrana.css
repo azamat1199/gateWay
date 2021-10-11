@@ -1,0 +1,142 @@
+.SideStrana .addNote {
+  width: 100%;
+  padding: 20px 32px 32px 32px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+}
+
+.SideStrana .addNote input {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: #7595A3;
+  border: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #00587F;
+}
+
+.SideStrana > button {
+  background: #00587F;
+  border-radius: 10px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  padding: 18px 34px;
+  margin-top: 42px;
+  color: #FFFFFF;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.SideStrana .blockCountry {
+  margin-top: 24px;
+  -webkit-box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  padding: 22px 32px;
+}
+
+.SideStrana .blockCountry h4 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  color: #00121A;
+  margin: 0 0 25px 0;
+}
+
+.SideStrana .blockCountry .listCountry {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.SideStrana .blockCountry .listCountry div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 36px;
+}
+
+.SideStrana .blockCountry .listCountry div img {
+  width: 30px;
+  height: 30px;
+  margin-right: 12px;
+  border-radius: 50%;
+}
+
+.SideStrana .blockCountry .listCountry div p {
+  padding: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: #00121A;
+}
+
+.addNewUniverModalUniver::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #E0F6FF;
+}
+
+.addNewUniverModalUniver::-webkit-scrollbar {
+  border-radius: 11px;
+  width: 5px;
+  height: 5px;
+  background-color: #E0F6FF;
+}
+
+.addNewUniverModalUniver::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #00587F;
+}
+
+@media (max-width: 768px) {
+  .SideStrana .addNote {
+    padding: 15px 20px 18px 20px;
+  }
+  .SideStrana .addNote input {
+    font-size: 17px;
+  }
+  .SideStrana > button {
+    display: block;
+    margin: 20px auto;
+    padding: 15px 30px;
+    font-size: 18px;
+  }
+  .SideStrana .blockCountry .listCountry {
+    -ms-grid-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 425px) {
+  .SideStrana .blockCountry h4 {
+    font-size: 20px;
+  }
+  .SideStrana .blockCountry .listCountry {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+  .SideStrana .blockCountry .listCountry div {
+    margin-bottom: 20px;
+  }
+  .SideStrana .blockCountry .listCountry div p {
+    font-size: 18px;
+  }
+}

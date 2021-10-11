@@ -1,0 +1,368 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.Login {
+  background: #E5E5E5;
+  height: 100vh;
+  padding-bottom: 70px;
+}
+
+.Login .background_login {
+  background: #E5E5E5;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: -1;
+}
+
+.Login .container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.Login .container > .title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-top: 67px;
+  margin-bottom: 70px;
+}
+
+.Login .container > .title h2 {
+  font-family: Raleway;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 0 28px;
+  text-align: center;
+}
+
+.Login .container > .block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.Login .container > .block .blockBox {
+  width: 60%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 22px 102px 33px 102px;
+}
+
+.Login .container > .block .blockBox > h3 {
+  margin: 0 0 28px 0;
+  text-align: center;
+  font-family: Raleway;
+  font-weight: 600;
+  color: #000000;
+}
+
+.Login .container > .block .blockBox > .radioBlock {
+  margin-bottom: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Login .container > .block .blockBox > .radioBlock label {
+  margin-left: 28px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: #00587F;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Login .container > .block .blockBox > .radioBlock label input {
+  margin: 0 10px 0 0;
+  width: 20px;
+  height: 20px;
+}
+
+.Login .container > .block .blockBox > .loginInput {
+  margin-top: 24px;
+}
+
+.Login .container > .block .blockBox > .loginInput p {
+  margin: 0 0 8px 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.Login .container > .block .blockBox > .loginInput div {
+  width: 100%;
+  border: 1.5px solid #47606B;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 15px;
+}
+
+.Login .container > .block .blockBox > .loginInput div input {
+  color: #00587F;
+  font-family: Raleway;
+  font-weight: 600;
+  font-size: 22px;
+  width: 80%;
+  padding: 15px 0;
+  outline: none;
+  border: none;
+  background: none;
+}
+
+.Login .container > .block .blockBox > .loginInput div img {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.Login .container > .block .blockBox .loginRemberMe {
+  margin-top: 18px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  /* для элемента label, связанного с .custom-checkbox */
+  /* создание в label псевдоэлемента before со следующими стилями */
+  /* стили при наведении курсора на checkbox */
+  /* стили для чекбокса, находящегося в состоянии checked */
+}
+
+.Login .container > .block .blockBox .loginRemberMe .custom-checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Login .container > .block .blockBox .loginRemberMe .custom-checkbox p {
+  margin: 0 0 0 8px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: #7595A3;
+}
+
+.Login .container > .block .blockBox .loginRemberMe .custom-checkbox input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.Login .container > .block .blockBox .loginRemberMe .custom-checkbox span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.Login .container > .block .blockBox .loginRemberMe .custom-checkbox span::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  background: #E0E7EB;
+  border-radius: 0.25em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+}
+
+.Login .container > .block .blockBox .loginRemberMe .custom-checkbox > input:not(:disabled):not(:checked) + span:hover::before {
+  border-color: #b3d7ff;
+}
+
+.Login .container > .block .blockBox .loginRemberMe .custom-checkbox > input:checked + span::before {
+  border-color: #006aff00;
+  background: #E0E7EB;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23006aff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+
+.Login .container > .block .blockBox > button {
+  text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 41px 0 0 0;
+  width: 100%;
+  background: #00587F;
+  border-radius: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-family: Raleway;
+  font-weight: 500;
+  font-size: 20px;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.Login .container > .block .blockBox .forgetPass {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 22px;
+  margin-bottom: 33px;
+}
+
+.Login .container > .block .blockBox .forgetPass p {
+  margin: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.Login .container > .block .blockBox .forgetPass p a {
+  text-decoration: none;
+  color: #00587F;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .Login .container > .block .blockBox {
+    padding: 20px 45px 20px 45px;
+    width: 70%;
+  }
+  .Login .container > .block .blockBox > .radioBlock label {
+    margin-left: 15px;
+  }
+  .Login .container > .block .blockBox > .radioBlock label input {
+    margin-right: 4px;
+  }
+}
+
+@media (max-width: 425px) {
+  .Login .container .title {
+    padding-top: 30px;
+    margin-bottom: 30px;
+  }
+  .Login .container > .block .blockBox {
+    width: 95%;
+  }
+  .Login .container > .block .blockBox .loginInput div {
+    padding-right: 5px;
+  }
+  .Login .container > .block .blockBox > a {
+    margin-top: 20px;
+    padding: 15px 0;
+    font-size: 18px;
+  }
+  .Login .container > .block .blockBox > .radioBlock {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+    margin-bottom: 0;
+  }
+  .Login .container > .block .blockBox > .radioBlock label {
+    margin-bottom: 8px;
+  }
+  .Login .container > .block .blockBox .forgetPass p {
+    font-size: 16px;
+  }
+  .Login .container > .block .blockBox > .loginInput div input {
+    padding: 8px 0;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 375px) {
+  .Login .container > .block .blockBox {
+    width: 90%;
+    padding: 20px 25px;
+  }
+}
+
+@media (max-width: 320px) {
+  .Login .container > .block .blockBox > a {
+    font-size: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .Login .container > .block .blockBox > .radioBlock label {
+    font-size: 13px;
+  }
+  .Login .container > .block .blockBox .forgetPass p {
+    font-size: 14px;
+  }
+}

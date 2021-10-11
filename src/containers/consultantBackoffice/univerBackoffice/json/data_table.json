@@ -1,0 +1,81 @@
+[{
+	"id": 1,
+	"first_name": "Brynne",
+	"last_name": "Bovis",
+	"fakultet": "Accountant IV",
+	"ielts": 3,
+	"contract": 1348,
+	"rasxod": 1351
+ }, {
+	"id": 2,
+	"first_name": "Amble",
+	"last_name": "Wind",
+	"fakultet": "Safety Technician III",
+	"ielts": 7,
+	"contract": 1922,
+	"rasxod": 1059
+ }, {
+	"id": 3,
+	"first_name": "Cosette",
+	"last_name": "Grinikhin",
+	"fakultet": "Nuclear Power Engineer",
+	"ielts": 3,
+	"contract": 1683,
+	"rasxod": 1330
+ }, {
+	"id": 4,
+	"first_name": "Rafaelita",
+	"last_name": "Carslake",
+	"fakultet": "Biostatistician IV",
+	"ielts": 7,
+	"contract": 1308,
+	"rasxod": 1956
+ }, {
+	"id": 5,
+	"first_name": "Jenni",
+	"last_name": "Reavell",
+	"fakultet": "Executive Secretary",
+	"ielts": 3,
+	"contract": 1321,
+	"rasxod": 1711
+ }, {
+	"id": 6,
+	"first_name": "Louisette",
+	"last_name": "Pepper",
+	"fakultet": "Administrative Assistant II",
+	"ielts": 5,
+	"contract": 1391,
+	"rasxod": 1313
+ }, {
+	"id": 7,
+	"first_name": "Deeanne",
+	"last_name": "Breach",
+	"fakultet": "Data Coordiator",
+	"ielts": 6,
+	"contract": 1588,
+	"rasxod": 1621
+ }, {
+	"id": 8,
+	"first_name": "Debera",
+	"last_name": "Baffin",
+	"fakultet": "Internal Auditor",
+	"ielts": 5,
+	"contract": 1068,
+	"rasxod": 1940
+ }, {
+	"id": 9,
+	"first_name": "Margo",
+	"last_name": "Lillegard",
+	"fakultet": "Senior Financial Analyst",
+	"ielts": 4,
+	"contract": 1754,
+	"rasxod": 1265
+ }, {
+	"id": 10,
+	"first_name": "Joana",
+	"last_name": "Vondra",
+	"fakultet": "Actuary",
+	"ielts": 3,
+	"contract": 1811,
+	"rasxod": 1489
+ }]

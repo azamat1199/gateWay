@@ -1,0 +1,305 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.LoginStaff {
+  background: #E5E5E5;
+  height: 100vh;
+  padding-bottom: 70px;
+}
+
+.LoginStaff .background_login {
+  background: #E5E5E5;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: -1;
+}
+
+.LoginStaff .container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.LoginStaff .container > .title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-top: 67px;
+  margin-bottom: 70px;
+}
+
+.LoginStaff .container > .title h2 {
+  font-family: Raleway;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 0 28px;
+  text-align: center;
+}
+
+.LoginStaff .container .block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.LoginStaff .container .block .blockBox {
+  width: 60%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 22px 102px 33px 102px;
+}
+
+.LoginStaff .container .block .blockBox h3 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  color: #000000;
+  text-align: center;
+  margin: 0;
+}
+
+.LoginStaff .container .block .blockBox .loginInput {
+  margin-top: 42px;
+}
+
+.LoginStaff .container .block .blockBox .loginInput p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.LoginStaff .container .block .blockBox .loginInput div {
+  width: 100%;
+  border: 1.5px solid #47606B;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 15px;
+}
+
+.LoginStaff .container .block .blockBox .loginInput div input {
+  color: #00587F;
+  font-family: Raleway;
+  font-weight: 600;
+  font-size: 22px;
+  width: 80%;
+  padding: 15px 0;
+  outline: none;
+  border: none;
+  background: none;
+}
+
+.LoginStaff .container .block .blockBox button {
+  margin: 41px 0 0 0;
+  width: 100%;
+  background: #00587F;
+  border-radius: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  color: #FFFFFF;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.LoginStaff .container .block .blockBox .forgetPass {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 22px;
+  margin-bottom: 33px;
+}
+
+.LoginStaff .container .block .blockBox .forgetPass p {
+  margin: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.LoginStaff .container .block .blockBox .forgetPass p a {
+  text-decoration: none;
+  color: #00587F;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.staff_modal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.loginStafModal {
+  position: relative;
+  padding: 107px 67px 33px 67px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.loginStafModal p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #00121A;
+  margin: 19px 0 44px 0;
+}
+
+.loginStafModal div {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.loginStafModal div button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 0;
+  width: 45%;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.loginStafModal div button:nth-child(1) {
+  font-size: 20px;
+  color: #00587F;
+  background: #F3F5F7;
+}
+
+.loginStafModal div button:nth-child(2) {
+  font-size: 20px;
+  color: #FFFFFF;
+  background: #00587F;
+}
+
+.loginStafModal .close_modal {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .LoginStaff .container .block .blockBox {
+    width: 70%;
+    padding: 20px 45px;
+  }
+  .LoginStaff .container .block .blockBox .loginInput p {
+    margin-bottom: 15px;
+  }
+  .loginStafModal {
+    width: 75%;
+  }
+}
+
+@media (max-width: 425px) {
+  .LoginStaff .container .block .blockBox {
+    width: 90%;
+  }
+  .LoginStaff .container .block .blockBox .loginInput p {
+    margin-bottom: 15px;
+  }
+  .loginStafModal {
+    padding: 50px 20px;
+    width: 90%;
+  }
+  .loginStafModal > img {
+    width: 100px;
+  }
+  .loginStafModal p {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  .loginStafModal > div {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .loginStafModal > div button {
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+}

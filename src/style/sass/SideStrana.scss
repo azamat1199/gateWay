@@ -1,0 +1,155 @@
+.SideStrana{
+    .addNote{
+        width: 100%;
+        padding: 20px 32px 32px 32px;
+        background: #FFFFFF;
+        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+
+        input{
+            font-family: Raleway;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 20px;
+            letter-spacing: 0.02em;
+            color: #7595A3;
+            border: none;
+            outline: none;
+            background: none;
+            width: 100%;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #00587F;;
+        }
+    } // end country
+    & > button{
+        background: #00587F;
+        border-radius: 10px;
+        font-family: Raleway;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        padding: 18px 34px;
+        margin-top: 42px;
+        color: #FFFFFF;
+        outline: none;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .blockCountry{
+        margin-top: 24px;
+        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+        padding: 22px 32px;
+
+        h4{
+            font-family: Raleway;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 22px;
+            letter-spacing: 0.02em;
+            color: #00121A;
+            margin: 0 0 25px 0;
+        }
+        .listCountry{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+
+            div{
+                display: flex;
+                align-items: center;
+                margin-bottom: 36px;
+
+                img{
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 12px;
+                    border-radius: 50%;
+                }
+                p{
+                    padding: 0;
+                    font-family: Raleway;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 20px;
+                    letter-spacing: 0.02em;
+                    color: #00121A;
+                }
+            }
+        }
+    } //end blockCountry
+} // end SideStrana
+
+.addNewUniverModalUniver::-webkit-scrollbar-track{
+    border-radius: 5px;
+    background-color: #E0F6FF;
+}
+.addNewUniverModalUniver::-webkit-scrollbar{
+border-radius: 11px;
+width: 5px;
+height: 5px;
+background-color: #E0F6FF;
+}
+.addNewUniverModalUniver::-webkit-scrollbar-thumb{
+border-radius: 10px;
+background-color: #00587F;
+}
+
+@media(max-width:768px) {
+    .SideStrana{
+        .addNote{
+            padding: 15px 20px 18px 20px;
+            input{
+                font-size: 17px;
+            }
+        } // end country
+        & > button{
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+        .blockCountry{
+            h4{
+            }
+            .listCountry{
+                grid-template-columns: 1fr 1fr 1fr;
+                div{
+                    img{
+                    }
+                    p{
+                    }
+                }
+            }
+        } //end blockCountry
+    } // end SideStrana
+}   
+
+
+
+@media(max-width:425px) {
+    .SideStrana{
+        .addNote{
+            input{
+            }
+        } // end country
+        & > button{
+        }
+        .blockCountry{
+            h4{
+                font-size: 20px;
+            }
+            .listCountry{
+                grid-template-columns: 1fr;
+                div{
+						 margin-bottom: 20px;
+                    img{
+                    }
+                    p{
+                        font-size: 18px;
+                    }
+                }
+            }
+        } //end blockCountry
+    } // end SideStrana
+}   

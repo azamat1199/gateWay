@@ -1,0 +1,688 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.footer > p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-weight: bold;
+  font-size: 25px;
+  color: #000;
+  margin-bottom: 32px;
+  padding: 0 40px;
+}
+
+.footer .top {
+  background: #E2F1F8;
+  padding: 65px 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /* для элемента label, связанного с .custom-checkbox */
+  /* создание в label псевдоэлемента before со следующими стилями */
+  /* стили при наведении курсора на checkbox */
+  /* стили для чекбокса, находящегося в состоянии checked */
+}
+
+.footer .top h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  color: #000;
+  margin-bottom: 32px;
+}
+
+.footer .top > div > div {
+  border: 1.5px solid #00587F;
+  border-radius: 11px;
+  width: 440px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 20px;
+}
+
+.footer .top > div > div input {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  color: #000;
+  font-weight: 500;
+  padding: 15px 22px;
+  outline: none;
+  background: none;
+  border: none;
+  width: 100%;
+}
+
+.footer .top > div > div input::-webkit-input-placeholder {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-weight: 500;
+  color: #94ADB8;
+}
+
+.footer .top > div > div input:-ms-input-placeholder {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-weight: 500;
+  color: #94ADB8;
+}
+
+.footer .top > div > div input::-ms-input-placeholder {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-weight: 500;
+  color: #94ADB8;
+}
+
+.footer .top > div > div input::placeholder {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-weight: 500;
+  color: #94ADB8;
+}
+
+.footer .top > div button {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff;
+  width: 100%;
+  background: #00587F;
+  border-radius: 12px;
+  padding: 28px 0;
+  margin-top: 38px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  width: 440px;
+}
+
+.footer .top .custom-checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.footer .top .custom-checkbox p {
+  margin: 0 0 0 8px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.footer .top .custom-checkbox input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.footer .top .custom-checkbox span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.footer .top .custom-checkbox span::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  background: #E0E7EB;
+  border-radius: 0.25em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+}
+
+.footer .top .custom-checkbox > input:not(:disabled):not(:checked) + span:hover::before {
+  border-color: #b3d7ff;
+}
+
+.footer .top .custom-checkbox > input:checked + span::before {
+  border-color: #006aff00;
+  background: #E0E7EB;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23006aff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+
+.footer .down {
+  background: #00587F;
+  padding: 54px 40px 100px 40px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  -webkit-column-gap: 80px;
+          column-gap: 80px;
+}
+
+.footer .down .left h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  margin-bottom: 35px;
+}
+
+.footer .down .left p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.footer .down .left h2 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 24px;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+.footer .down .center h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  margin-bottom: 35px;
+}
+
+.footer .down .center p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.footer .down .right h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  margin-bottom: 35px;
+}
+
+.footer .down .right p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.footer .down .right .email {
+  border: 1.5px solid #FFFFFF;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.footer .down .right .email input {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 20px;
+  font-weight: normal;
+  width: 450px;
+  padding: 22px 31px;
+}
+
+.footer .down .right .email input::-webkit-input-placeholder {
+  color: #fff;
+}
+
+.footer .down .right .email input:-ms-input-placeholder {
+  color: #fff;
+}
+
+.footer .down .right .email input::-ms-input-placeholder {
+  color: #fff;
+}
+
+.footer .down .right .email input::placeholder {
+  color: #fff;
+}
+
+.footer .down .right button {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  color: #000;
+  font-weight: 500;
+  background: #E2F1F8;
+  border-radius: 12px;
+  width: 100%;
+  padding-top: 28px;
+  padding-bottom: 28px;
+  cursor: pointer;
+}
+
+.footer .down .right h4 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 24px;
+  margin-top: 58px;
+}
+
+.footer .down .right .social {
+  margin-top: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.footer .down .right .social #telegram {
+  margin: 0 40px;
+}
+
+.footer .down .right .social svg {
+  width: 35px;
+  cursor: pointer;
+}
+
+.footer #copyrightFooter {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  color: #FFFFFF;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 20px;
+  font-weight: normal;
+  color: #D1DCE0;
+  text-align: center;
+  background: #00587F;
+}
+
+@media (max-width: 1280px) {
+  .footer .down .right .email input {
+    width: 250px;
+  }
+  .footer .down {
+    -webkit-column-gap: 20px;
+            column-gap: 20px;
+  }
+  .footer .down .left h1 {
+    font-size: 22px;
+  }
+  .footer .down .left h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  .footer .down .left p {
+    font-size: 20px;
+  }
+  .footer .down .center h1 {
+    font-size: 22px;
+  }
+  .footer .down .center p {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .footer .down .right h1 {
+    font-size: 22px;
+  }
+  .footer .down .right p {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .footer .down .right .email input {
+    padding: 18px 20px;
+  }
+  .footer .down .right button {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .footer .down .right h4 {
+    margin-top: 35px;
+    font-size: 20px;
+  }
+  .footer .down .right .social {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer .down .right .email input {
+    width: 160px;
+    font-size: 18px;
+    padding: 14px 20px;
+  }
+  .footer .down .left h1 {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  .footer .down .left h2 {
+    font-size: 15px;
+  }
+  .footer .down .center h1 {
+    margin-bottom: 20px;
+  }
+  .footer .down .right h1 {
+    margin-bottom: 20px;
+  }
+  .footer .down .right button {
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+@media (max-width: 425px) {
+  .footer > p {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  .footer .top {
+    padding: 20px 20px 40px 20px;
+  }
+  .footer .top h1 {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .footer .top > div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .footer .top > div > div {
+    display: block;
+    width: auto;
+  }
+  .footer .top > div > div input {
+    width: 330px;
+    font-size: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .footer .top > div > div input::-webkit-input-placeholder {
+    font-size: 18px;
+  }
+  .footer .top > div > div input:-ms-input-placeholder {
+    font-size: 18px;
+  }
+  .footer .top > div > div input::-ms-input-placeholder {
+    font-size: 18px;
+  }
+  .footer .top > div > div input::placeholder {
+    font-size: 18px;
+  }
+  .footer .top > div button {
+    width: 330px;
+    font-size: 20px;
+    font-size: 15px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .footer .down {
+    padding: 40px 20px 60px 20px;
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+  .footer .down .left {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .footer .down .left h1 {
+    text-align: center;
+  }
+  .footer .down .left h2 {
+    text-align: center;
+  }
+  .footer .down .left p {
+    text-align: center;
+  }
+  .footer .down .center {
+    margin-bottom: 25px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .footer .down .center p {
+    text-align: center;
+  }
+  .footer .down .right {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .footer .down .right p {
+    text-align: center;
+  }
+  .footer .down .right .email input {
+    width: 220px;
+  }
+  .footer .down .right .social svg {
+    height: 24px;
+  }
+  .footer #copyrightFooter {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 375px) {
+  .footer .top > div > div input {
+    width: 270px;
+  }
+  .footer .down .right button {
+    width: 260px;
+  }
+}
+
+@media (max-width: 320px) {
+  .footer .top > div button {
+    width: 270px;
+  }
+  .footer .top > div > div input {
+    width: 230px;
+    padding: 12px 20px;
+  }
+  .footer .down .right button {
+    width: 260px;
+  }
+}

@@ -1,0 +1,1175 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+	padding: 0;
+	margin: 0;
+	font-family: Raleway;
+	text-decoration: none;
+}
+.container{
+	max-width: 1920px;
+	margin: 0 auto;
+}
+
+.App{
+	background: red;
+}
+
+.singup_active1{
+	color: #00121A !important;
+	&::before{
+		content: "";
+		position: absolute;
+		height: 3px;
+		width: 100px;
+		background: #00587F;
+		border-radius: 2px;
+		transform: translateY(30px) translateX(60px);
+	}
+}
+.singup_active2{
+	color: #00121A !important;
+	&::before{
+		content: "";
+		position: absolute;
+		height: 3px;
+		width: 100px;
+		background: #00587F;
+		border-radius: 2px;
+		transform: translateY(30px) translateX(-10px);
+	}
+}
+.singup_active3{
+	color: #00121A !important;
+	&::before{
+		content: "";
+		position: absolute;
+		height: 3px;
+		width: 100px;
+		background: #00587F;
+		border-radius: 2px;
+		transform: translateY(30px) translateX(3px);
+	}
+}
+.singup_pass{
+	color: #219653 !important;
+}
+#svg_pass{
+	path{
+		fill: #219653 !important;
+	}
+}
+.singup_asos{
+	display: flex;
+	flex-direction: column;
+	padding: 100px 20px 0 20px;
+
+}
+.nav_name{
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	h1{
+		font-style: normal;
+		font-weight: bold;
+		font-size: 28px;
+		line-height: 33px;
+		color: #000000;
+		margin-bottom: 30px;
+	}
+}
+.up_nav{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 50px;
+	h2{
+		font-style: normal;
+		font-weight: 500;
+		font-size: 24px;
+		line-height: 28px;
+		color: #5C7C8A;
+	}
+	svg{
+		margin: 0 20px;
+	}
+}
+.main_singup{
+	padding: 20px 0 40px 0;
+	margin: 0 auto;
+	width: 800px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: #FFFFFF;
+	box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+	border-radius: 16px;
+	margin-bottom: 100px;
+	p{
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 166.7%;
+		letter-spacing: 0.02em;
+		color: #5C7C8A;
+	}
+	.form_div{
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		width: 625px;
+		margin-bottom: 20px;
+		padding-left: 25px;
+		position: relative;
+		.checkIcon{
+			position: absolute;
+			right: -50px;
+			top: 57%;
+			img{
+				height: 25px;
+			}
+		}
+		p{
+			font-style: normal;
+			font-weight: 500;
+			font-size: 15px;
+			line-height: 18px;
+			letter-spacing: 0.02em;
+			color: #000000;
+			margin-bottom: 10px;
+			span{
+				font-style: normal;
+				font-weight: 500;
+				font-size: 15px;
+				line-height: 18px;
+				letter-spacing: 0.02em;
+				color: #5C7C8A;
+			}
+		}
+		.MuiOutlinedInput-notchedOutline {
+			border: 1.5px solid #47606B;
+			border-radius: 10px;
+		}
+		.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline{
+			border-color: #47606B;
+	  	}
+		.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+			border-width: 1px;
+			border-color: #47606B;
+		}
+		input{
+			width: 575px;
+			height: 64px;
+			border: 1.5px solid #47606B;
+			box-sizing: border-box;
+			border-radius: 10px;
+			outline: none;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 19px;
+			letter-spacing: 0.02em;
+			color: #000000;
+			padding-left: 10px;
+		}
+		#combo-box-demo{
+			border: none;
+		}
+		#profayl_input{
+			border: none;
+			height: 46px;
+		}
+		select{
+			width: 575px;
+			height: 64px;
+			border: 1.5px solid #47606B;
+			box-sizing: border-box;
+			border-radius: 10px;
+			outline: none;
+			font-style: normal;
+			font-weight: 600;
+			font-size: 16px;
+			line-height: 19px;
+			letter-spacing: 0.02em;
+			color: #5C7C8A;
+			padding-left: 10px;
+			outline: none;
+			padding: 0 10px;
+		}
+		.op_1{
+			display: none;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 19px;
+			letter-spacing: 0.02em;
+			color: #5C7C8A;
+		}
+		textarea{
+			width: 600px;
+			height: 124px;
+			border: 1.5px solid #47606B;
+			box-sizing: border-box;
+			border-radius: 10px;
+			outline: none;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 19px;
+			letter-spacing: 0.02em;
+			color: #000000;
+			padding-left: 10px;
+			padding-top: 10px;
+		}
+	}
+	.input_range{
+		.MuiSlider-markLabel {
+			top: 70px;
+			color: #7595A3;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 15px;
+			line-height: 19px;
+			color: #000000;
+		}
+		.MuiSlider-mark {
+			top: 50px;
+			width: 4px;
+			height: 12px;
+			border-radius: 4px;
+		}
+		.MuiSlider-markActive {
+			background-color: #00587F;
+	  	}
+		.MuiSlider-thumb{
+			span{
+				top: -45px;
+				span{
+					width: 70px;
+					height: 32px;
+					transform: rotate( 0deg );
+					background: #E5F7FF;
+					box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+					border-radius: 8px;
+					&::before{
+						content: "";
+						width: 20px;
+						height: 20px;
+						position: absolute;
+						background: #E5F7FF;
+						top: 20px;
+						transform: rotate( 45deg );
+					}
+					span{
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-style: normal;
+						font-weight: 600;
+						font-size: 18px;
+						line-height: 21px;
+						color: #000000;
+						transform: rotate( 0deg );
+						&::before{
+							z-index: -1;
+						}
+					}
+				}
+			}
+		}
+		// .PrivateValueLabel-offset-37 {
+		// 	top: -45px;
+		// }
+		// .PrivateValueLabel-circle-38 {
+		// 	width: 70px;
+		// 	height: 32px;
+		// 	transform: rotate( 0deg );
+		// 	background: #E5F7FF;
+		// 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+		// 	border-radius: 8px;
+		// 	&::before{
+		// 		content: "";
+		// 		width: 20px;
+		// 		height: 20px;
+		// 		position: absolute;
+		// 		background: #E5F7FF;
+		// 		top: 20px;
+		// 		transform: rotate( 45deg );
+		// 	}
+		// }
+		// .PrivateValueLabel-label-39{
+		// 	font-style: normal;
+		// 	font-weight: 600;
+		// 	font-size: 18px;
+		// 	line-height: 21px;
+		// 	color: #000000;
+		// 	transform: rotate( 0deg );
+		// }
+		margin-bottom: 50px;
+		margin-top: 20px;
+	}
+	h1{
+		font-style: normal;
+		font-weight: 600;
+		font-size: 26px;
+		line-height: 31px;
+		color: #000000;
+		margin-bottom: 45px;
+	}
+	h2{
+		font-style: normal;
+		font-weight: 600;
+		font-size: 24px;
+		line-height: 28px;
+		color: #000000;
+		margin: 20px 0 ;
+	}
+	h3{
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 21px;
+		letter-spacing: 0.02em;
+		color: #000000;
+		margin-top: 20px;
+		a{
+			color: #00587F;
+		}
+	}
+	h4{
+		font-style: normal;
+		font-weight: 600;
+		font-size: 26px;
+		line-height: 31px;
+		color: #000000;
+	}
+	.line_dash{
+		border-bottom: 2px dashed #7595A3;
+		width: 600px;
+		margin-top: 60px;
+		margin-bottom: 20px;
+	}
+	.input_budjet{
+		width: 278px;
+		height: 64px;
+		border: 1.5px solid #47606B;
+		box-sizing: border-box;
+		border-radius: 10px;
+		text-align: center;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 22px;
+		line-height: 26px;
+		letter-spacing: 0.02em;
+		color: #5C7C8A;
+		outline: none;
+		margin-top: 45px;
+		margin-bottom: 55px;
+	}
+	.reg_btn{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border:none;
+		width: 575px;
+		padding: 20px 200px;
+		background: #00587F;
+		border-radius: 10px;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 23px;
+		color: #FFFFFF;
+		transition: .4s;
+		cursor: pointer;
+		z-index: 0;
+		 .ant-spin{
+			 .ant-spin-dot-spin{ 
+				 .ant-spin-dot-item{
+	       		     z-index: 1;
+					 background-color: #00587f !important;
+				 }
+			 }
+		 }
+	}
+	.next_btn{
+		background: #00587F;
+		border-radius: 10px;
+		width: 290px;
+		height: 64px;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 23px;
+		color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-left: 10px;
+	}
+	.save_btn{
+		background: #F3F5F7;
+		border-radius: 10px;
+		width: 290px;
+		height: 64px;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 23px;
+		color: #00121A;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 10px;
+	}
+	.reg_link{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 600px;
+		height: 64px;
+		background: #F3F5F7;
+		border-radius: 10px;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 23px;
+		color: #000000;
+		margin: 15px 0;
+		img{
+			margin-right: 25px;
+		}
+	}
+	.status-bar{
+		width: 40%;
+		display: flex;
+		height: 40px;
+		align-items: center;
+		.react-sweet-progress{
+			width: 131px;
+			height: 7px;
+			.react-sweet-progress-symbol{
+				// width: 100%;
+			}
+			.react-sweet-progress-line{
+				.react-sweet-progress-line-inner{
+                   min-height: 7px !important;
+				}
+			}
+		}
+	}
+	.password{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		width: auto;
+		height: auto;
+		.box6{
+			position: absolute;
+			right: 20px;
+			.loader{
+				.loader-items{
+					& :nth-child(5){
+						display: none !important;
+					}
+				}
+			}
+		}
+		img{
+			position: absolute;
+			right: -22px;
+			width: 25px;
+			transform: translateX(-35px);
+			cursor: pointer;
+		}
+	}
+	.zayavka_alert{
+		font-style: normal;
+		font-weight: 600;
+		font-size: 19px;
+		line-height: 28px;
+		letter-spacing: 0.02em;
+		color: #EB5757;
+		margin-bottom: 45px;
+	}
+	.btn_div{
+		display: flex;
+		width: 600px;
+		margin-top: 45px;
+		a{
+			width: 100%;
+		}
+	}
+	.pagination{
+		display: flex;
+		margin-bottom: 35px;
+		.page{
+			width: 100px;
+			height: 4px;
+			background: #B2C4CC;
+			border-radius: 2px;
+			margin-left: 2px;
+			margin-right: 2px;
+		}
+		.page_a{
+			background: #00587F;
+		}
+	}
+	.importFile{
+		background: #EAF5FA;
+		border: 1px dashed #009FE5;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 16px 0;
+		width: 598px;
+		margin: 10px 0 0 0;
+		p{
+			 margin: 0 0 0 16px;
+			 font-family: Raleway;
+			 font-style: normal;
+			 font-weight: 500;
+			 font-size: 15px;
+			 letter-spacing: 0.02em;
+			 color: #5C7C8A;
+			 label{
+				  text-decoration:underline;
+				  margin-left: 5px;
+				  cursor: pointer;
+			 }
+			 #chFile{
+				  display: none;
+			 }
+			 #chFile2{
+				  display: none;
+			 }
+			 #chFile3{
+				  display: none;
+			 }
+			 #chFile4{
+				  display: none;
+			 }
+			 #chFile5{
+				  display: none;
+			 }
+			 #chFile6{
+				  display: none;
+			 }
+			 #chFile7{
+				  display: none;
+			 }
+			 #chFile8{
+				  display: none;
+			 }
+			 #chFile9{
+				  display: none;
+			 }
+		}
+  	}
+	.oplata_asos{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+	.oplata_tip{
+		display: flex;
+		flex-direction: column;
+		padding: 0 30px;
+		border-right: 1px dashed #5C7C8A;
+		p{
+			font-style: normal;
+			font-weight: 600;
+			font-size: 22px;
+			line-height: 26px;
+			color: #000000;
+			margin-bottom: 17px;
+		}
+		.tolov_turlari{
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			
+			.oplata_active{
+				background: none;
+				border: 2px solid #00587F;
+			}
+			a{
+				background: #EDF1F3;
+				border-radius: 8px;
+				height: 70px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin: 5px 5px;
+				font-style: normal;
+				font-weight: 600;
+				font-size: 16px;
+				line-height: 19px;
+				letter-spacing: 0.02em;
+				color: #000000;
+				border: 2px solid #EDF1F3;
+			}
+			.bank_tolov{
+				width: 194%;
+				img{
+					margin-right: 10px;
+				}
+			}
+		}
+		.oplata_switch{
+			display: flex;
+			flex-direction: column;
+			margin-top: 50px;
+			.oplata_card{
+				width: 100%;
+				p{
+					font-style: normal;
+					font-weight: 500;
+					font-size: 16px;
+					line-height: 19px;
+					letter-spacing: 0.02em;
+					color: #000000;
+					text-align: left;
+				}
+				.oplata_div{
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					padding: 0 10px;
+					width: 320px;
+					height: 64px;
+					border: 1.5px solid #47606B;
+					box-sizing: border-box;
+					border-radius: 8px;
+					input{
+						border: none;
+						background: none;
+						outline: none;
+						font-style: normal;
+						font-weight: 500;
+						font-size: 16px;
+						line-height: 19px;
+						letter-spacing: 0.02em;
+						color: #5C7C8A;
+					}
+				}
+			}
+			.bank_card{
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: flex-start;
+				div{
+					display: flex;
+					margin: 7px 0;
+				}
+				h1{
+					font-style: normal;
+					font-weight: 600;
+					font-size: 20px;
+					line-height: 23px;
+					letter-spacing: 0.02em;
+					color: #000000;
+					margin-bottom: 20px;
+				}
+				h5{
+					font-style: normal;
+					font-weight: 600;
+					font-size: 16px;
+					line-height: 19px;
+					letter-spacing: 0.02em;
+					color: #000000;
+					padding: 7px 0;
+				}
+				.bank_list{
+					h5:nth-child(2){
+						margin-left: 10px;
+						font-size: 15px;
+					}
+				}
+				button{
+					font-style: normal;
+					font-weight: 500;
+					font-size: 18px;
+					line-height: 21px;
+					color: #00587F;
+					background: none;
+					border: none;
+					outline: none;
+					display: flex;
+					align-items: center;
+					margin-top: 20px;
+					img{
+						margin-right: 10px;
+					}
+				}
+			}
+		}
+	}
+	.oplata_kvitansa{
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		padding: 0 30px;
+		p{
+			font-style: normal;
+			font-weight: 600;
+			font-size: 22px;
+			line-height: 26px;
+			color: #000000;
+			margin-bottom: 30px;
+		}
+		.kvitansa_list{
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			h1{
+				font-style: normal;
+				font-weight: 500;
+				font-size: 20px;
+				line-height: 140.9%;
+				color: #000000;
+			}
+			p{
+				font-style: normal;
+				font-weight: 600;
+				font-size: 20px;
+				line-height: 28px;
+				color: #000000;
+			}
+		}
+	}
+	.oplata_btn{
+		display: flex;
+		flex-direction: column;
+		button{
+			width: 600px;
+			height: 64px;
+			background: #00587F;
+			border-radius: 10px;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 23px;
+			color: #FFFFFF;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 50px 0 10px 0;
+			outline: none;
+			img{
+				margin-right: 10px;
+			}
+		}
+		a{
+			width: 600px;
+			height: 64px;
+			background: #F3F5F7;
+			border-radius: 10px;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 23px;
+			color: #00587F;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 10px 0;
+			img{
+				margin-right: 10px;
+			}
+		}
+	}
+	.bank_btn{
+		display: flex;
+		flex-direction: column;
+		.importFile{
+			margin: 50px 0 10px 0;
+		}
+		button{
+			width: 600px;
+			height: 64px;
+			background: #00587F;
+			border-radius: 10px;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 23px;
+			color: #FFFFFF;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 10px 0 10px 0;
+			outline: none;
+		}
+	}
+}
+.oplata_modal{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	.alert_tasdiq{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		background: white;
+		border-radius: 16px;
+		padding: 30px 60px;
+		border: none;
+		p{
+			font-style: normal;
+			font-weight: 600;
+			font-size: 22px;
+			line-height: 31px;
+			text-align: center;
+			letter-spacing: 0.02em;
+			color: #00121A;
+			padding: 20px 0;
+		}
+		button{
+			width: 300px;
+			height: 60px;
+			background: #00587F;
+			border-radius: 10px;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 23px;
+			color: #FFFFFF;
+			outline: none;
+			border: none;
+		}
+	}
+	.alert_error{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		background: white;
+		border-radius: 16px;
+		padding: 30px 60px;
+		border: none;
+		p{
+			font-style: normal;
+			font-weight: 600;
+			font-size: 22px;
+			line-height: 31px;
+			text-align: center;
+			letter-spacing: 0.02em;
+			color: #00121A;
+			padding: 20px 0;
+		}
+		button{
+			width: 200px;
+			height: 60px;
+			background: #00587F;
+			border-radius: 10px;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 23px;
+			color: #FFFFFF;
+			outline: none;
+			border: none;
+			margin: 0 10px;
+		}
+		button:nth-child(1){
+			background: #F3F5F7;
+			color: #00587F;
+		}
+	}
+}
+
+@media (max-width:1024px) {
+	.up_nav{
+		h2{
+			font-size: 22px;
+		}
+		svg{
+			width: 60px;
+		}
+	}
+}
+@media (max-width:768px) {
+	.up_nav{
+		flex-wrap: wrap;
+		margin: 0 auto;
+		width: 100%;
+		h2{
+			margin: 20px 0;
+		}
+	}
+	.singup_asos {
+		padding: 60px 10px 0 10px;
+	}
+	.main_singup{
+		width: 700px;
+	}
+	.switchs{
+		margin-top: 70px;
+	}
+}
+
+
+
+@media (max-width:425px) {
+	.up_nav{
+		
+		h2{
+			display: none;
+		}
+		svg{
+			display: none;
+		}
+		.singup_active1{
+			display: block;
+			margin: 0 0 30px 0;
+		}
+		.singup_active2{
+			display: block;
+			margin: 0 0 30px 0;
+		}
+		.singup_active3{
+			display: block;
+			margin: 0 0 30px 0;
+		}
+	}
+	.switchs{
+		margin-top: 60px;
+	}
+	.main_singup{
+		width: 400px;
+		.line_dash{
+			width: 364px;
+		}
+		.zayavka_alert {
+			font-size: 15px;
+		}
+		.input_range{
+			width: 310px !important;
+			margin-bottom: 15px;
+			margin-top: 15px;
+			.MuiSlider-markLabel{
+				display: none;
+			}
+			.MuiSlider-mark{
+				display: none;
+			}
+		}
+		.importFile {
+			width: 335px;
+		}
+		.form_div{
+			width: 390px;
+			.long_p{
+				padding-right: 20px;
+			}
+			input{
+				width: 335px;
+			}
+			textarea{
+				width: 335px;
+			}
+			select{
+				width: 335px;
+			}
+			.MuiAutocomplete-root{
+				width: 335px !important;
+			}
+		}
+		.reg_btn{
+			padding: 15px 85px;
+			width: 80%;
+		}
+		.reg_link{
+			width: 364px;
+		}
+		.btn_div{
+			flex-direction: column;
+			width: 364px;
+			margin-top: 0px;
+			.save_btn{
+				margin: 0 0 15px 0;
+			}
+			.next_btn{
+				margin: 0;
+			}
+			a{
+				width: auto;
+			}
+		}
+		.oplata_asos{
+			display: flex;
+    		flex-direction: column-reverse;
+			.oplata_tip{
+				border-right: none;
+			}
+		}
+		.oplata_tip{
+			padding: 0 20px;
+		}
+		.oplata_btn{
+			button {
+				width: 365px;
+			}
+			a {
+				width: 365px;
+			}
+		}
+		.bank_btn{
+			button{
+				width: 365px;
+			}
+		}
+	}
+}
+@media (max-width:375px) {
+	.main_singup {
+		width: 355px;
+		.pagination{
+			.page{
+				width: 85px;
+			}
+		}
+		.importFile {
+			width: 324px;
+		}
+		.form_div {
+			width: 350px;
+			p{
+				padding-right: 10px;
+			}
+			input {
+				width: 290px;
+		  	}
+			textarea {
+				width: 290px;
+		  	}
+			select {
+				width: 290px;
+		  	}
+			  .MuiAutocomplete-root{
+				width: 290px !important;
+			}
+	  	}
+		  .line_dash{
+			width: 324px;
+		}
+		
+		h2{
+			font-size: 22px;
+		}
+		.reg_btn {
+			padding: 15px 72px;
+			font-size: 18px;
+		}
+		.reg_link {
+			width: 320px;
+			height: 53px;
+		}
+		.btn_div{
+			width: 324px;
+		}
+		.oplata_btn{
+			button {
+				width: 324px;
+			}
+			a {
+				width: 324px;
+			}
+		}
+		.bank_btn{
+			button{
+				width: 325px;
+			}
+		}
+  	}
+	  
+}
+@media (max-width:320px) {
+	.main_singup {
+		width: 300px;
+		.pagination{
+			.page{
+				width: 75px;
+			}
+		}
+		.importFile {
+			width: 264px;
+			img{
+				padding-left: 20px;
+			}
+		}
+		.form_div {
+			width: 290px;
+			input {
+				width: 235px;
+		  	}
+			textarea {
+				width: 235px;
+		  	}
+			select {
+				width: 235px;
+		  	}
+			.MuiAutocomplete-root{
+				width: 235px !important;
+			}
+	  	}
+		.input_range{
+			width: 290px !important;
+			margin-bottom: 15px;
+			margin-top: 15px;
+			padding: 0;
+			.MuiSlider-markLabel{
+				display: none;
+			}
+			.MuiSlider-mark{
+				display: none;
+			}
+		}
+		  .line_dash{
+			width: 265px;
+		}
+		.reg_btn {
+			padding: 15px 50px;
+		}
+		.reg_link {
+			width: 275px;
+		}
+		.btn_div{
+			width: 265px;
+		}
+		.oplata_tip{
+			padding: 0 10px;
+			.tolov_turlari{
+				.bank_tolov{
+					width: 171%;
+				}
+			}
+			.oplata_switch{
+				.oplata_card{
+					.oplata_div{
+						width: 265px;
+					}
+				}
+			}
+		}
+		.oplata_btn{
+			button {
+				width: 265px;
+			}
+			a {
+				width: 265px;
+			}
+		}
+		.bank_btn{
+			button{
+				width: 265px;
+			}
+		}
+	}
+}

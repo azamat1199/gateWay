@@ -1,0 +1,591 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.unniversitetBlock {
+  width: 1500px;
+}
+.unniversitetBlock .top {
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.unniversitetBlock .top h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  font-size: 26px;
+  font-weight: bold;
+}
+.unniversitetBlock .top div {
+  display: flex;
+  align-items: center;
+}
+.unniversitetBlock .top div img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.unniversitetBlock .top div h2 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  margin-left: 12px;
+  font-size: 16px;
+}
+.unniversitetBlock .top div h2 span {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+  display: block;
+}
+.unniversitetBlock .bottom {
+  width: auto;
+  padding-left: 30px;
+  margin-bottom: 75px;
+}
+.unniversitetBlock .bottom .result {
+  padding: 20px 20px 0 20px;
+}
+.unniversitetBlock .bottom .settSearch {
+  margin-top: 23px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+.unniversitetBlock .bottom .settSearch .searchUniv {
+  background: #FFFFFF;
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
+}
+.unniversitetBlock .bottom .settSearch .searchUniv img {
+  padding: 15px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.unniversitetBlock .bottom .settSearch .searchUniv input {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: #7595A3;
+  outline: none;
+  background: none;
+  border: none;
+  width: 100%;
+}
+.unniversitetBlock .bottom .settSearch .settingsUniver {
+  border: none;
+  height: 100%;
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+.unniversitetBlock .bottom .settSearch .settingsUniver img {
+  vertical-align: middle;
+  border-style: none;
+}
+.unniversitetBlock .bottom .FilterFix {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 102;
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+.unniversitetBlock .bottom .FilterFix .fixLeft {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+}
+.unniversitetBlock .bottom .FilterFix .FilterUniver {
+  background: #fff;
+  padding: 30px 46px 0 32px;
+}
+.unniversitetBlock .bottom .FilterFix .FilterUniver .selectCountry {
+  padding: 0 16px;
+  border: 1px solid #00587F;
+  border-radius: 8px;
+}
+.unniversitetBlock .bottom .FilterFix .FilterUniver .selectCountry select {
+  padding: 12px 0;
+  width: 100%;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  color: #00121A;
+  border: none;
+  outline: none;
+}
+.unniversitetBlock .bottom .FilterFix .FilterUniver button {
+  padding: 18px 0;
+  width: 100%;
+  margin-top: 44px;
+  background: #00587F;
+  border-radius: 10px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  color: #FFFFFF;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+.unniversitetBlock .bottom > h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 36px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock {
+  padding: 0 0 20px 20px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card {
+  height: 592px;
+  width: 417px;
+  background: #E2F1F8;
+  border-radius: 12px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card:hover {
+  box-shadow: 0px 4px 8px 0px rgba(114, 106, 106, 0.71);
+  -webkit-box-shadow: 0px 4px 8px 0px rgba(114, 106, 106, 0.71);
+  -moz-box-shadow: 0px 4px 8px 0px rgba(114, 106, 106, 0.71);
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card .buttonContainer {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card .buttonContainer button {
+  width: 374px;
+  max-width: 90%;
+  cursor: pointer;
+  height: 64px;
+  background: #00587F;
+  border-radius: 10px;
+  border: none;
+  color: #FFFFFF;
+  font-size: 20px;
+  line-height: 23px;
+  transition: 0.4s;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card .buttonContainer button:hover {
+  border: 1px solid #00587F;
+  background: transparent;
+  color: #00587F;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card img {
+  height: 250px;
+  width: 100%;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 22px 0 12px 22px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding: 0 22px 10px 22px;
+  line-height: 30px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card h3 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding-left: 22px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card h3 span {
+  font-weight: bold;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card h4 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding: 14px 22px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card h5 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding-left: 22px;
+}
+.unniversitetBlock .bottom .cardSwipperBlock .card h5 span {
+  font-weight: bold;
+}
+.unniversitetBlock .bottom .document {
+  margin-top: 75px;
+}
+.unniversitetBlock .bottom .document > h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 36px;
+}
+.unniversitetBlock .bottom .document .card {
+  height: 640px;
+  width: 417px;
+  background: #E2F1F8;
+  border-radius: 12px;
+}
+.unniversitetBlock .bottom .document .card img {
+  height: 250px;
+  width: 100%;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.unniversitetBlock .bottom .document .card h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 22px 0 12px 22px;
+}
+.unniversitetBlock .bottom .document .card p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding: 0 22px 22px 22px;
+  line-height: 30px;
+}
+.unniversitetBlock .bottom .document .card h3 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding-left: 22px;
+}
+.unniversitetBlock .bottom .document .card h3 span {
+  font-weight: bold;
+}
+.unniversitetBlock .bottom .document .card h4 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding: 14px 22px;
+}
+.unniversitetBlock .bottom .document .card h5 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  padding-left: 22px;
+}
+.unniversitetBlock .bottom .document .card h5 span {
+  font-weight: bold;
+}
+
+@media (max-width: 1800px) {
+  .unniversitetBlock {
+    width: 1400px;
+  }
+}
+@media (max-width: 1700px) {
+  .unniversitetBlock {
+    width: 1300px;
+  }
+}
+@media (max-width: 1600px) {
+  .unniversitetBlock {
+    width: 1200px;
+  }
+}
+@media (max-width: 1500px) {
+  .unniversitetBlock {
+    width: 1100px;
+  }
+}
+@media (max-width: 1440px) {
+  .unniversitetBlock {
+    width: 1140px;
+  }
+}
+@media (max-width: 1280px) {
+  .unniversitetBlock {
+    width: 1000px;
+  }
+}
+@media (max-width: 1200px) {
+  .unniversitetBlock {
+    width: 950px;
+  }
+}
+@media (max-width: 1100px) {
+  .unniversitetBlock {
+    width: 870px;
+  }
+}
+@media (max-width: 1024px) {
+  .unniversitetBlock {
+    width: 720px;
+  }
+  .unniversitetBlock .top {
+    padding-left: 15px;
+  }
+  .unniversitetBlock .bottom {
+    padding-left: 15px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card {
+    width: 320px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card img {
+    height: 192px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card h1 {
+    padding-left: 10px;
+    padding-top: 10px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card p {
+    padding-left: 10px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card h3 {
+    padding-left: 10px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card h4 {
+    padding-left: 10px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card h5 {
+    padding-left: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .unniversitetBlock {
+    width: 750px;
+  }
+
+  .unniversitetBlock .bottom .cardSwipperBlock .card {
+    height: 560px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card h3 {
+    font-size: 17px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card h4 {
+    font-size: 17px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card p {
+    padding-right: 10px;
+    font-size: 17px;
+    padding-bottom: 15px;
+  }
+  .unniversitetBlock .bottom .cardSwipperBlock .card h1 {
+    font-size: 22px;
+  }
+
+  .unniversitetBlock .top {
+    padding-top: 60px;
+  }
+
+  .unniversitetBlock .bottom .document .card {
+    height: 560px;
+    width: 320px;
+  }
+  .unniversitetBlock .bottom .document .card img {
+    height: 192px;
+  }
+  .unniversitetBlock .bottom .document .card h3 {
+    font-size: 17px;
+    padding-left: 10px;
+  }
+  .unniversitetBlock .bottom .document .card h4 {
+    font-size: 17px;
+    padding-left: 10px;
+  }
+  .unniversitetBlock .bottom .document .card h5 {
+    padding-left: 10px;
+  }
+  .unniversitetBlock .bottom .document .card p {
+    font-size: 17px;
+    padding: 0 10px 15px 10px;
+  }
+  .unniversitetBlock .bottom .document .card h1 {
+    padding: 10px 0 10px 10px;
+    font-size: 22px;
+  }
+}
+@media (max-width: 500px) {
+  .unniversitetBlock {
+    width: 490px;
+  }
+}
+@media (max-width: 425px) {
+  .unniversitetBlock {
+    width: 400px;
+  }
+  .unniversitetBlock .top {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding-top: 5px;
+  }
+  .unniversitetBlock .top > div {
+    align-self: flex-end;
+    margin-bottom: 20px;
+  }
+  .unniversitetBlock .top h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
+@media (max-width: 390px) {
+  .unniversitetBlock {
+    width: 370px;
+  }
+}
+@media (max-width: 320px) {
+  .unniversitetBlock {
+    width: 320px;
+  }
+}
+
+/*# sourceMappingURL=universitet.css.map */

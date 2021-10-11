@@ -1,0 +1,32 @@
+[
+    {
+        "name":"Сабина Сабирова",
+        "pic":"https://picsum.photos/50/50",
+        "address":"Ташкент", "value": 100
+    },
+    {
+        "name":"Сабина Сабирова",
+        "pic":"https://picsum.photos/51/50",
+        "address":"Ташкент", "value": 150
+    },
+    {
+        "name":"Сабина Сабирова",
+        "pic":"https://picsum.photos/50/51",
+        "address":"Ташкент", "value": 300
+    },
+    {
+        "name":"Сабина Сабирова",
+        "pic":"https://picsum.photos/51/51",
+        "address":"Ташкент", "value": 500
+    },
+    {
+        "name":"Сабина Сабирова",
+        "pic":"https://picsum.photos/50/52",
+        "address":"Ташкент", "value": 400
+    },
+    {
+        "name":"Сабина Сабирова",
+        "pic":"https://picsum.photos/52/50",
+        "address":"Ташкент", "value": 600
+    }
+]

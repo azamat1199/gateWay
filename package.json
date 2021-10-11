@@ -1,0 +1,73 @@
+{
+  "name": "education_getaway",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/user-event": "^12.1.10",
+    "antd": "^4.16.13",
+    "axios": "^0.21.4",
+    "d3-scale": "^4.0.0",
+    "d3-scale-chromatic": "^3.0.0",
+    "google-map-react": "^2.1.10",
+    "next": "9.4.4",
+    "react": "^16.13.1",
+    "react-confirm-alert": "^2.7.0",
+    "react-copy-text": "^1.0.1",
+    "react-datepicker": "^4.1.1",
+    "react-dom": "^16.13.1",
+    "react-drop-zone": "^4.3.2",
+    "react-facebook-login": "^4.1.1",
+    "react-google-login": "^5.2.2",
+    "react-html-table-to-excel": "^2.0.0",
+    "react-js-loader": "^0.0.7",
+    "react-maps-google": "^0.4.10",
+    "react-modal": "^3.14.3",
+    "react-number-format": "^4.7.3",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-scroll": "^1.8.3",
+    "react-sweet-progress": "^1.1.2",
+    "react-use-scroll": "^1.0.3",
+    "reactstrap": "^8.10.0",
+    "recharts": "^2.0.10",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.42.1",
+    "styled-components": "^5.3.1",
+    "sweetalert2": "^11.1.5",
+    "swiper": "^6.8.1",
+    "web-vitals": "^1.0.1",
+    "yarn": "^1.22.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

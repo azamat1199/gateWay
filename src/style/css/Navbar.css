@@ -1,0 +1,296 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#burgerMenu {
+  display: none;
+}
+
+#burgerclose {
+  display: none;
+}
+
+.navRegist #burgerMenu span {
+  background: #0D5372 !important;
+}
+
+.navRegist .navPass {
+  background: #fff !important;
+}
+
+.navRegist .navLeft svg path {
+  fill: #00587F;
+}
+
+.navRegist .navbar .navLeft h1 {
+  color: #000 !important;
+}
+
+.navRegist .navbar .navRight .active {
+  color: #000 !important;
+}
+
+.navRegist .navbar .navRight a {
+  color: #5C7C8A !important;
+}
+
+.navRegist .navAct {
+  background: #fff !important;
+}
+
+.eduGateMain .NavbarFix {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+
+.eduGateMain .NavbarFix .navPass {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(64.58%, rgba(0, 0, 0, 0.23)), color-stop(86.46%, rgba(0, 0, 0, 0)));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.23) 64.58%, rgba(0, 0, 0, 0) 86.46%);
+}
+
+.eduGateMain .NavbarFix .navAct {
+  background: #00587F;
+}
+
+.eduGateMain .NavbarFix .navbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 40px 0 40px;
+  height: 96px;
+  -webkit-transition: 0.5s linear;
+  transition: 0.5s linear;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.eduGateMain .NavbarFix .navbar .navLeft {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.eduGateMain .NavbarFix .navbar .navLeft img {
+  width: 42px;
+  height: 42px;
+}
+
+.eduGateMain .NavbarFix .navbar .navLeft h1 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  font-size: 18px;
+  margin-left: 12px;
+  font-weight: 600;
+}
+
+.eduGateMain .NavbarFix .navbar .navRight {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.eduGateMain .NavbarFix .navbar .navRight a {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  margin-left: 32px;
+}
+
+.eduGateMain .NavbarFix .navbar .navRight .active {
+  color: #fff;
+  font-weight: 600;
+}
+
+.eduGateMain .NavbarFix .navbar .navRight img {
+  margin-left: 24px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.eduGateMain main {
+  margin: 0;
+}
+
+@media (max-width: 1300px) {
+  .eduGateMain .NavbarFix .navbar .navLeft svg {
+    width: 40px;
+    height: 40px;
+  }
+  .eduGateMain .NavbarFix .navbar .navLeft h1 {
+    font-size: 15px;
+  }
+  .eduGateMain .NavbarFix .navbar .navRight a {
+    font-size: 12px;
+    margin-left: 16px;
+  }
+  .eduGateMain .NavbarFix .navbar .navRight img {
+    margin-left: 14px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navRegist .navbar .navLeft h1 {
+    color: #fff !important;
+  }
+  .eduGateMain .NavbarFix .navbar .navLeft svg path {
+    fill: #fff;
+  }
+  .eduGateMain .NavbarFix .navbar .navRight a {
+    color: #fff !important;
+  }
+  #right100 {
+    left: -100%;
+    -webkit-transition: 0.7s;
+    transition: 0.7s;
+  }
+  #right0 {
+    left: 0;
+    -webkit-transition: 0.7s;
+    transition: 0.7s;
+  }
+  .NavbarFix {
+    padding: 20px 10px 10px 10px;
+    width: 270px !important;
+    height: 100vh;
+    background: #00587F;
+  }
+  .NavbarFix .navPass {
+    background: none !important;
+  }
+  .NavbarFix .navbar {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .NavbarFix .navbar .navLeft {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .NavbarFix .navbar .navLeft h1 {
+    margin-top: 10px;
+  }
+  .NavbarFix .navbar .navLeft svg {
+    width: 40px;
+    height: 40px;
+  }
+  .NavbarFix .navbar .navRight {
+    padding-top: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start !important;
+        -ms-flex-align: start !important;
+            align-items: flex-start !important;
+  }
+  .NavbarFix .navbar .navRight a {
+    margin: 10px 0 !important;
+  }
+  .eduGateMain .App .navPass {
+    background: #00587F !important;
+  }
+  .eduGateMain .App .navbar .navLeft h1 {
+    color: #fff !important;
+  }
+  .eduGateMain .App .navbar .navLeft svg {
+    width: 40px;
+    height: 40px;
+  }
+  .eduGateMain .App .navbar .navLeft svg path {
+    fill: white;
+  }
+  .eduGateMain .App .navbar .navRight .active {
+    color: #fff !important;
+  }
+  .eduGateMain .App .navbar .navRight a {
+    color: rgba(255, 255, 255, 0.95) !important;
+  }
+  .eduGateMain .App .navAct {
+    background: #00587F !important;
+  }
+  .burger_menu span {
+    background: #00587F !important;
+  }
+  #burgerMenu {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    display: block;
+    background: none;
+    outline: none;
+    border: none;
+  }
+  #burgerMenu span {
+    width: 30px;
+    height: 3px;
+    display: block;
+    background: white;
+    border-radius: 10px;
+    margin: 7px 0;
+    border-radius: 10px;
+  }
+  #burgerclose {
+    display: block;
+    outline: none;
+    background: none;
+    border: none;
+    margin: 10px;
+    position: absolute;
+    left: 235px;
+  }
+  #burgerclose span {
+    width: 25px;
+    height: 3px;
+    display: block;
+    background: white;
+    border-radius: 10px;
+  }
+  #burgerclose span:nth-child(1) {
+    -webkit-transform: rotate(45deg) translateY(3px);
+            transform: rotate(45deg) translateY(3px);
+  }
+  #burgerclose span:nth-child(2) {
+    -webkit-transform: rotate(-45deg) translateY(-2px);
+            transform: rotate(-45deg) translateY(-2px);
+  }
+}
