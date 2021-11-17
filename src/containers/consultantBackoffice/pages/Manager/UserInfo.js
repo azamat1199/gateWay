@@ -91,170 +91,196 @@ const UserInfo = () => {
             <h3>Ваши данные</h3>
 
             <Table striped>
-           
               <tbody>
                 <tr>
-                  <td className='w-25 '>Имя</td>
-                  <td className='w-75'>laziz</td>
+                  <td className="w-25 ">Имя</td>
+                  <td className="w-75">laziz</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Фамилия</td>
-                  <td className='w-75'>@fat</td>
+                  <td className="w-25 ">Фамилия</td>
+                  <td className="w-75">@fat</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>@twitter</td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">@twitter</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Университет</td>
-                  <td className='w-75'>@twitter</td>
+                  <td className="w-25 ">Университет</td>
+                  <td className="w-75">@twitter</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Факультет</td>
-                  <td className='w-75'>@twitter</td>
+                  <td className="w-25 ">Факультет</td>
+                  <td className="w-75">@twitter</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Специальность</td>
-                  <td className='w-75'>@twitter</td>
+                  <td className="w-25 ">Специальность</td>
+                  <td className="w-75">@twitter</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>IELTS</td>
-                  <td className='w-75'>@twitter</td>
+                  <td className="w-25 ">IELTS</td>
+                  <td className="w-75">@twitter</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Специальность</td>
-                  <td className='w-75'>@twitter</td>
+                  <td className="w-25 ">Специальность</td>
+                  <td className="w-75">@twitter</td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Passport</td>
-                  <td className='w-75'> 
-                    <div         className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div> </td>
+                  <td className="w-25 ">Passport</td>
+                  <td className="w-75">
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>IELTS Certificate</td>
-                  <td className='w-75'>   <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div> </td>
+                  <td className="w-25 ">IELTS Certificate</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Diploma</td>
-                  <td className='w-75'>  
-                   <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div> </td>
+                  <td className="w-25 ">Diploma</td>
+                  <td className="w-75">
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>   <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div>  </td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>   <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div> </td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>  <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div>  </td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>   <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div> </td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>   <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div> </td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>  <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div>  </td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
                 <tr>
-                  <td className='w-25 '>Отчество</td>
-                  <td className='w-75'>   <div
-                  className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
-                >
-                  <img src={pdf} alt="" />
-                  3х4 фото 8шт.
-                  <a href={`${data?.scan_photo}`} target="_blank">
-                    <img src={download} alt="" />
-                  </a>
-                </div> </td>
+                  <td className="w-25 ">Отчество</td>
+                  <td className="w-75">
+                    {" "}
+                    <div
+                      className="w-50 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
+                      style={{ backgroundColor: "#EAF5FA" }}
+                    >
+                      <img src={pdf} alt="" />
+                      3х4 фото 8шт.
+                      <a href={`${data?.scan_photo}`} target="_blank">
+                        <img src={download} alt="" />
+                      </a>
+                    </div>{" "}
+                  </td>
                 </tr>
               </tbody>
             </Table>
