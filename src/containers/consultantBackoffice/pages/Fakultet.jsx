@@ -1,157 +1,264 @@
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Loader from "react-js-loader";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // UI modal
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
 // import img
-import search_icon from '../../../assets/icon/search.svg';
-import settings from '../../../assets/icon/settings.svg';
-import close_modal from '../../../assets/icon/close_modal.svg';
-import folder_icon from '../../../assets/icon/folder_icon.svg';
+import search_icon from "../../../assets/icon/search.svg";
+import closeFilter from "../../../assets/icon/close.svg";
+import blueStroke from "../../../assets/images/Stroke-blue.svg";
+import styled from "styled-components";
+// import settings from '../../../assets/icon/settings.svg';
+import filterSvg from "../../../assets/icon/Filter.svg";
+import close_modal from "../../../assets/icon/close_modal.svg";
+import folder_icon from "../../../assets/icon/folder_icon.svg";
 
 // import css
-import '../../../style/css/SidebarUniverstitet.css';
-import '../../../style/css/fakultet.css';
-import Sidebar from './SidebarConsult';
-import Axios from '../../../utils/axios';
-import arrow1 from '../../../assets/icon/arrow1.svg';
+import "../../../style/css/SidebarUniverstitet.css";
+import "../../../style/css/fakultet.css";
+import Sidebar from "./SidebarConsult";
+import Axios from "../../../utils/axios";
+import arrow1 from "../../../assets/icon/arrow1.svg";
 
 const Fakultet = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [name, setName] = useState('');
-  const [universtitetName, setUniverstitetName] = useState('');
+  const [name, setName] = useState("");
+  const [universtitetName, setUniverstitetName] = useState("");
   const [kvota, setKvota] = useState(null);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const date = new Date();
+  const [degreeId, setDegreeId] = useState();
   const [nowDate, setNowDate] = useState(date);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
+  const [degree, setDegree] = useState([]);
+  const [quota, setQuota] = useState();
   const [price, setPrice] = useState(null);
   const [fixEnd, setFix] = useState(false);
+  const [data, setData] = useState();
+  const [univerData, setUniverData] = useState();
+  const [facultet, setFacultet] = useState();
 
+  const [loading, setLoading] = useState();
+
+  const fetchData = async () => {
+    const data = await Axios.get("university/");
+    const datas = data.data.results;
+    setUniverData(datas);
+    return data;
+  };
+  const getFacultet = async () => {
+    setLoading(true);
+    try {
+      const res = await Axios.get("/university/faculty/");
+      setFacultet(res.data.results.reverse());
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+    getFacultet();
+  }, []);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setData((state) => ({ ...state, [name]: value }));
+  };
   // modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
+  const formData = new FormData();
+  formData.append("university", data?.university);
+  formData.append("major", data?.university);
+  formData.append("name", data?.name);
+  formData.append("status", data?.status);
+  formData.append("education_type", data?.education_type);
+  formData.append("quota", data?.quota);
+  formData.append("education_fee", 10);
+  formData.append("service_price", data?.service_price);
+
   const submitFaculty = async (e) => {
     try {
-      const res = await Axios.post('/', {
-        name: name,
-        universtitetName: universtitetName,
-        kvota: kvota,
-        description: description,
-        nowDate: nowDate,
-        status: status,
-        price: price,
+      const res = await Axios.post("/university/faculty/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+    } catch (error) {}
+    handleClose();
+    getFacultet();
+  };
+  const selector = useSelector((state) => state.payload.payload.data);
+  const fetchDegree = async () => {
+    if (!fixEnd) return;
+    try {
+      const res = await Axios.get("/university/degree/");
+      const { status, data } = res;
+      if (status === 200) {
+        const { results } = data;
+        setDegree(results);
+      }
+      console.log(res);
+    } catch (error) {}
+  };
+  const filterByGivenData = async () => {
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/university/faculty/?deadline=${startDate?.toLocaleDateString()}&degree=${degreeId}&quota=${quota}`
+      );
+      const { status, data } = res;
+      if (status === 200) {
+        const { results } = data;
+        setFacultet(results);
+      }
+      setLoading(false);
+      setFix(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
-    console.log({
-      name: name,
-      universtitetName: universtitetName,
-      kvota: kvota,
-      description: description,
-      nowDate: nowDate,
-      status: status,
-      price: price,
-    });
-    handleClose();
   };
+  const filterByInput = async (e) => {
+    if (e.length < 1) return;
+    setLoading(true);
+    try {
+      const res = await Axios.get(`/university/faculty/?search=${e}`);
+      const { status, data } = res;
+      if (status === 200) {
+        const { results } = data;
+        setFacultet(results);
+      }
+      setLoading(false);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchDegree();
+  }, [fixEnd]);
   return (
-    <Sidebar>
-      <div className="asos">
-        <div className="Up_navbar">
-          <h4>Факультеты</h4>
-          <div>
-            <img src="https://picsum.photos/70" alt="" />
+    <div className="consultFakulteet">
+      <Sidebar>
+        <div className="asos" id="top">
+          <div className="Up_navbar">
+            <h4>Факультеты</h4>
             <div>
-              <h5>Nargiza Akhmedova</h5>
-              <p>IT Specialist</p>
+              <img src="https://picsum.photos/70" alt="" />
+              <div>
+                <h5>
+                  {" "}
+                  {selector?.first_name} {selector?.last_name}
+                </h5>
+                <p>{selector?.role}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="SidebarUniverstitet">
-          <button onClick={handleOpen}>Добавить факультет</button>
-          <div className="settSearch">
-            <div className="searchUniv">
-              <img src={search_icon} alt="" />
-              <input type="text" placeholder="Поиск университетов" />
+          <div className="SidebarUniverstitet">
+            {/* <button onClick={handleOpen}>Добавить факультет</button> */}
+            <div className="settSearch">
+              <div className="searchUniv">
+                <img src={search_icon} alt="" />
+                <input
+                  onChange={(e) => filterByInput(e.target.value)}
+                  type="text"
+                  placeholder="Поиск факультет"
+                />
+              </div>
+              <button
+                onClick={() => {
+                  setFix(!fixEnd);
+                }}
+                className="settingsUniver"
+              >
+                <img src={filterSvg} alt="" />
+              </button>
             </div>
-            <button
-              onClick={() => {
-                setFix(!fixEnd);
-              }}
-              className="settingsUniver"
+            {/* end settSearch */}
+            <div className="univerList fakultet" id="scroll_bar">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="firstTD">Название</th>
+                    <th>Университет</th>
+                    <th>Степень</th>
+                    <th>Квота</th>
+                    <th>Сумма контракта</th>
+                    {/* <th>Дедлайн</th> */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <Loader
+                      type="spinner-circle"
+                      bgColor={"#FFFFFF"}
+                      color={"#FFFFFF"}
+                      size={80}
+                    />
+                  ) : (
+                    facultet?.map((iteam) => {
+                      const {
+                        university_name,
+                        major,
+                        name,
+                        status,
+                        degree_name,
+                        education_fee,
+                        education_type,
+                        quota,
+                        service_price,
+                      } = iteam;
+
+                      return (
+                        <tr>
+                          <td className="firstTD">{name}</td>
+                          <td>{university_name}</td>
+                          <td>{degree_name}</td>
+                          <td>{quota}</td>
+                          <td>${education_fee}</td>
+                          {/* <td>450</td> */}
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+            {/* end univerList */}
+            {/* Filter */}
+            <div
+              className="abitFilBox"
+              style={
+                fixEnd
+                  ? { width: "100%" }
+                  : { width: "0", transition: "0.5s step-end" }
+              }
             >
-              <img src={settings} alt="" />
-            </button>
-          </div>
-          {/* end settSearch */}
-          <div className="univerList fakultet" id="scroll_bar">
-            <table>
-              <thead>
-                <tr>
-                  <th className="firstTD">Название</th>
-                  <th>ВУЗ</th>
-                  <th>Квоты</th>
-                  <th>Статус</th>
-                  <th>Сумма контракта</th>
-                  <th>Тип учёбы</th>
-                  <th>Цена за услуги</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="firstTD">Экономика и международный бизнес</td>
-                  <td>
-                    Южно Казахтанский Государственный Педогогиский Университет
-                  </td>
-                  <td>1,500</td>
-                  <td className="priDoc">Прием документов</td>
-                  <td>$34,500</td>
-                  <td>Очный</td>
-                  <td>$450</td>
-                </tr>
-                <tr>
-                  <td className="firstTD">
-                    Business Management and Hotel Management
-                  </td>
-                  <td>Sakarya University</td>
-                  <td>1,500</td>
-                  <td className="priZak">Прием закрыт</td>
-                  <td>$34,500</td>
-                  <td>Заочный</td>
-                  <td>$450</td>
-                </tr>
-                <tr>
-                  <td className="firstTD">Экономика и международный бизнес</td>
-                  <td>
-                    Южно Казахтанский Государственный Педогогиский Университет
-                  </td>
-                  <td>1,500</td>
-                  <td className="priDoc">Прием документов</td>
-                  <td>$34,500</td>
-                  <td>Очный</td>
-                  <td>$450</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          {/* end univerList */}
-          {/* Filter */}
-          {
-            // fixEnd ?
-            fixEnd === true ? (
-              <div className="FilterFix">
+              <div className="abitFilCl" onClick={() => setFix(!fixEnd)}></div>
+              <div
+                className="FilterFix"
+                style={
+                  fixEnd
+                    ? { transform: "translateX(0)", transition: "0.5s" }
+                    : { transform: "translateX(100%)", transition: "0.5s" }
+                }
+              >
                 <div
                   className="fixLeft"
                   onClick={() => {
@@ -159,151 +266,89 @@ const Fakultet = () => {
                   }}
                 ></div>
                 <div className="FilterUniver">
+                  <button
+                    onClick={() => {
+                      setFix(!fixEnd);
+                    }}
+                    className="ab_2_close"
+                  >
+                    <img src={closeFilter} alt="" />
+                  </button>
                   <h4>Фильтры</h4>
                   <p>Выберите период</p>
-                  <div className="datapickBlock">
-                    <div>
-                      <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        selectsStart
-                        startDate={startDate}
-                        endDate={endDate}
-                        placeholderText="dan"
-                      />
+                  <div style={{ display: "flex" }}>
+                    <div className="datapickBlock">
+                      <div>
+                        <DatePicker
+                          selected={startDate}
+                          onChange={(date) => setStartDate(date)}
+                          selectsStart
+                          startDate={startDate}
+                          endDate={endDate}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <DatePicker
-                        selected={endDate}
-                        onChange={(date) => setEndDate(date)}
-                        selectsEnd
-                        startDate={startDate}
-                        endDate={endDate}
-                        minDate={startDate}
-                        placeholderText="gacha"
+                    <InputContainer>
+                      <p>Заполните квоту</p>
+                      <input
+                        onChange={(e) => setQuota(e.target.value)}
+                        type="text"
                       />
-                    </div>
+                    </InputContainer>
                   </div>
-                  <p>Выберите страну</p>
+                  <p>Выберите факультет</p>
                   <div className="selectCountry">
-                    <select name="" id="">
-                      <option value="">Турция</option>
-                      <option value="">Россия</option>
-                      <option value="">США</option>
-                      <option value="">Узбекистан</option>
+                    <select
+                      name="degree"
+                      onChange={(e) => setDegreeId(e.target.value)}
+                    >
+                      <option selected>Выберите факультет</option>
+                      {degree.map((item) => {
+                        const { id, title } = item;
+                        return <option value={id}>{title}</option>;
+                      })}
                     </select>
                   </div>
-                  <p>Выберите город</p>
-                  <div className="selectCountry">
-                    <select name="" id="">
-                      <option value="">Анталия</option>
-                      <option value="">Анкара</option>
-                      <option value="">Истанбул</option>
-                      <option value="">Измир</option>
-                    </select>
-                  </div>
-                  <button>Применить</button>
+                  <button onClick={filterByGivenData}>Применить</button>
                 </div>
                 {/* end FilterUniver */}
               </div>
-            ) : null
-          }
-
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className="class1"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={open}>
-              <div className="addNewUniverModalUniver talaba_modal">
-                <img onClick={handleClose} src={close_modal} alt="" />
-                <div className="modalContainer">
-                  <h5>Добавить новый университет</h5>
-                  <div>
-                    <label>Название факультет</label>
-                    <input
-                      type="text"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label>Университет</label>
-                    <select
-                      onChange={(e) => setUniverstitetName(e.target.value)}
-                    >
-                      <option>Выбрать страну</option>
-                      <option>страну</option>
-                      <option>страну</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Квота</label>
-                    <input
-                      type="text"
-                      onChange={(e) => setKvota(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label>Описание</label>
-                    <textarea
-                      name=""
-                      id=""
-                      cols="30"
-                      rows="5"
-                      onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
-                  </div>
-                  <div className="modalDataPick">
-                    <label>Прием документов заканчивается</label>
-                    <DatePicker
-                      selected={nowDate}
-                      onChange={(e) => setNowDate(e)}
-                      placeholderText="sana"
-                    />
-                  </div>
-                  <div>
-                    <label>Статус</label>
-                    <select onChange={(e) => setStatus(e.target.value)}>
-                      <option>Выбрать страну</option>
-                      <option>страну</option>
-                      <option>страну</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Цена</label>
-                    <input
-                      type="text"
-                      onChange={(e) => setPrice(e.target.value)}
-                    />
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      submitFaculty(e);
-                    }}
-                  >
-                    Добавить
-                  </button>
-                  <button onClick={handleClose} className="back_btn">
-                    <img src={arrow1} alt="" /> Вернуться
-                  </button>
-                </div>
-              </div>
-            </Fade>
-          </Modal>
-          {/* end Filter */}
+            </div>
+            {/* end Filter */}
+          </div>
+          <a href="#top" title="Go to top" className="backTop">
+            <img src={blueStroke} alt="back to top" />
+          </a>
         </div>
-      </div>
-    </Sidebar>
-    // end SidebarUniverstitet
+      </Sidebar>
+    </div>
   );
 };
 
 export default Fakultet;
+
+const InputContainer = styled.div`
+  position: relative;
+  bottom: 10px;
+  p {
+    position: relative;
+    bottom: 10px;
+    color: black;
+  }
+  input {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #7595a3;
+    outline: none;
+    background: none;
+    font-size: 14px;
+    width: 95%;
+    padding: 11px 18px;
+    border: 1px solid #00587f;
+    border-radius: 8px;
+    text-align: left;
+    position: relative;
+  }
+`;
