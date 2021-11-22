@@ -1,43 +1,52 @@
-import React, { Component } from 'react';
-import { NavLink, Route, Switch } from 'react-router-dom';
-import routes from '../../../routes/routes';
-
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { Badge } from "reactstrap";
+import routes from "../../../routes/routes";
+import logout_icon from "../../../assets/icon/logout.svg";
+import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 // import css
-import '../../../style/css/sidebar.css';
+import "../../../style/css/sidebar.css";
+import { signOutAction } from "../../../store/actions/authActions";
 
-class Sidebar extends Component {
-  state = {
-    menu: false,
-    burger: false,
+const Sidebar = (props) => {
+  const [menu, setMenu] = useState(false);
+  const [doc, setDoc] = useState(false);
+  const [burger, setBurger] = useState(false);
+  const [docBurger, setDocBurger] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handlemenu = () => {
+    setMenu((state) => !state);
   };
-  handlemenu = () => {
-    this.setState({
-      menu: !this.state.menu,
-    });
+  const handleburger = () => {
+    setBurger((state) => !state);
   };
-  handleburger = () => {
-    this.setState({
-      burger: !this.state.burger,
-    });
+  const handleclose = () => {
+    setMenu(false);
+    handleburger();
   };
-  handleclose = () => {
-    this.setState({
-      menu: false,
-    });
-    this.handleburger();
+  const onOpenDocumentsClick = () => {
+    setDoc((prev) => !prev);
   };
-  render() {
-    return (
-      <>
-        <div
-          className={
-            this.state.burger ? 'switch_asos toggle_burger' : 'switch_asos'
-          }
-        >
-          <div className="dashboardBlock">
-            <div className="sidebarFixed">
-              <div className="sidebar">
-                <div className="logoSidebar">
+  const signOut = () => {
+    dispatch(signOutAction());
+    history.replace("/");
+  };
+
+  const selector = useSelector((state) => state.payload.payload.data);
+  return (
+    <>
+      <div className={burger ? "switch_asos toggle_burger" : "switch_asos"}>
+        <div className="dashboardBlock">
+          <div className="sidebarFixed">
+            <div className="sidebar">
+              <div className="logoSidebar">
+                <Link
+                  className="d-flex justify-content-between align-items-center"
+                  to="/"
+                >
                   <svg
                     width="74"
                     height="74"
@@ -142,85 +151,131 @@ class Sidebar extends Component {
                       fill="#00587F"
                     />
                   </svg>
-                  <h6>Education Gateway</h6>
-                </div>
 
-                <NavLink onClick={this.handleclose} to="/home/main">
-                  Главное
-                </NavLink>
-                <NavLink onClick={this.handleclose} to="/home/countries">
-                  Cтраны
-                </NavLink>
-                <NavLink onClick={this.handleclose} to="/home/universitet">
-                  Университеты
-                </NavLink>
-                <NavLink onClick={this.handleclose} to="/home/faculties">
-                  Факультеты
-                </NavLink>
-                <NavLink onClick={this.handleclose} to="/home/branch">
+                  <h6>Education Gateway</h6>
+                </Link>
+              </div>
+
+              <NavLink onClick={handleclose} to="/home/main">
+                Главное
+              </NavLink>
+              <NavLink onClick={handleclose} to="/home/countries">
+                Cтраны
+              </NavLink>
+              <NavLink onClick={handleclose} to="/home/universitet">
+                Университеты
+              </NavLink>
+              <NavLink onClick={handleclose} to="/home/faculties">
+                Факультеты
+              </NavLink>
+              {(selector.role == "branch_director" && <span></span>) || (
+                <NavLink onClick={handleclose} to="/home/branch">
                   Филиалы
                 </NavLink>
-                <NavLink onClick={this.handleclose} to="/home/students">
-                  Студенты
-                </NavLink>
-                <NavLink onClick={this.handleclose} to="/home/ducuments">
-                  Документы
-                </NavLink>
-                <div className="vector"></div>
-                <div className={this.state.menu ? 'div_active div_a' : 'div_a'}>
-                  <div
-                    className={
-                      this.state.menu ? 'link_active bugalter' : 'bugalter'
-                    }
-                  >
-                    <div onClick={this.handlemenu} className="toggle_link">
+              )}
+              <NavLink onClick={handleclose} to="/home/students">
+                Aбитуриент
+              </NavLink>
+              <div>
+                <div className={doc ? "link_active bugalter" : "bugalter"}>
+                  <div>
+                    <NavLink
+                      to="/home/ducuments"
+                      className="toggle_link"
+                      onClick={onOpenDocumentsClick}
+                    >
+                      {/* Студенты */}
+                      Документы
+                      {/* <Badge color="danger">
+                    <span className="text-danger fs-6 ">{10}</span>
+                  </Badge> */}
+                    </NavLink>
+                  </div>
+                  <div className="toggle">
+                    <NavLink
+                      onClick={() => setDocBurger((prev) => !prev)}
+                      to="/home/send"
+                    >
+                      Отправленные
+                    </NavLink>
+                    <NavLink to="/home/received">Принятые</NavLink>
+                  </div>
+                </div>
+              </div>
+              <div className="vector"></div>
+              {(selector.role == "branch_director" && <span></span>) || (
+                <div className={menu ? "div_active div_a" : "div_a"}>
+                  <div className={menu ? "link_active bugalter" : "bugalter"}>
+                    <div onClick={handlemenu} className="toggle_link">
                       Бухгалтер
                     </div>
                     <div className="toggle">
-                      <NavLink
-                        onClick={this.props.handleburger}
-                        to="/home/accountant"
-                      >
+                      <NavLink onClick={handleburger} to="/home/accountant">
                         Аналитика
                       </NavLink>
-                      <NavLink
-                        onClick={this.props.handleburger}
-                        to="/home/payments"
-                      >
+                      <NavLink onClick={handleburger} to="/home/payments">
                         Платежи
                       </NavLink>
                     </div>
                   </div>
                 </div>
-                <NavLink onClick={this.handleclose} to="/home/contracts">
+              )}
+              {(selector.role == "branch_director" && (
+                <NavLink onClick={handleclose} to="/home/manager">
+                  Менеджер статистика
+                </NavLink>
+              )) || (
+                <NavLink onClick={handleclose} to="/home/manager">
+                  Менеджер
+                </NavLink>
+              )}
+              {(selector.role == "branch_director" && <span></span>) || (
+                <NavLink onClick={handleclose} to="/home/contracts">
                   Договоры
                 </NavLink>
-                {/* <NavLink onClick={this.handleclose} to="/home/natarius">Нотариус</NavLink> */}
-                <NavLink onClick={this.handleclose} to="/home/agents">
+              )}
+              {(selector.role == "branch_director" && <span></span>) || (
+                <NavLink onClick={handleclose} to="/home/natarius">
+                  Нотариус
+                </NavLink>
+              )}
+              {(selector.role == "branch_director" && (
+                <NavLink onClick={handleclose} to="/home/agents">
+                  Менеджер
+                </NavLink>
+              )) || (
+                <NavLink onClick={handleclose} to="/home/agents">
                   Агенты
                 </NavLink>
-                <NavLink
-                  onClick={this.handleclose}
-                  to="/home/analytics-department"
-                >
+              )}
+              {(selector.role == "branch_director" && <span></span>) || (
+                <NavLink onClick={handleclose} to="/home/analytics-department">
                   Отдел аналитики
                 </NavLink>
-              </div>
+              )}
+              {(selector.role == "branch_director" && <span></span>) || (
+                <NavLink onClick={handleclose} to="/settings">
+                  Настройки
+                </NavLink>
+              )}
+              <Link to="/" onClick={signOut} className="logoutbtn">
+                <img src={logout_icon} alt="" />
+                <h5>Выйти</h5>
+              </Link>
             </div>
-            {/* end => sidebar */}
-
-            <div className="toggle_close" onClick={this.handleburger}></div>
           </div>
-          <div onClick={this.handleburger} className="burger_menu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          {this.props.children}
+          {/* end => sidebar */}
+          <div className="toggle_close" onClick={handleburger}></div>
         </div>
-      </>
-    );
-  }
-}
+        <div onClick={handleburger} className="burger_menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        {props.children}
+      </div>
+    </>
+  );
+};
 
 export default Sidebar;
