@@ -506,7 +506,6 @@ const SidebarFilial = () => {
                     />
                   </div>
                   <div>
-                    <label>Телефон номер филиала</label>
                     <input
                       onChange={(e) => {
                         changeInput(e);
