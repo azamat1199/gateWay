@@ -516,7 +516,7 @@ const SidebarFilial = () => {
                     />
                   </div>
                   <div>
-                    <label>Логин филиала</label>
+                    <label>Логин филиала /login fil</label>
                     <input
                       type="text"
                       onChange={(e) => {
