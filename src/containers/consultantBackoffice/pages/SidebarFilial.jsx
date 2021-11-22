@@ -527,7 +527,7 @@ const SidebarFilial = () => {
                     />
                   </div>
                   <div>
-                    <label>Пароль филиала</label>
+                    <label>Пароль филиала...</label>
                     <input
                       type="password"
                       onChange={(e) => {
