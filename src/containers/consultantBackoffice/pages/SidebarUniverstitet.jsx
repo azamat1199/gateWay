@@ -686,7 +686,7 @@ const SidebarUniverstitet = () => {
               {/* end Filter */}
             </div>
             <a href="#top" title="Go to top" className="backTop">
-              <img src={blueStroke} alt="back to top" />
+              <img src={blueStroke} alt="back to the top" />
             </a>
           </>
         </div>
