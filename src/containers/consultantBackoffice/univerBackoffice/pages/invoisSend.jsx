@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import Loader from "react-js-loader";
-
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { FormLabel } from "@material-ui/core";
-
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Switch from "@material-ui/core/Switch";
 import { Link } from "react-router-dom";
+import check from "../../../../assets/icon/check1.svg";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import Axios from "../../../../utils/axios";
 //import css
-import check from "../../../../assets/icon/check1.svg";
 import "react-datepicker/dist/react-datepicker.css";
 // import "../../../../style/css/invois.css";
 //import img
@@ -28,26 +22,24 @@ import close from "../../../../assets/icon/close.svg";
 import UniversitetBackoffice from "../universitetBackoffice";
 import { useSelector } from "react-redux";
 import InvoisModal from "./invoisModal";
+import Loader from "react-js-loader";
 import { Pagination } from "@material-ui/lab";
 import TablePagination from "@material-ui/core/TablePagination";
 const data_table = require("../json/data_table.json");
 
 const Invoys = () => {
+  const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [searchName, setSearchName] = useState("");
   const [filter, setFilter] = useState("");
-  const [radioFilter, setRadioFilter] = useState("");
-
-  const [students, setStudents] = useState([]);
-  const [startDate, setStartDate] = useState(null);
   const [loading, setLoading] = useState();
+  const [userDataList, setUserDataList] = useState([]);
 
   const [filters, setfilters] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const [images, setImages] = useState();
   const [openImgUniver, setOpenImgUniver] = React.useState(false);
   const [key, setkey] = React.useState("");
-  const [userDataList, setUserDataList] = useState([]);
   const [icon, setIcon] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -66,22 +58,24 @@ const Invoys = () => {
     setkey(event.target.value);
   }
 
-  const handleFilter = (e) => {
-    const { name, value } = e.target;
-    setRadioFilter({ [name]: value });
-  };
-
   const getUserInfo = async () => {
     setLoading(true);
     try {
-      const res = await Axios.get("applicant/list/confirmed/");
+      const res = await Axios.get(
+        "applicant/list/confirmed/?invoice_status=false"
+      );
       const { status, data } = res;
       const { results } = data;
       if (status === 200) {
         setUserDataList(results);
       }
-    } catch (error) {}
+    } catch (error) {
+      
+    }
   };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const filterApplicants = async () => {
     setLoading(true);
@@ -89,41 +83,41 @@ const Invoys = () => {
       const res = await Axios.get(
         `/applicant/list/confirmed/?date-from=${
           startDate ? startDate.toLocaleDateString() : ""
-        }&date-to=${endDate ? endDate.toLocaleDateString() : ""}&invoice_send=${
-          radioFilter.filter
-        }&search=${searchName ? searchName : " "}`
+        }&date-to=${
+          endDate ? endDate.toLocaleDateString() : ""
+        }&payment-status=${filter ? filter.filter : ""}&search=${
+          searchName ? searchName : " "
+        }`
       );
-
+      
       const { data, status } = res;
       const { results } = data;
       if (status == 200) {
         setUserDataList(results);
+        setLoading(false);
       }
       setLoading(false);
     } catch (error) {
+      
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    getUserInfo();
-  }, []);
-
-  useEffect(() => {
-    filterApplicants();
-  }, [searchName]);
-
-  const selector = useSelector((state) => state?.payload?.payload.data);
+  const selector = useSelector((state) => state.payload.payload.data);
   const pnChange = (e) => {
     const { name } = e.target;
     setIsShow((state) => ({ ...state, [name]: true }));
   };
 
+  useEffect(() => {
+    filterApplicants();
+  }, [searchName]);
+
   return (
     <UniversitetBackoffice>
       <div className="up_nav">
         <div>
-          <h4 className="link_h1">Инвойсы {`>`} Все</h4>
+          <h4 className="link_h1">Инвойсы {`>`} Отправленные</h4>
         </div>
         <div className="user_info">
           <img src={userpic} alt="" />
@@ -132,7 +126,7 @@ const Invoys = () => {
             <p>
               {selector.city.name}, {selector.city.country.name}
             </p>
-          </div>
+            </div>
         </div>
       </div>
       <div className="invoys">
@@ -150,12 +144,12 @@ const Invoys = () => {
           <div className="search">
             <div className="input">
               <button>
-                <img src={search} alt="" />
+                <img src={search} alt="asdasd" />
               </button>
               <input
                 type="text"
-                onChange={(e) => setSearchName(e.target.value)}
                 placeholder="Поиск Студенты"
+                onChange={(e) => setSearchName(e.target.value)}
               />
             </div>
             <div className="filtr_btn">
@@ -173,6 +167,13 @@ const Invoys = () => {
               <div>
                 <h1>Список абитуриентов</h1>
               </div>
+              <div>
+                <select name="" id="">
+                  <option value="">Показать все</option>
+                  <option value="">lorem 1</option>
+                  <option value="">lorem 2</option>
+                </select>
+              </div>
             </div>
 
             <table id="table_excel">
@@ -181,10 +182,11 @@ const Invoys = () => {
                 <th>Факультет</th>
                 <th>Степень</th>
                 <th>Тип обученияе</th>
-                <th>Менеджер </th>
-                <th>Телефон менеджера</th>
                 <th>Контракт</th>
                 <th>Инвойс</th>
+                <th>Менеджер </th>
+                <th>Телефон менеджера</th>
+                <th>Дата </th>
               </thead>
               <tbody>
                 {loading ? (
@@ -210,16 +212,10 @@ const Invoys = () => {
                           <th>{data?.degree}</th>
                           {/* <th>{data?.manager}</th> */}
                           <th>
-                            {data?.manager?.first_name}
-                            {data?.manager?.last_name}
-                          </th>
-                          <th>
                             {(`${data?.type_education}` == "full_time" &&
                               "Очный") ||
                               "Заочный"}
                           </th>
-                          <th>{data?.manager?.phone_number}</th>
-
                           <th
                             style={{
                               color:
@@ -230,33 +226,25 @@ const Invoys = () => {
                           >
                             $ {data?.education_fee}
                           </th>
-                          {data?.university_invoice_upload == null ? (
-                            <th>
-                              <img
-                                src={Message}
-                                name={`name${data?.id}`}
-                                onClick={(e) => pnChange(e)}
-                                alt=""
-                              />
-                              {isShow[`name${data?.id}`] ? (
-                                <InvoisModal
-                                  onClose={() => setIsShow(false)}
-                                  id={data?.id}
-                                  show={isShow}
-                                />
-                              ) : null}
-                            </th>
-                          ) : (
-                            <th>
-                              <img
-                                src={check}
-                                alt=""
-                                style={{
-                                  width: "25px",
-                                }}
-                              />
-                            </th>
-                          )}
+                          {/* <th>
+                          <img src={Message} name={`name${data?.id}`} onClick={(e)=>pnChange(e)} alt="" />
+                           {isShow[`name${data?.id}`]? <InvoisModal onClose={()=>setIsShow(false)} id={data?.id} show={isShow} />:null}
+                      </th> */}
+                          <th>
+                            <img
+                              src={check}
+                              alt=""
+                              style={{
+                                width: "25px",
+                              }}
+                            />
+                          </th>
+
+                          <th>
+                            {data?.manager?.first_name}{" "}
+                            {data?.manager?.last_name}
+                          </th>
+                          <th>{data?.manager?.phone_number}</th>
                         </tr>
                       );
                     })
@@ -308,7 +296,6 @@ const Invoys = () => {
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   selectsStart
-                  views={["year", "month", "day"]}
                   startDate={startDate}
                   endDate={endDate}
                   dateFormat="dd MMM yyyy"
@@ -324,101 +311,6 @@ const Invoys = () => {
                   minDate={startDate}
                   placeholderText="До"
                 />
-              </div>
-              <div className="radio-true">
-                {/* <FormControl component="fieldset">
-                    <FormLabel component="legend">Status</FormLabel>
-
-                    <RadioGroup
-                      aria-label="gender"
-                      name="gender1"
-                      value={value}
-                      onChange={(e) => handleFilter(e)}
-                      // onChange={handleChange}
-                    >
-                      <FormControlLabel
-                        value="true"
-                        control={<Radio color="primary" />}
-                        label="Инвойс отправлен"
-                      />
-                      <FormControlLabel
-                        value="false"
-                        control={<Radio color="primary" />}
-                        label="Инвойс не отправлен"
-                      />
-                    </RadioGroup>
-                  </FormControl> */}
-                {/* <div className="form_ab">
-                    <FormControl component="fieldset">
-                      <FormLabel component="legend">Status</FormLabel>
-                      <RadioGroup
-                        aria-label="gender"
-                        name="gender1"
-                        value={radioFilter}
-                        // onChange={handleChange}
-                        onChange={(e) => handleFilter(e)}
-                      >
-                        <FormControlLabel
-                          value="register"
-                          control={<Radio color="primary" />}
-                          label="Register"
-                        />
-                        <FormControlLabel
-                          value="profile"
-                          control={<Radio color="primary" />}
-                          label="Profile"
-                        />
-                        <FormControlLabel
-                          value="invois"
-                          control={<Radio color="primary" />}
-                          label="Invois"
-                        />
-                        <FormControlLabel
-                          value="bugalter"
-                          control={<Radio color="primary" />}
-                          label="Bugalter"
-                        />
-                        <FormControlLabel
-                          value="Manager"
-                          control={<Radio color="primary" />}
-                          label="Manager"
-                        />
-                        <FormControlLabel
-                          value="notoray"
-                          control={<Radio color="primary" />}
-                          label="Notary"
-                        />
-                        <FormControlLabel
-                          value="university"
-                          control={<Radio color="primary" />}
-                          label="University"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </div> */}
-
-                <input
-                  onChange={(e) => handleFilter(e)}
-                  type="radio"
-                  id="all"
-                  name="filter"
-                  value="true"
-                />
-                <label className="label-true" for="all">
-                  Инвойс отправлен
-                </label>
-              </div>
-              <div className="radio-false">
-                <input
-                  onChange={(e) => handleFilter(e)}
-                  type="radio"
-                  id="all"
-                  name="filter"
-                  value="false"
-                />
-                <label className="label-false" for="not-paid">
-                  Инвойс не отправлен
-                </label>
               </div>
             </div>
             {/* <div className="form_ab">
@@ -449,8 +341,8 @@ const Invoys = () => {
                   />
                 </FormGroup>
               </FormControl>
-            </div> */}
-            {/* <div className="form_ab">
+            </div>
+            <div className="form_ab">
               <FormControl component="fieldset" className="ab_switch">
                 <FormGroup aria-label="position" row>
                   <FormControlLabel
@@ -463,7 +355,13 @@ const Invoys = () => {
               </FormControl>
             </div> */}
             <div className="form_ab">
-              <button className="form_button" onClick={filterApplicants}>
+              <button
+                className="form_button"
+                // onClick={() => {
+                //   setfilters(!filters);
+                // }}
+                onClick={filterApplicants}
+              >
                 Применить
               </button>
             </div>
