@@ -70,9 +70,10 @@ const M_doc_rec = () => {
       if (data.status === 200) {
       }
       setLoading(false);
-    } catch (error) {
-      
-    }
+
+    } catch (error) {}
+
+   
     setfilters(false);
   };
   const handleSubmit = async () => {
@@ -87,9 +88,11 @@ const M_doc_rec = () => {
       const res = await Axios.get(
         `/applicant/list/?manager-attached=true&status=manager_checking_notary&date-from=${
           startDate ? `${sd}.${sm}.${sy}` : ""
-        }&date-to=${endDate ? `${ed}.${em}.${ey}` : ""}&manager=${current}&search=${
-          searchName ? searchName : " "
-        }`
+
+        }&date-to=${
+          endDate ? `${ed}.${em}.${ey}` : ""
+        }&manager=${current}&search=${searchName ? searchName : " "}`
+
       );
       const { status, data } = res;
       if (status === 200) {
@@ -99,7 +102,7 @@ const M_doc_rec = () => {
       setfilters(false);
       setLoading(false);
     } catch (error) {
-      
+
       setLoading(false);
     }
   };
@@ -114,8 +117,13 @@ const M_doc_rec = () => {
     } catch {}
   };
   useEffect(() => {
-    {(selector.role == "supermanager" && handleSubmit())||userList() }
-    {selector.role == "supermanager" &&  getManager()}
+    {
+      (selector.role == "supermanager" && handleSubmit()) || userList();
+    }
+    {
+      selector.role == "supermanager" && getManager();
+    }
+
   }, []);
   return (
     <React.Fragment>
