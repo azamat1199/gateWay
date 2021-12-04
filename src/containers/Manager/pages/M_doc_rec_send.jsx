@@ -103,12 +103,12 @@ const M_doc_rec_send = () => {
   // });
   const handdleorOrginalFile = (e) => {
     const name = e.target.name;
-    setFile((state) => ({ ...state, [name]: "notary_translated" }));
+    setFile((state) => ({ ...state, [name]: 'notary_translated' }));
     setO((state) => ({ ...state, [`${name}_O`]: true }));
   };
   const handdleorNotarylFile = (e) => {
     const name = e.target.name;
-    setFile((state) => ({ ...state, [name]: "need_to_translate" }));
+    setFile((state) => ({ ...state, [name]: 'need_to_translate' }));
     setN((state) => ({ ...state, [`${name}_N`]: true }));
   };
   const closeButtons = (e) => {
@@ -117,15 +117,15 @@ const M_doc_rec_send = () => {
 
   useEffect(() => {
     setWhereGoFile((state) =>
-      file?.passport_confirmed == "need_to_translate" ||
-      file?.diploma_confirmed == "need_to_translate" ||
-      file?.birth_cert_confirmed == "need_to_translate" ||
-      file?.photo_confirmed == "need_to_translate" ||
-      file?.passport_mother_confirmed == "need_to_translate" ||
-      file?.marriage_cert_confirmed == "need_to_translate" ||
-      file?.agreement_doc_confirmed == "need_to_translate" ||
-      file?.med_086_cert_confirmed == "need_to_translate" ||
-      file?.hiv_cert_confirmed == "need_to_translate"
+      file?.passport_confirmed=='need_to_translate' ||
+      file?.diploma_confirmed=='need_to_translate' ||
+      file?.birth_cert_confirmed=='need_to_translate' ||
+      file?.photo_confirmed =='need_to_translate' ||
+      file?.passport_mother_confirmed =='need_to_translate' ||
+      file?.marriage_cert_confirmed =='need_to_translate' ||
+      file?.agreement_doc_confirmed =='need_to_translate' ||
+      file?.med_086_cert_confirmed =='need_to_translate' ||
+      file?.hiv_cert_confirmed=='need_to_translate'
         ? false
         : true
     );
@@ -144,7 +144,8 @@ const M_doc_rec_send = () => {
           datas1
         );
       }
-    } catch (error) {}
+    } catch (error) {
+    }
     history.push("/m-docs_rec");
   };
   const sendNotary = async () => {
@@ -200,818 +201,708 @@ const M_doc_rec_send = () => {
               color={"#FFFFFF"}
               size={80}
             />
-          ) : (
-            <div className="doc_perevodi">
-              <div className="doc_1">
-                <h1>Оригинал документов:</h1>
-                <a
-                  href={
-                    (`${userDoc?.passport_confirmed}` == `original_confirmed` &&
-                      `${userDoc?.passport}`) ||
-                    `${userDoc?.passport_translate}`
-                  }
-                  target="_blank"
-                  className="form_doc"
+            ):(
+          <div className="doc_perevodi">
+            <div className="doc_1">
+              <h1>Оригинал документов:</h1>
+              <a
+                href={
+                  (`${userDoc?.passport_confirmed}` == `original_confirmed` &&
+                    `${userDoc?.passport}`) ||
+                  `${userDoc?.passport_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display: (userDoc?.passport == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> Паспорт </p>
+                <img src={down_doc} alt="" />
+              </a>
+              <a
+                href={
+                  (`${userDoc?.diploma_confirmed}` == `original_confirmed` &&
+                    `${userDoc?.diploma}`) ||
+                  `${userDoc?.diploma_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display: (userDoc?.diploma == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> Диплом/Аттестат </p>
+                <img src={down_doc} alt="" />
+              </a>
+              <a
+                href={
+                  (`${userDoc?.birth_cert_confirmed}` == `original_confirmed` &&
+                    `${userDoc?.birth_cert}`) ||
+                  `${userDoc?.birth_cert_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display: (userDoc?.birth_cert == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> Свидет. о рождении </p>
+                <img src={down_doc} alt="" />
+              </a>
+              <a
+                href={
+                  (`${userDoc?.photo_confirmed}` == `original_confirmed` &&
+                    `${userDoc?.photo}`) ||
+                  `${userDoc?.photo_translate}`
+                }
+                className="form_doc"
+                style={{
+                  display: (userDoc?.photo == null && "none") || "flex",
+                }}
+                target="_blank"
+              >
+                <img src={pdf} alt="" />
+                <p> 3х4 фото 8шт. </p>
+                <img src={down_doc} alt="" />
+              </a>
+              <a
+                href={
+                  (`${userDoc?.passport_mother_confirmed}` ==
+                    `original_confirmed` &&
+                    `${userDoc?.passport_mother}`) ||
+                  `${userDoc?.passport_mother_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display:
+                    (userDoc?.passport_mother == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> Паспорт матери </p>
+                <img src={down_doc} alt="" />
+              </a>
+              <a
+                href={
+                  (`${userDoc?.marriage_cert_confirmed}` ==
+                    `original_confirmed` &&
+                    `${userDoc?.marriage_cert}`) ||
+                  `${userDoc?.marriage_cert_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display: (userDoc?.marriage_cert == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> Свид. о браке </p>
+                <img src={down_doc} alt="" />
+              </a>
+
+              <a
+                href={
+                  (`${userDoc?.med_063_cert_confirmed}` ==
+                    `original_confirmed` &&
+                    `${userDoc?.med_063_cert}`) ||
+                  `${userDoc?.med_063_cert_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display: (userDoc?.med_063_cert == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> 063 мед. справка </p>
+                <img src={down_doc} alt="" />
+              </a>
+              <a
+                href={
+                  (`${userDoc?.med_086_cert_confirmed}` ==
+                    `original_confirmed` &&
+                    `${userDoc?.med_086_cert}`) ||
+                  `${userDoc?.med_086_cert_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display: (userDoc?.med_086_cert == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> 086 мед. справка </p>
+                <img src={down_doc} alt="" />
+              </a>
+              <a
+                href={
+                  (`${userDoc?.hiv_cert_confirmed}` == `original_confirmed` &&
+                    `${userDoc?.hiv_cert}`) ||
+                  `${userDoc?.hiv_certt_translate}`
+                }
+                target="_blank"
+                className="form_doc"
+                style={{
+                  display: (userDoc?.hiv_cert == null && "none") || "flex",
+                }}
+              >
+                <img src={pdf} alt="" />
+                <p> Справка о ВИЧ </p>
+                <img src={down_doc} alt="" />
+              </a>
+            </div>
+            <div className="doc_1">
+              <h1>Перевод документов:</h1>
+              {/*passport */}
+              {userDoc?.passport_confirmed == "original_confirmed" ||userDoc?.passport_confirmed=='notary_translated'|| file?.passport_confirmed=='notary_translated'||file?.passport_confirmed=='need_to_translate' ? (
+                <>
+                  <div
+                    className="form_doc"
+                    style={{
+                      display: (userDoc?.passport_confirmed == "original_confirmed" ||userDoc?.passport_confirmed=='notary_translated'|| file?.passport_confirmed=='notary_translated' && "flex") || "none",
+                    }}
+                  >
+                    <img src={pdf} alt="" /> <p> Паспорт </p>
+                    <img src={check} alt="" />
+                  </div>
+                  <div
+                    className="form_doc"
+                    style={{
+                      display: (file?.passport_confirmed=='need_to_translate' && "flex") || "none",
+                    }}
+                  >
+                    <img src={sms} alt="" />
+                    <p> Паспорт отправлен нотариусу </p>
+                    <img src={check} alt="" />
+                  </div>
+                </>
+              ) : (
+                <div
+                  className={`form_doc_btn`}
                   style={{
                     display: (userDoc?.passport == null && "none") || "flex",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> Паспорт </p>
-                  <img src={down_doc} alt="" />
-                </a>
-                <a
-                  href={
-                    (`${userDoc?.diploma_confirmed}` == `original_confirmed` &&
-                      `${userDoc?.diploma}`) ||
-                    `${userDoc?.diploma_translate}`
-                  }
-                  target="_blank"
+                  <button
+                    name="passport_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className={`white-btn`}
+                    style={{
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Отказать перевод
+                  </button>
+                  <button
+                    className={`green-btn`}
+                    name="passport_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                  >
+                    Потвердить перевод
+                  </button>
+                </div>
+              )}
+              {/* end passport */}
+
+              {/* diplom */}
+              {userDoc?.diploma_confirmed == "original_confirmed"|| file?.diploma_confirmed=='notary_translated'||file?.diploma_confirmed=='need_to_translate'  ? (
+              <>  <div
                   className="form_doc"
                   style={{
-                    display: (userDoc?.diploma == null && "none") || "flex",
+                    display:(userDoc?.diploma_confirmed == "original_confirmed" || file?.diploma_confirmed=='notary_translated'  && "flex") || "none",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> Диплом/Аттестат </p>
-                  <img src={down_doc} alt="" />
-                </a>
-                <a
-                  href={
-                    (`${userDoc?.birth_cert_confirmed}` ==
-                      `original_confirmed` &&
-                      `${userDoc?.birth_cert}`) ||
-                    `${userDoc?.birth_cert_translate}`
-                  }
-                  target="_blank"
+                  <img src={pdf} alt="" /> <p> Диплом/Аттестат </p>
+                  <img src={check} alt="" />
+                </div>
+                  <div
                   className="form_doc"
                   style={{
-                    display: (userDoc?.birth_cert == null && "none") || "flex",
+                    display: (file?.diploma_confirmed=='need_to_translate' && "flex") || "none",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> Свидет. о рождении </p>
-                  <img src={down_doc} alt="" />
-                </a>
-                <a
-                  href={
-                    (`${userDoc?.photo_confirmed}` == `original_confirmed` &&
-                      `${userDoc?.photo}`) ||
-                    `${userDoc?.photo_translate}`
-                  }
+                  <img src={sms} alt="" />
+                  <p> Паспорт отправлен нотариусу </p>
+                  <img src={check} alt="" />
+                </div>
+                </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display: (userDoc?.diploma_translate == null && "none") || "flex",
+                  }}
+                >
+                  <button
+                    name="diploma_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz"
+                    style={{
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="diploma_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                    style={{
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Потвердить перевод
+                  </button>
+                </div>
+              )}
+
+              {userDoc?.photo_confirmed == "original_confirmed"|| file?.photo_confirmed=='notary_translated'||file?.photo_confirmed=='need_to_translate' ? (
+              <>  <div
                   className="form_doc"
                   style={{
-                    display: (userDoc?.photo == null && "none") || "flex",
+                    display: (userDoc?.photo_confirmed == "original_confirmed"|| file?.photo_confirmed=='notary_translated' && "flex") || "none",
                   }}
-                  target="_blank"
                 >
-                  <img src={pdf} alt="" />
-                  <p> 3х4 фото 8шт. </p>
-                  <img src={down_doc} alt="" />
-                </a>
-                <a
-                  href={
-                    (`${userDoc?.passport_mother_confirmed}` ==
-                      `original_confirmed` &&
-                      `${userDoc?.passport_mother}`) ||
-                    `${userDoc?.passport_mother_translate}`
-                  }
-                  target="_blank"
+                  <img src={pdf} alt="" /> <p> 3х4 фото 8шт.</p>
+                  <img src={check} alt="" />
+                </div>
+                <div
+                  className="form_doc"
+                  style={{
+                    display: (file?.photo_confirmed=='need_to_translate' && "flex") || "none",
+                  }}
+                >
+                  <img src={sms} alt="" />
+                  <p> Паспорт отправлен нотариусу </p>
+                  <img src={check} alt="" />
+                </div>
+                </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display:
+                      (userDoc?.photo_translate == null && "none") || "flex",
+                  }}
+                >
+                  <button
+                    name="photo_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz"
+                    style={{
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="photo_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                    style={{
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Потвердить перевод
+                  </button>
+                </div>
+              )}
+              {/* end diplom */}
+              {/*  guvohnoma */}
+              {userDoc?.birth_cert_confirmed == "original_confirmed"|| file?.birth_cert_confirmed=='notary_translated'||file?.birth_cert_confirmed=='need_to_translate' ? (
+               <> <div
                   className="form_doc"
                   style={{
                     display:
-                      (userDoc?.passport_mother == null && "none") || "flex",
+                      (userDoc?.birth_cert_confirmed == "original_confirmed"|| file?.birth_cert_confirmed=='notary_translated' && "flex") ||
+                      "none",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> Паспорт матери </p>
-                  <img src={down_doc} alt="" />
-                </a>
-                <a
-                  href={
-                    (`${userDoc?.marriage_cert_confirmed}` ==
-                      `original_confirmed` &&
-                      `${userDoc?.marriage_cert}`) ||
-                    `${userDoc?.marriage_cert_translate}`
-                  }
-                  target="_blank"
+                  <img src={pdf} alt="" /> <p> Свидет. о рождении </p>
+                  <img src={check} alt="" />
+                </div>
+                <div
+                  className="form_doc"
+                  style={{
+                    display: (file?.birth_cert_confirmed=='need_to_translate' && "flex") || "none",
+                  }}
+                >
+                  <img src={sms} alt="" />
+                  <p> Свидет. о рождении отправлен нотариусу </p>
+                  <img src={check} alt="" />
+                </div>
+                </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display:
+                      (userDoc?.birth_cert_translate == null && "none") ||
+                      "flex",
+                  }}
+                >
+                  <button
+                    name="birth_cert_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz"
+                    style={{
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="birth_cert_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                    style={{
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Потвердить оригинал
+                  </button>
+                </div>
+              )}
+              {/* end guvohnoma */}
+              {/* passport_mother_confirmed */}
+              {userDoc?.passport_mother_confirmed == "original_confirmed" || file?.passport_mother_confirmed=='notary_translated'||file?.passport_mother_confirmed=='need_to_translate' ? (
+              <>  <div
                   className="form_doc"
                   style={{
                     display:
-                      (userDoc?.marriage_cert == null && "none") || "flex",
+                      (userDoc?.passport_mother_confirmed == "original_confirmed" || file?.passport_mother_confirmed=='notary_translated' && "flex") ||
+                      "none",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> Свид. о браке </p>
-                  <img src={down_doc} alt="" />
-                </a>
+                  <img src={pdf} alt="" /> <p> Паспорт матери </p>
+                  <img src={check} alt="" />
+                </div>
+                <div
+                  className="form_doc"
+                  style={{
+                    display: (file?.passport_mother_confirmed=='need_to_translate' && "flex") || "none",
+                  }}
+                >
+                  <img src={sms} alt="" />
+                  <p> Паспорт матери отправлен нотариусу </p>
+                  <img src={check} alt="" />
+                </div>
+                </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display:
+                      (userDoc?.passport_mother_translate == null && "none") ||
+                      "flex",
+                  }}
+                >
+                  <button
+                    name="passport_mother_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz"
+                    style={{
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="passport_mother_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                    style={{
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Потвердить оригинал
+                  </button>
+                </div>
+              )}
+              {/* end passport_mother_confirmed */}
 
-                <a
-                  href={
-                    (`${userDoc?.med_063_cert_confirmed}` ==
-                      `original_confirmed` &&
-                      `${userDoc?.med_063_cert}`) ||
-                    `${userDoc?.med_063_cert_translate}`
-                  }
-                  target="_blank"
+              {userDoc?.marriage_cert_confirmed == "original_confirmed" || file?.marriage_cert_confirmed=='notary_translated'||file?.marriage_cert_confirmed=='need_to_translate' ? (
+              <>  <div
                   className="form_doc"
                   style={{
                     display:
-                      (userDoc?.med_063_cert == null && "none") || "flex",
+                      (userDoc?.marriage_cert_confirmed == "original_confirmed" || file?.marriage_cert_confirmed=='notary_translated' && "flex") ||
+                      "none",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> 063 мед. справка </p>
-                  <img src={down_doc} alt="" />
-                </a>
-                <a
-                  href={
-                    (`${userDoc?.med_086_cert_confirmed}` ==
-                      `original_confirmed` &&
-                      `${userDoc?.med_086_cert}`) ||
-                    `${userDoc?.med_086_cert_translate}`
-                  }
-                  target="_blank"
+                  <img src={pdf} alt="" /> <p> Свид. о браке </p>
+                  <img src={check} alt="" />
+                </div>   <div
+                  className="form_doc"
+                  style={{
+                    display: (file?.marriage_cert_confirmed=='need_to_translate' && "flex") || "none",
+                  }}
+                >
+                  <img src={sms} alt="" />
+                  <p> Паспорт матери отправлен нотариусу </p>
+                  <img src={check} alt="" />
+                </div>
+                </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display:
+                      (userDoc?.marriage_cert_translate == null && "none") ||
+                      "flex",
+                  }}
+                >
+                  <button
+                    name="marriage_cert_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz"
+                    style={{
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="marriage_cert_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                    style={{
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Потвердить оригинал
+                  </button>
+                </div>
+              )}
+
+              {userDoc?.med_063_cert_confirmed == "original_confirmed" || file?.med_063_cert_confirmed=='notary_translated'||file?.med_063_cert_confirmed=='need_to_translate' ? (
+              <>  <div
                   className="form_doc"
                   style={{
                     display:
-                      (userDoc?.med_086_cert == null && "none") || "flex",
+                      (userDoc?.med_063_cert_confirmed == "original_confirmed" || file?.med_063_cert_confirmed=='notary_translated' && "flex") ||
+                      "none",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> 086 мед. справка </p>
-                  <img src={down_doc} alt="" />
-                </a>
-                <a
-                  href={
-                    (`${userDoc?.hiv_cert_confirmed}` == `original_confirmed` &&
-                      `${userDoc?.hiv_cert}`) ||
-                    `${userDoc?.hiv_certt_translate}`
-                  }
-                  target="_blank"
+                  <img src={pdf} alt="" /> <p>063 мед. справка </p>
+                  <img src={check} alt="" />
+                </div>
+                 <div
+                 className="form_doc"
+                 style={{
+                   display: (file?.med_063_cert_confirmed=='need_to_translate' && "flex") || "none",
+                 }}
+               >
+                 <img src={sms} alt="" />
+                 <p> Паспорт матери отправлен нотариусу </p>
+                 <img src={check} alt="" />
+               </div>
+               </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display:
+                      (userDoc?.med_063_cert_translate == null && "none") ||
+                      "flex",
+                  }}
+                >
+                  <button
+                    name="med_063_cert_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz"
+                    style={{
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="med_063_cert_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                    style={{
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    Потвердить оригинал
+                  </button>
+                </div>
+              )}
+              {userDoc?.med_086_cert_confirmed== "original_confirmed"  || file?.med_086_cert_confirmed=='notary_translated'||file?.med_086_cert_confirmed=='need_to_translate' ? (
+                <><div
                   className="form_doc"
                   style={{
-                    display: (userDoc?.hiv_cert == null && "none") || "flex",
+                    display:
+                      (userDoc?.med_086_cert_confirmed== "original_confirmed"  || file?.med_086_cert_confirmed=='notary_translated' && "flex") ||
+                      "none",
                   }}
                 >
-                  <img src={pdf} alt="" />
-                  <p> Справка о ВИЧ </p>
-                  <img src={down_doc} alt="" />
-                </a>
-              </div>
-              <div className="doc_1">
-                <h1>Перевод документов:</h1>
-                {/*passport */}
-                {userDoc?.passport_confirmed == "original_confirmed" ||
-                userDoc?.passport_confirmed == "notary_translated" ||
-                file?.passport_confirmed == "notary_translated" ||
-                file?.passport_confirmed == "need_to_translate" ? (
-                  <>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.passport_confirmed == "original_confirmed" ||
-                          userDoc?.passport_confirmed == "notary_translated" ||
-                          (file?.passport_confirmed == "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p> Паспорт </p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.passport_confirmed == "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Паспорт отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className={`form_doc_btn`}
+                  <img src={pdf} alt="" /> <p> 086 мед. справка </p>
+                  <img src={check} alt="" />
+                </div>
+                     <div
+                     className="form_doc"
+                     style={{
+                       display: (file?.med_086_cert_confirmed=='need_to_translate' && "flex") || "none",
+                     }}
+                   >
+                     <img src={sms} alt="" />
+                     <p> Паспорт матери отправлен нотариусу </p>
+                     <img src={check} alt="" />
+                   </div>
+                   </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display:
+                      (userDoc?.med_086_cert_translate == null && "none") ||
+                      "flex",
+                  }}
+                >
+                  <button
+                    name="med_086_cert_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz btn btn-outline-danger"
                     style={{
-                      display: (userDoc?.passport == null && "none") || "flex",
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
                     }}
                   >
-                    <button
-                      name="passport_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className={`white-btn`}
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      className={`green-btn`}
-                      name="passport_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                    >
-                      Потвердить перевод
-                    </button>
-                  </div>
-                )}
-                {/* end passport */}
-
-                {/* diplom */}
-                {userDoc?.diploma_confirmed == "original_confirmed" ||
-                file?.diploma_confirmed == "notary_translated" ||
-                file?.diploma_confirmed == "need_to_translate" ? (
-                  <>
-                    {" "}
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.diploma_confirmed == "original_confirmed" ||
-                          (file?.diploma_confirmed == "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p> Диплом/Аттестат </p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.diploma_confirmed == "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Паспорт отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="med_086_cert_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
+                    className="btn btn-success "
                     style={{
-                      display:
-                        (userDoc?.diploma_translate == null && "none") ||
-                        "flex",
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
                     }}
                   >
-                    <button
-                      name="diploma_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="diploma_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить перевод
-                    </button>
-                  </div>
-                )}
-
-                {userDoc?.photo_confirmed == "original_confirmed" ||
-                file?.photo_confirmed == "notary_translated" ||
-                file?.photo_confirmed == "need_to_translate" ? (
-                  <>
-                    {" "}
-                    <div
+                    Потвердить оригинал
+                  </button>
+                </div>
+              )}
+              {userDoc?.hiv_cert_confirmed == "original_confirmed" || file?.hiv_cert_confirmed=='notary_translated'||file?.hiv_cert_confirmed=='need_to_translate' ? (
+               <> <div
+                  className="form_doc"
+                  style={{
+                    display:
+                      (userDoc?.hiv_cert_confirmed == "original_confirmed" || file?.hiv_cert_confirmed=='notary_translated' && "flex") || "none",
+                  }}
+                >
+                  <img src={pdf} alt="" /> <p>Справка о ВИЧ </p>
+                  <img src={check} alt="" />
+                </div>
+                      <div
                       className="form_doc"
                       style={{
-                        display:
-                          userDoc?.photo_confirmed == "original_confirmed" ||
-                          (file?.photo_confirmed == "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p> 3х4 фото 8шт.</p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.photo_confirmed == "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Паспорт отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
-                    style={{
-                      display:
-                        (userDoc?.photo_translate == null && "none") || "flex",
-                    }}
-                  >
-                    <button
-                      name="photo_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="photo_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить перевод
-                    </button>
-                  </div>
-                )}
-                {/* end diplom */}
-                {/*  guvohnoma */}
-                {userDoc?.birth_cert_confirmed == "original_confirmed" ||
-                file?.birth_cert_confirmed == "notary_translated" ||
-                file?.birth_cert_confirmed == "need_to_translate" ? (
-                  <>
-                    {" "}
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.birth_cert_confirmed ==
-                            "original_confirmed" ||
-                          (file?.birth_cert_confirmed == "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p> Свидет. о рождении </p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.birth_cert_confirmed == "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Свидет. о рождении отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
-                    style={{
-                      display:
-                        (userDoc?.birth_cert_translate == null && "none") ||
-                        "flex",
-                    }}
-                  >
-                    <button
-                      name="birth_cert_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="birth_cert_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить оригинал
-                    </button>
-                  </div>
-                )}
-                {/* end guvohnoma */}
-                {/* passport_mother_confirmed */}
-                {userDoc?.passport_mother_confirmed == "original_confirmed" ||
-                file?.passport_mother_confirmed == "notary_translated" ||
-                file?.passport_mother_confirmed == "need_to_translate" ? (
-                  <>
-                    {" "}
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.passport_mother_confirmed ==
-                            "original_confirmed" ||
-                          (file?.passport_mother_confirmed ==
-                            "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p> Паспорт матери </p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.passport_mother_confirmed ==
-                            "need_to_translate" &&
-                            "flex") ||
-                          "none",
+                        display: (file?.hiv_cert_confirmed=='need_to_translate' && "flex") || "none",
                       }}
                     >
                       <img src={sms} alt="" />
                       <p> Паспорт матери отправлен нотариусу </p>
                       <img src={check} alt="" />
                     </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
+                    </>
+              ) : (
+                <div
+                  className="form_doc form_doc_btn"
+                  style={{
+                    display:
+                      (userDoc?.hiv_cert_translate == null && "none") || "flex",
+                  }}
+                >
+                  <button
+                    name="hiv_cert_confirmed"
+                    onClick={(e) => handdleorNotarylFile(e)}
+                    className="m_otkaz"
                     style={{
-                      display:
-                        (userDoc?.passport_mother_translate == null &&
-                          "none") ||
-                        "flex",
+                      color: "red",
+                      backgroundColor: "#FDF2F2",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
                     }}
                   >
-                    <button
-                      name="passport_mother_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="passport_mother_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить оригинал
-                    </button>
-                  </div>
-                )}
-                {/* end passport_mother_confirmed */}
-
-                {userDoc?.marriage_cert_confirmed == "original_confirmed" ||
-                file?.marriage_cert_confirmed == "notary_translated" ||
-                file?.marriage_cert_confirmed == "need_to_translate" ? (
-                  <>
-                    {" "}
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.marriage_cert_confirmed ==
-                            "original_confirmed" ||
-                          (file?.marriage_cert_confirmed ==
-                            "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p> Свид. о браке </p>
-                      <img src={check} alt="" />
-                    </div>{" "}
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.marriage_cert_confirmed ==
-                            "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Паспорт матери отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
+                    Отказать перевод
+                  </button>
+                  <button
+                    name="hiv_cert_confirmed"
+                    onClick={(e) => handdleorOrginalFile(e)}
                     style={{
-                      display:
-                        (userDoc?.marriage_cert_translate == null && "none") ||
-                        "flex",
+                      backgroundColor: "#5EC98B",
+                      color: "white",
+                      padding: "8px",
+                      border: "none",
+                      outline: "none",
                     }}
                   >
-                    <button
-                      name="marriage_cert_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="marriage_cert_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить оригинал
-                    </button>
-                  </div>
-                )}
-
-                {userDoc?.med_063_cert_confirmed == "original_confirmed" ||
-                file?.med_063_cert_confirmed == "notary_translated" ||
-                file?.med_063_cert_confirmed == "need_to_translate" ? (
-                  <>
-                    {" "}
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.med_063_cert_confirmed ==
-                            "original_confirmed" ||
-                          (file?.med_063_cert_confirmed ==
-                            "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p>063 мед. справка </p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.med_063_cert_confirmed ==
-                            "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Паспорт матери отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
-                    style={{
-                      display:
-                        (userDoc?.med_063_cert_translate == null && "none") ||
-                        "flex",
-                    }}
-                  >
-                    <button
-                      name="med_063_cert_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="med_063_cert_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить оригинал
-                    </button>
-                  </div>
-                )}
-                {userDoc?.med_086_cert_confirmed == "original_confirmed" ||
-                file?.med_086_cert_confirmed == "notary_translated" ||
-                file?.med_086_cert_confirmed == "need_to_translate" ? (
-                  <>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.med_086_cert_confirmed ==
-                            "original_confirmed" ||
-                          (file?.med_086_cert_confirmed ==
-                            "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p> 086 мед. справка </p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.med_086_cert_confirmed ==
-                            "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Паспорт матери отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
-                    style={{
-                      display:
-                        (userDoc?.med_086_cert_translate == null && "none") ||
-                        "flex",
-                    }}
-                  >
-                    <button
-                      name="med_086_cert_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz btn btn-outline-danger"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="med_086_cert_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      className="btn btn-success "
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить оригинал
-                    </button>
-                  </div>
-                )}
-                {userDoc?.hiv_cert_confirmed == "original_confirmed" ||
-                file?.hiv_cert_confirmed == "notary_translated" ||
-                file?.hiv_cert_confirmed == "need_to_translate" ? (
-                  <>
-                    {" "}
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          userDoc?.hiv_cert_confirmed == "original_confirmed" ||
-                          (file?.hiv_cert_confirmed == "notary_translated" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={pdf} alt="" /> <p>Справка о ВИЧ </p>
-                      <img src={check} alt="" />
-                    </div>
-                    <div
-                      className="form_doc"
-                      style={{
-                        display:
-                          (file?.hiv_cert_confirmed == "need_to_translate" &&
-                            "flex") ||
-                          "none",
-                      }}
-                    >
-                      <img src={sms} alt="" />
-                      <p> Паспорт матери отправлен нотариусу </p>
-                      <img src={check} alt="" />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className="form_doc form_doc_btn"
-                    style={{
-                      display:
-                        (userDoc?.hiv_cert_translate == null && "none") ||
-                        "flex",
-                    }}
-                  >
-                    <button
-                      name="hiv_cert_confirmed"
-                      onClick={(e) => handdleorNotarylFile(e)}
-                      className="m_otkaz"
-                      style={{
-                        color: "red",
-                        backgroundColor: "#FDF2F2",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Отказать перевод
-                    </button>
-                    <button
-                      name="hiv_cert_confirmed"
-                      onClick={(e) => handdleorOrginalFile(e)}
-                      style={{
-                        backgroundColor: "#5EC98B",
-                        color: "white",
-                        padding: "8px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      Потвердить оригинал
-                    </button>
-                  </div>
-                )}
-              </div>
+                    Потвердить оригинал
+                  </button>
+                </div>
+              )}
             </div>
-          )}
+          </div>)}
 
           {whereGoFile ? (
             <div className="doc_btn">
