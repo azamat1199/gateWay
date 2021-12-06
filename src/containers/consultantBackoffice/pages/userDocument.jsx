@@ -1,50 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import { useDispatch, useSelector } from "react-redux";
 // import img
 
-import search_icon from '../../../assets/icon/search.svg';
-import settings from '../../../assets/icon/settings.svg';
-import close_modal from '../../../assets/icon/close_modal.svg';
-import folder_icon from '../../../assets/icon/folder_icon.svg';
-import pencil from '../../../assets/icon/pencil.svg';
-import doc from '../../../assets/icon/doc.svg';
-import delet from '../../../assets/icon/delet1.svg';
-import arrow1 from '../../../assets/icon/arrow1.svg';
-import exel from '../../../assets/icon/excel.svg';
-import pdf from '../../../assets/icon/pdf.svg';
-import download from '../../../assets/icon/download.svg';
-import check from '../../../assets/icon/check.svg';
+import search_icon from "../../../assets/icon/search.svg";
+import settings from "../../../assets/icon/settings.svg";
+import close_modal from "../../../assets/icon/close_modal.svg";
+import folder_icon from "../../../assets/icon/folder_icon.svg";
+import pencil from "../../../assets/icon/pencil.svg";
+import doc from "../../../assets/icon/doc.svg";
+import delet from "../../../assets/icon/delet1.svg";
+import arrow1 from "../../../assets/icon/arrow1.svg";
+import exel from "../../../assets/icon/excel.svg";
+import pdf from "../../../assets/icon/pdf.svg";
+import download from "../../../assets/icon/download.svg";
+import check from "../../../assets/icon/check.svg";
 // import css
-import '../../../style/css/SidebarUniverstitet.css';
-import '../../../style/css/fakultet.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import Sidebar from './SidebarConsult';
-import Axios from '../../../utils/axios';
-import Item from 'antd/lib/list/Item';
-import Swal from 'sweetalert2';
-import { useHistory } from 'react-router';
-import { SET_DOC } from '../../../store/actionTypes';
-import { dispatch } from '../../../store';
-import { Pagination } from '@material-ui/lab';
+import "../../../style/css/SidebarUniverstitet.css";
+import "../../../style/css/fakultet.css";
+import "react-datepicker/dist/react-datepicker.css";
+import Sidebar from "./SidebarConsult";
+import Axios from "../../../utils/axios";
+import Item from "antd/lib/list/Item";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router";
+import { SET_DOC } from "../../../store/actionTypes";
+import { dispatch } from "../../../store";
+import { Pagination } from "@material-ui/lab";
 const Document = () => {
   const history = useHistory();
   const [students, setStudents] = useState([]);
   const [studentGetById, setStudentGetById] = useState({});
   const [studentPostById, setStudentPostById] = useState({});
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [universtitetName, setUniverstitetName] = useState('');
-  const [nameFaculties, setNameFaculties] = useState('');
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const [file, setFile] = useState('');
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [universtitetName, setUniverstitetName] = useState("");
+  const [nameFaculties, setNameFaculties] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [file, setFile] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   // modal
@@ -107,15 +107,15 @@ const Document = () => {
               </div>
 
               <div className="col-5 mt-4">
-                {' '}
+                {" "}
                 <div className="fw-bold fs-3">Оригинал документов:</div>
               </div>
               <div className="col-5 mt-4">
                 <div
                   className="w-100 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
+                  style={{ backgroundColor: "#EAF5FA" }}
                 >
-                  {' '}
+                  {" "}
                   <img src={pdf} alt="" />
                   Паспорт
                   <img src={download} alt="" />
@@ -134,9 +134,9 @@ const Document = () => {
               <div className="col-5 mt-4">
                 <div
                   className="w-100 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
+                  style={{ backgroundColor: "#EAF5FA" }}
                 >
-                  {' '}
+                  {" "}
                   <img src={pdf} alt="" />
                   Паспорт
                   <img src={download} alt="" />
@@ -155,9 +155,9 @@ const Document = () => {
               <div className="col-5 mt-4">
                 <div
                   className="w-100 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
+                  style={{ backgroundColor: "#EAF5FA" }}
                 >
-                  {' '}
+                  {" "}
                   <img src={pdf} alt="" />
                   Паспорт
                   <img src={download} alt="" />
@@ -176,9 +176,9 @@ const Document = () => {
               <div className="col-5 mt-4">
                 <div
                   className="w-100 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
+                  style={{ backgroundColor: "#EAF5FA" }}
                 >
-                  {' '}
+                  {" "}
                   <img src={pdf} alt="" />
                   Паспорт
                   <img src={download} alt="" />
@@ -197,9 +197,9 @@ const Document = () => {
               <div className="col-5 mt-4">
                 <div
                   className="w-100 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
+                  style={{ backgroundColor: "#EAF5FA" }}
                 >
-                  {' '}
+                  {" "}
                   <img src={pdf} alt="" />
                   Паспорт
                   <img src={download} alt="" />
@@ -218,9 +218,9 @@ const Document = () => {
               <div className="col-5 mt-4">
                 <div
                   className="w-100 fw-bold fs-5  rounded d-flex justify-content-between  p-3"
-                  style={{ backgroundColor: '#EAF5FA' }}
+                  style={{ backgroundColor: "#EAF5FA" }}
                 >
-                  {' '}
+                  {" "}
                   <img src={pdf} alt="" />
                   Паспорт
                   <img src={download} alt="" />

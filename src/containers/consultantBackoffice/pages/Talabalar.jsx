@@ -1,62 +1,144 @@
-import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import Loader from "react-js-loader";
+
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import { useSelector } from "react-redux";
+import userpic from "../../../assets/icon/userpic.svg";
 // import img
-import search_icon from '../../../assets/icon/search.svg';
-import settings from '../../../assets/icon/settings.svg';
-import close_modal from '../../../assets/icon/close_modal.svg';
-import folder_icon from '../../../assets/icon/folder_icon.svg';
-import pencil from '../../../assets/icon/pencil.svg';
-import doc from '../../../assets/icon/doc.svg';
-import delet from '../../../assets/icon/delet1.svg';
-import arrow1 from '../../../assets/icon/arrow1.svg';
+import search_icon from "../../../assets/icon/search.svg";
+import filterSvg from "../../../assets/icon/Filter.svg";
+import close_modal from "../../../assets/icon/close_modal.svg";
+import folder_icon from "../../../assets/icon/folder_icon.svg";
+import pencil from "../../../assets/icon/pencil.svg";
+import doc from "../../../assets/icon/doc.svg";
+import delet from "../../../assets/icon/delet1.svg";
+import arrow1 from "../../../assets/icon/arrow1.svg";
+import closeFilter from "../../../assets/icon/close.svg";
 // import css
-import '../../../style/css/SidebarUniverstitet.css';
-import '../../../style/css/fakultet.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import Sidebar from './SidebarConsult';
-import Axios from '../../../utils/axios';
-import Item from 'antd/lib/list/Item';
-import Swal from 'sweetalert2';
-import { useHistory } from 'react-router';
-import { SET_DOC } from '../../../store/actionTypes';
-import { dispatch } from '../../../store';
-import { Pagination } from '@material-ui/lab';
+import styled from "styled-components";
+import "../../../style/css/SidebarUniverstitet.css";
+import "../../../style/css/fakultet.css";
+import "react-datepicker/dist/react-datepicker.css";
+import Sidebar from "./SidebarConsult";
+import Axios from "../../../utils/axios";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router";
+import { SET_DOC } from "../../../store/actionTypes";
+import { dispatch } from "../../../store";
+import { Pagination } from "@material-ui/lab";
+import { signUpAction } from "../../../store/actions/authActions";
 const Talabalar = () => {
+  const selector = useSelector((state) => state.payload.payload.data);
   const [students, setStudents] = useState([]);
   const [studentGetById, setStudentGetById] = useState({});
   const [studentPostById, setStudentPostById] = useState({});
+  const [chek, setChek] = useState(false);
+  const [univerData, setUniverData] = useState();
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [universtitetName, setUniverstitetName] = useState('');
-  const [nameFaculties, setNameFaculties] = useState('');
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const [file, setFile] = useState('');
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [passport_number, setPassport_number] = useState("");
+  const [ref, setRef] = useState("");
+  const [phone, setPhone] = useState("");
+  const [universtitetName, setUniverstitetName] = useState("");
+  const [nameFaculties, setNameFaculties] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [select, setSelect] = useState([]);
+  const [radio, setRadio] = useState(false);
+  const [univer, setUniver] = useState([]);
+  const [file, setFile] = useState("");
   const [startDate, setStartDate] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const [endDate, setEndDate] = useState(null);
+  const [data, setData] = useState(null);
+  const [country, setContry] = useState();
+  const [facultetId, setFacultetId] = useState();
+  const [univerId, setUniverId] = useState();
+  const [faculty, setFaculty] = useState([]);
+  const [type_education, setTypeEducation] = useState();
+  const [founding_year, setFoundingYear] = useState();
+  const [searchName,setSearchName] = useState("");
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setData((state) => ({ ...state, [name]: value }));
+  };
+  const handleRadio = (e) => {
+    const { name, value } = e.target;
+    setRadio({ [name]: value });
+  };
   // modal
   const [open_change, setOpen_change] = React.useState(false);
   const [fixEnd, setFix] = useState(false);
   const history = useHistory();
+  const year = founding_year?.getFullYear();
+  const month = founding_year?.getMonth();
+  const day = founding_year?.getDate();
+  const date = year + "-" + month + "-" + day;
+
+  const formData = new FormData();
+  formData.append("first_name", data?.first_name);
+  formData.append("middle_name", data?.middle_name);
+  formData.append("last_name", data?.last_name);
+  formData.append("phone_number", data?.phone_number);
+  formData.append("birthday", date);
+  formData.append("passport_number", data?.passport_number);
+  formData.append("citizenship", data?.country);
+  formData.append("city", data?.country);
+  formData.append("address", "65465465446");
+  formData.append("ref_code", data?.ref);
+  formData.append("agree_with_agreement", chek);
+  formData.append("password_1", data?.password_1);
+  formData.append("password_2", data?.password_1);
+
   const fethcStudents = async () => {
     try {
-      const res = await Axios.get('enroll/enroll-user/');
-      console.log(res);
+      const res = await Axios.get(`/applicant/list/`);
       const { status, data } = res;
       const { results } = data;
       if (status === 200) {
         setStudents(results);
       }
-    } catch (error) {
-      console.log(error.response);
-    }
+    } catch (error) {}
   };
+  const handleSelect = (e) => {
+    const { name, value } = e.target;
+    setSelect((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const getUniverId = async () => {
+    try {
+      const res = await Axios.get("/university/");
+      const { status, data } = res;
+      const { results } = data;
+      if (status === 200) {
+        setUniver(results);
+      }
+    } catch (error) {}
+  };
+
+  const fetchFaculty = async () => {
+    try {
+      const res = await Axios.get(`/university/${univerId}`);
+      const { status, data } = res;
+      if (status === 200) {
+        const { faculties } = data;
+        setFaculty(faculties);
+      }
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getUniverId();
+  }, []);
+  useEffect(() => {
+    fetchFaculty();
+  }, [univerId]);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -69,221 +151,196 @@ const Talabalar = () => {
   const handleClose_change = () => {
     setOpen_change(false);
   };
-  useEffect(() => {
-    fethcStudents();
-  }, []);
-  const edit = async (id) => {
-    handleOpen_change();
-    try {
-      const res = await Axios.get(`enroll/enroll-user/${id}`);
-      setStudentGetById(res.data);
-      const { first_name, last_name, middle_name, phone_number } = res.data;
-      setName(first_name);
-      setLastName(last_name);
-      setMiddleName(middle_name);
-      setPhone(phone_number);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(id);
-  };
-  const setEdit = async (e, id) => {
-    e.preventDefault();
-    try {
-      const res = await Axios.patch(`enroll/enroll-user/${id}`, {
-        first_name: name,
-        last_name: lastName,
-        middle_name: middleName,
-        phone_number: parseInt(phone),
-        email: null,
-        city: null,
-        password_1: password,
-        password_2: password,
-        registration_ref: null,
-      });
-      Swal.fire({
-        icon: 'success',
-        text: 'Успешно зарегистрирован',
-        showCancelButton: false,
-      });
-    } catch (error) {
-      if (error.status == 500)
-        Swal.fire({
-          icon: 'error',
-          text: 'Server Errror',
-          showCancelButton: true,
-        });
-    }
-    fethcStudents();
-    handleClose_change();
-  };
-  const setStudent = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await Axios.post('enroll/enroll-user/', {
-        first_name: name,
-        last_name: lastName,
-        middle_name: middleName,
-        phone_number: parseInt(phone),
-        email: null,
-        city: null,
-        password_1: password,
-        password_2: password,
-        registration_ref: null,
-      });
 
-      Swal.fire({
-        icon: 'success',
-        text: 'Успешно зарегистрирован',
-        showCancelButton: false,
-      });
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        text: 'На этот номер все готовы зарегистрироваться, выберите другой или войдите',
-        showCancelButton: true,
-      });
-      console.log(error);
-    }
-    handleClose();
-    fethcStudents();
-  };
-  const setDoc = async (id) => {
+  const setDataFilter = async () => {
+    setLoading(true);
     try {
-      const res = await Axios.get(`enroll/enroll-user/${id}`);
-      setStudentGetById(res.data);
-      const { first_name, last_name, middle_name, phone_number } = res.data;
-      console.log(res.data);
-      const userData = {
-        id: id,
-      };
-      localStorage.setItem('data', JSON.stringify(userData));
-      console.log(res);
+      const res = await Axios.get(
+        `/applicant/list/?has_univer=${
+          radio.has_univer
+        }&date-from=${startDate.toLocaleDateString()}&date-to=${endDate.toLocaleDateString()}&university=${univerId}&faculty=${facultetId}&education_type=${type_education}`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status === 200) {
+        setStudents(results);
+      }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
-    // console.log(id);
-    const action = { type: SET_DOC, payload: { id: id } };
-    dispatch(action);
-    history.push('/requisition');
+    setFix(false);
   };
+  useEffect(() => {
+    console.log(searchName)
+    setDataFilter()},[searchName])
+    useEffect(() => {
+      fethcStudents();
+    }, [])
+ 
   // modal
   return (
-    <Sidebar>
-      <div className="asos">
-        <div className="Up_navbar">
-          <h4>Студенты</h4>
-          <div>
-            <img src="https://picsum.photos/70" alt="" />
-            <div>
-              <h5>Nargiza Akhmedova</h5>
-              <p>IT Specialist</p>
+    <div className="consultTaalabalar">
+      <Sidebar>
+        <div className="asos">
+          <div className="Up_navbar">
+            <h4>Студенты</h4>
+            <div className="user_info">
+              <img src={userpic} alt="" />
+              <div>
+                <p>
+                  {selector?.first_name} {selector?.last_name}
+                </p>
+                <h5>
+                  {(selector?.role == "branch_director" &&
+                    "директор филиала") ||
+                    selector?.role}
+                </h5>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="SidebarUniverstitet">
-          <button onClick={handleOpen}>Добавить студента</button>
-          <div className="settSearch">
-            <div className="searchUniv">
-              <img src={search_icon} alt="" />
-              <input type="text" placeholder="Поиск Студенты" />
+          <div className="SidebarUniverstitet">
+            <button onClick={handleOpen}>Добавить студента</button>
+            <div className="settSearch">
+              <div className="searchUniv">
+                <img src={search_icon} alt="" />
+                <input type="text" onChange={(e)=>setSearchName(e.target.value)} placeholder="Поиск Студенты" />
+              </div>
+              <button
+                onClick={() => {
+                  setFix(!fixEnd);
+                }}
+                className="settingsUniver"
+              >
+                <img src={filterSvg} alt="" />
+              </button>
             </div>
-            <button
-              onClick={() => {
-                setFix(!fixEnd);
-              }}
-              className="settingsUniver"
+            {/* end settSearch */}
+            <div className="univerList talabalar" id="scroll_bar">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="px-3">N</th>
+                    <th>ФИО</th>
+                    <th>Факультет</th>
+                    <th>Университет</th>
+                    <th>Номер телефона</th>
+                    <th>Номер контракта</th>
+                    <th>Дата контракта</th>
+                    <th>Оплата за услуги</th>
+                    {(selector.role == "branch_director" && <span></span>) || (
+                      <th>Филиал</th>
+                    )}
+                    <th>Реферал</th>
+                    <th>Менеджер</th>
+                    <th>Менеджер телефона</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <Loader
+                      type="spinner-circle"
+                      bgColor={"#FFFFFF"}
+                      color={"#FFFFFF"}
+                      size={80}
+                    />
+                  ) : (
+                    students?.map((item, i) => {
+                      const {
+                        id,
+                        first_name,
+                        last_name,
+                        phone_number,
+                        documents_filled,
+                        university,
+                        faculty,
+                        university_date,
+                        flial,
+                        manager,
+                      } = item;
+
+                      return (
+                        <tr key={id}>
+                          <td className="px-3">{i + 1}</td>
+                          <td className="firstTD">
+                            {first_name} - {last_name}
+                          </td>
+                          <td>{faculty}</td>
+                          <td>{university}</td>
+                          <td>{phone_number}</td>
+                          <td>2021/1637</td>
+                          <td>{university_date?.slice(0, 10)} </td>
+                          <td>{"sorash kerak"}</td>
+                          <td>
+                            {" "}
+                            {(selector.role == "branch_director" && (
+                              <span></span>
+                            )) ||
+                              flial}
+                          </td>
+                          <td>1895</td>
+
+                          <td>
+                            {manager?.first_name} {manager?.last_name}
+                          </td>
+                          <td>{manager?.phone_number}</td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* end univerList */}
+            {/* Filter */}
+            <div
+              className="abitFilBox"
+              style={
+                fixEnd
+                  ? { width: "100%" }
+                  : { width: "0", transition: "0.5s step-end" }
+              }
             >
-              <img src={settings} alt="" />
-            </button>
-          </div>
-          {/* end settSearch */}
-          <div className="univerList talabalar" id="scroll_bar">
-            <table>
-              <thead>
-                <tr>
-                  <th className="px-3">N</th>
-                  <th className="firstTD">ФИО</th>
-                  <th>Факультет</th>
-                  <th>Университет</th>
-                  <th>Номер телефона</th>
-                  <th>Номер контракта</th>
-                  <th>Дата контракта</th>
-                  <th>Оплата за услуги</th>
-                  <th>Филиал</th>
-                  <th>Менеджер</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {students.reverse().map((item, i) => {
-                  const { id, first_name, last_name, phone_number } = item;
-                  return (
-                    <tr key={id}>
-                      <td className="px-3">{i + 1}</td>
-                      <td className="firstTD">
-                        {first_name} - {last_name}
-                      </td>
-                      <td>Business Management</td>
-                      <td>Harvard University</td>
-                      <td>{phone_number}</td>
-                      <td>2021/1637</td>
-                      <td>07/15/2021 </td>
-                      <td>$12,000</td>
-                      <td>Ташкент</td>
-                      <td>Sabina Sabirova</td>
-                      <td>
-                        <button onClick={() => edit(id)}>
-                          <img
-                            src={pencil}
-                            alt=""
-                            width="28"
-                            className="me-5"
-                          />
-                        </button>
-                        <button>
-                          <img
-                            src={doc}
-                            alt=""
-                            onClick={() => setDoc(id)}
-                            width="28"
-                            className="ms-5"
-                          />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-              {/* <Stack spacing={2}>
-                <Pagination count={10} color="secondary" />
-              </Stack> */}
-            </table>
-          </div>
-          {/* end univerList */}
-          {/* Filter */}
-          {
-            // fixEnd ?
-            fixEnd === true ? (
-              <div className="FilterFix">
+              <div className="abitFilCl" onClick={() => setFix(!fixEnd)}></div>
+              <div
+                className="FilterFix"
+                style={
+                  fixEnd
+                    ? { transform: "translateX(0)", transition: "0.5s" }
+                    : { transform: "translateX(100%)", transition: "0.5s" }
+                }
+              >
                 <div
                   className="fixLeft"
-                  onClick={() => { 
+                  onClick={() => {
                     setFix(!fixEnd);
                   }}
                 ></div>
                 <div className="FilterUniver">
+                  <button
+                    onClick={() => {
+                      setFix(!fixEnd);
+                    }}
+                    className="ab_2_close"
+                  >
+                    <img src={closeFilter} alt="" />
+                  </button>
                   <h4>Фильтры</h4>
                   <p>Выберите период</p>
                   <div className="datapickBlock">
                     <div>
                       <DatePicker
                         selected={startDate}
+                        onChange={(date) => setStartDate(date)}
                         selectsStart
                         startDate={startDate}
                         endDate={endDate}
+                        minDate={startDate}
                         placeholderText="dan"
                       />
                     </div>
@@ -299,181 +356,234 @@ const Talabalar = () => {
                       />
                     </div>
                   </div>
-                  <p>Выберите страну</p>
-                  <div className="selectCountry">
-                    <select name="" id="">
-                      <option value="">Турция</option>
-                      <option value="">Россия</option>
-                      <option value="">США</option>
-                      <option value="">Узбекистан</option>
-                    </select>
-                  </div>
-                  <p>Выберите город</p>
-                  <div className="selectCountry">
-                    <select name="" id="">
-                      <option value="">Анталия</option>
-                      <option value="">Анкара</option>
-                      <option value="">Истанбул</option>
-                      <option value="">Измир</option>
-                    </select>
-                  </div>
-                  <button>Применить</button>
+                  <FormFilter>
+                    <InputDiv>
+                      <input
+                        value="false"
+                        onChange={handleRadio}
+                        type="radio"
+                        name="has_univer"
+                        id="registered"
+                      />
+                      <label htmlFor="registered">Registered</label>
+                    </InputDiv>
+                    <InputDiv>
+                      <input
+                        value="true"
+                        onChange={handleRadio}
+                        type="radio"
+                        name="has_univer"
+                        id="univer"
+                      />
+                      <label htmlFor="univer">Univer tanlangan</label>
+                    </InputDiv>
+                    <div
+                      style={
+                        radio?.has_univer === "true"
+                          ? { visibility: "visible" }
+                          : { visibility: "hidden" }
+                      }
+                    >
+                      <p>Выберите Университет</p>
+                      <div className="selectCountry">
+                        <select
+                          name="university"
+                          onChange={(e) => setUniverId(e.target.value)}
+                        >
+                          {univer?.map((item) => {
+                            const { id, name } = item;
+                            return <option value={id}>{name}</option>;
+                          })}
+                        </select>
+                      </div>
+                      <p>Выберите факультет</p>
+                      <div className="selectCountry">
+                        <select
+                          name="faculty"
+                          onChange={(e) => setFacultetId(e.target.value)}
+                          id=""
+                        >
+                          {faculty?.map((item) => {
+                            const { id, name } = item;
+                            return <option value={id}>{name}</option>;
+                          })}
+                        </select>
+                      </div>
+                      <div>
+                        <p>Выберите тип образования</p>
+                        <div className="selectCountry">
+                          <select
+                            onChange={(e) => setTypeEducation(e.target.value)}
+                            name="education_type"
+                            id=""
+                          >
+                            <option value="full_time">очное</option>
+                            <option value="distance">дистанционный</option>
+                            <option value="part_time">пол ставка</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </FormFilter>
+                  <button onClick={() => setDataFilter()}>Применить</button>
                 </div>
                 {/* end FilterUniver */}
               </div>
-            ) : null
-          }
-          {/* modal one */}
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className="class1"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={open}>
-              <div
-                className="addNewUniverModalUniver talaba_modal"
-                id="scroll_bar"
-              >
-                <img onClick={handleClose} src={close_modal} alt="" />
-                <div className="modalContainer">
-                  <h5>Добавить нового студента</h5>
-                  <div>
-                    <label>Ваша имя</label>
-                    <input
-                      type="text"
-                      onChange={(e) => {
-                        setName(e.target.value);
-                      }}
-                    />
+            </div>
+            {/* modal one */}
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className="class1"
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open}>
+                <div
+                  className="addNewUniverModalUniver talaba_modal"
+                  id="scroll_bar"
+                >
+                  <img onClick={handleClose} src={close_modal} alt="" />
+                  <div className="modalContainer">
+                    <h5>Добавить нового студента</h5>
+                    <div>
+                      <label>Ваша имя</label>
+                      <input
+                        type="text"
+                        name="first_name"
+                        onChange={(e) => {
+                          handleInputChange(e);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label>Ваша фамилия</label>
+                      <input
+                        type="text"
+                        name="middle_name"
+                        onChange={(e) => {
+                          handleInputChange(e);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label>Отчество</label>
+                      <input
+                        type="text"
+                        name="last_name"
+                        onChange={(e) => {
+                          handleInputChange(e);
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <label>Страна</label>
+                      <select
+                        name="country"
+                        onChange={(e) => handleInputChange(e)}
+                      >
+                        {country?.map((value) => {
+                          const { name, id } = value;
+                          return (
+                            <option key={id} value={id}>
+                              {name}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div>
+                      <label>номер и серия паспорта</label>
+                      <input
+                        type="text"
+                        name="passport_number"
+                        placeholder="AA0000000"
+                        onChange={(e) => {
+                          handleInputChange(e);
+                        }}
+                      />
+                    </div>
+                    <div className="modalDataPick">
+                      <label>день рождения</label>
+                      <DatePicker
+                        selected={founding_year}
+                        onChange={(e) => setFoundingYear(e)}
+                        placeholderText="sana"
+                      />
+                    </div>
+                    <div>
+                      <label>Номер телефона</label>
+                      <input
+                        type="text"
+                        name="phone_number"
+                        onChange={(e) => {
+                          handleInputChange(e);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label>Пароль</label>
+                      <input
+                        type="password"
+                        name="password_1"
+                        onChange={(e) => {
+                          handleInputChange(e);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label>Реф код</label>
+                      <input
+                        type="text"
+                        name="ref"
+                        onChange={(e) => {
+                          handleInputChange(e);
+                        }}
+                      />
+                    </div>
+                    <div className="d-flex flex-row justify-content-between">
+                      <label className="w-100">согласен с соглашением</label>
+                      <input
+                        type="checkbox"
+                        name="agree_with_agreement"
+                        className="d-block"
+                        onChange={() => {
+                          setChek((chek) => !chek);
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label>Ваша фамилия</label>
-                    <input
-                      type="text"
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label>Отчество</label>
-                    <input
-                      type="text"
-                      onChange={(e) => {
-                        setMiddleName(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label>Номер телефона</label>
-                    <input
-                      type="text"
-                      onChange={(e) => {
-                        setPhone(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label>Пароль</label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      setStudent(e);
-                    }}
-                  >
-                    Добавить
-                  </button>
-                  <button onClick={handleClose} className="back_btn">
-                    <img src={arrow1} alt="" /> Вернуться
-                  </button>
                 </div>
-              </div>
-            </Fade>
-          </Modal>
-
-          {/* Modal two */}
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className="class1"
-            open={open_change}
-            onClose={handleClose_change}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={open_change}>
-              <div
-                className="addNewUniverModalUniver talaba_modal"
-                id="scroll_bar"
-              >
-                <img onClick={handleClose_change} src={close_modal} alt="" />
-                <div className="modalContainer">
-                  <h5>Изменить</h5>
-                  <div>
-                    <label>Ваша имя</label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => {
-                        setName(e.target.value);
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label>Ваша фамилия</label>
-                    <input
-                      value={lastName}
-                      type="text"
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label>Отчество</label>
-                    <input
-                      type="text"
-                      value={middleName}
-                      onChange={(e) => {
-                        setMiddleName(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <button onClick={(e) => setEdit(e, studentGetById.id)}>
-                    Добавить
-                  </button>
-                  <button onClick={handleClose_change} className="back_btn">
-                    <img src={arrow1} alt="" /> Вернуться
-                  </button>
-                </div>
-              </div>
-            </Fade>
-          </Modal>
-          {/* end Filter */}
+              </Fade>
+            </Modal>
+            {/* end Filter */}
+          </div>
         </div>
-      </div>
-    </Sidebar>
-    // end SidebarUniverstitet
+      </Sidebar>
+    </div>
   );
 };
 
 export default Talabalar;
+const FormFilter = styled.div``;
+const InputDiv = styled.div`
+  margin: 18px 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  input {
+    height: 18px;
+    width: 18px;
+  }
+  label {
+    margin-left: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+`;
