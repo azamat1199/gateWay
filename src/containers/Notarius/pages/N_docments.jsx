@@ -1,35 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import NotariusSidebar from '../NotariusStudent';
+import React, { useState, useEffect, useCallback } from 'react';
+import NotariusSidebar from '../NotariusSidebar';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import { Link } from 'react-router-dom';
+import TablePagination from '@material-ui/core/TablePagination';
+import { useHistory } from 'react-router';
 import Axios from '../../../utils/axios';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-
-
+import styled from 'styled-components'
+import Loader from 'react-js-loader'
 import userpic from  "../../../assets/icon/userpic.svg"
 import filter from "../../../assets/icon/Filter.svg"
 import search from "../../../assets/icon/Search2.svg"  
 import close from "../../../assets/icon/close.svg"  
-
+import {useSelector} from 'react-redux';
 const N_document = () => {
+    const history = useHistory();
+    const [loading,setLoading] = useState()
     const [filterCountry, setFilterCountry] = useState([]);
-    
     const [universities, setUniversities] = useState([]);
-
+    const [document , setDocument] = useState([]);
     const [filters, setfilters] = useState(false);
-
-	const [key, setkey] = React.useState("");
-
-	function handleChange(event) {
+	const [key, setkey] = useState("");
+    const [radio,setRadio] = useState('')
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] =useState(0);
+    const selector = useSelector((state) => state);
+    const { payload } = selector?.payload;
+    const {  first_name,last_name} = payload?.data;
+	const  handleChange = (event) => {
 		setkey(event.target.value);
     }
 
-    const handelFilter = () =>{
-        setfilters(!filters)
-    }
+    const handelFilter = useCallback(() =>{
+        setfilters( ()=> !filters)
+    },[]) 
     
     const univerCountry = async () => {
         try{
@@ -45,7 +54,7 @@ const N_document = () => {
 
     const fetchUniversities = async () => {
         try {
-          const data = await Axios.get('/university/university/');
+          const data = await Axios.get('/university/');
           const { results } = data.data;
           //console.log(results);
           if (data.status === 200) {
@@ -56,11 +65,85 @@ const N_document = () => {
         }
     };
 
+    const [ users, setUsers] = useState([
+         
+    ])
+    const handlePageChange = (e,newPage)=>{
+        console.log(newPage);
+        setPage(newPage)
+      }
+      const handleChangeRowsPerPage = (event) => {
+        console.log(event.target.value);
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
+    const userList = async () => {
+        setLoading(true)
+        try {
+          const data = await Axios.get('/applicant/list/?status=notary');
+          console.log(data);
+          const { results } = data.data;
+          //console.log(results);
+          if (data.status === 200) {
+            setDocument(results);
+            console.log(document)
+          }
+          setLoading(false)
+        } catch (error) {
+          console.log(error);
+          setLoading(false)
+        }
+    };
+
+    const setFavourite = async (univerId) => {
+        try {
+          const data = await Axios.post(
+            '/enrollee/enrollee-user-favorite-university/',
+            {
+              university: univerId,
+            //   enrollee_user: userId,
+            }
+          );
+          //console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+     const handleFilter =(e)=>{
+
+     }
+     const handleRadio = (e) =>{
+         setRadio(e.target.value)
+     }
+     const fetchRadio = async()=>{
+       handleFilter()
+       setLoading(true)
+         try {
+             const res = await Axios.get(`/applicant/list/?status=${radio}`)
+             const {data,status} = res
+             if(status === 200){
+                 const {results} = data;
+                 setDocument(results)
+             }
+             console.log(res);
+             setLoading(false)
+             setfilters(!filter)
+         } catch (error) {
+             console.log(error);
+             setLoading(false)
+         }
+         
+     }
+    const handler = (userId) => {
+        //console.log(univerId);
+        setFavourite(userId).then(() => history.push(`/university/${userId}`));
+      };
     useEffect(()=>{
         fetchUniversities();
         univerCountry();
+        userList();
       }, [])
-    
+    console.log(document)
     return ( 
         <React.Fragment>
             <NotariusSidebar/>
@@ -72,7 +155,7 @@ const N_document = () => {
                     <div className="user_info">
                         <img src={userpic} alt="" />
                         <div>
-                            <h1>Sevara Ibragimova</h1>
+                            <h1>{first_name} {last_name}</h1>
                             <h2>Нотариус</h2>
                         </div>
                     </div>
@@ -80,7 +163,6 @@ const N_document = () => {
                 <div className="invoys n_documents">
                     <div className="ab_1">
                         <div className="excel table_excel_btn">
-                            
                             <ReactHTMLTableToExcel
                                 id="test-table-xls-button"
                                 className="download-table-xls-button"
@@ -115,82 +197,94 @@ const N_document = () => {
                                     <th>Статус</th>
                                 </thead>
                                 <tbody>
-                                    {/* {data_table.map ((data)=>{
+                                    {loading ? 
+                                      <Loader  type="spinner-circle" bgColor={"#fff"}  color={'black'} size={70} /> :
+                                     document
+                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                     .map((data)=>{
+                                          const {first_name , last_name,manager_sent_notary, middle_name,address,phone_number,id,university,need_to_translate,status, country} = data
+                                        console.log(manager_sent_notary);
                                         if (filters) {
                                             return(
-                                                <tr>
-                                                    <th><Link to=`/n-doc-single${id}`></Link></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
+                                                <tr key={id}>
+                                                    <th>
+                                                        <Link to={`/n-document/:${id}`}>
+                                                            {first_name} {last_name}
+                                                        </Link>
+                                                    </th>
+                                                    <th>{country}</th>
+                                                    <th>{university}</th>
+                                                    <th>{phone_number}</th>
+                                                    <th> {status === "manager_rejected" ? <p style={{color:'orange'}}>перевести еще раз </p>: status === "manager_checking" ? <p> менеджер проверяет </p>: status === 'need_to_translate' ? <p style={{color:'red'}}>нужно перевести </p> : ""}  </th>
                                                 </tr>
                                             )
                                         }
                                         else {
-                                            if (data.first_name.toUpperCase().includes(key.toUpperCase())){
+                                            if (first_name.toUpperCase().includes(key.toUpperCase())){
                                                 return(
                                                     <tr>
-                                                        <th><Link to=`/n-doc-single${id}`></Link></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
+                                                        <th>
+                                                            <Link to={`/n-document/:${id}`}>
+                                                                {first_name} {last_name}
+                                                            </Link>
+                                                        </th>
+                                                        <th>{country}</th>
+                                                        <th>{ university}</th>
+                                                        <th>{phone_number}</th>
+                                                        <th> {status === "manager_rejected" ? <p style={{color:'orange'}}>перевести еще раз </p>: status === "manager_checking" ? <p> менеджер проверяет </p>: status === 'need_to_translate' ? <p style={{color:'red'}}>нужно перевести </p> : ""}  </th>
                                                     </tr>
                                                 )
                                             }
+                                            // if (data.faculty === null){
+                                            //     return(
+                                            //         "sasas"
+                                            //     )
+                                            // }
                                         }
-                                    })} */}
+                                    })}
                                 </tbody>
                             </table>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 15,20,30]}
+                                component="table"
+                                count={document.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handlePageChange}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
                         </div>
                     </div>
-                    <div className="ab_2" id={filters ? "ra0" : "ra100"}>
-                    <button onClick={handelFilter} className="ab_2_close"><img src={close} alt="" /></button>
-                        <h1>Фильтры</h1>
-                        <div className="form_ab">
-                            <select name="" id="">
-                                <option value="">Страна</option>
-                                {filterCountry.map((m) =>{
-                                    return(
-                                        <option value={m.id}>{m.name}</option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-                        <div className="form_ab">
-                            <select name="" id="">
-                                <option value="">Университет</option>
-                                {universities.map((m) =>{
-                                    return(
-                                        <option value={m.id}>{m.name}</option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-                        <div className="form_ab">
-                            <FormControl component="fieldset">
-                                <FormGroup aria-label="position" className="ab_check" row>
-                                    <FormControlLabel
-                                        value="Поступившие"
-                                        control={<Checkbox color="primary" />}
-                                        label="Поступившие"
-                                        labelPlacement="end"
-                                    />
-                                    <FormControlLabel
-                                        value="Непоступившие"
-                                        control={<Checkbox color="primary" />}
-                                        label="Непоступившие"
-                                        labelPlacement="end"
-                                    />
-                                </FormGroup>
-                            </FormControl>
-                        </div>
-                        <div className="form_ab">
-                            <button className="form_button" onClick={handelFilter}>Применить</button>
-                        </div>
+                    {/* // ! coment */}
+                    <div className="NdocKonsult" id={filters ? "raa2" : "raa1"}>
+                        <div className="closeNdocKonsult" onClick={() => setfilters(false)}></div>
+                        {/* <div className="ab_2" id={filters ? "ra0" : "ra100"}> */}
+                        <div className="ab_2">
+                            <button onClick={() => setfilters(false) } className="ab_2_close"><img src={close} alt="" /></button>
+                            <h1>Фильтры</h1>
+                            <Filter>
+                            <RadioGroup
+                                aria-label="gender"
+                                defaultValue="female"
+                                onChange={handleRadio}
+                                name="radio-buttons-group"
+                            >
+                                <FormControlLabel value="all" control={<Radio color="primary" />} label="все" />
+                                <FormControlLabel value="notary" control={<Radio color="primary" />} label="нужно перевести" />
+                                <FormControlLabel value="checking" control={<Radio color="primary" />} label="менеджер проверяет" />
+                                <FormControlLabel value="reject" control={<Radio color="primary" />} label="перевести еще раз" />
+                            </RadioGroup>
 
+                            </Filter>
+                          
+
+                            <div className="form_ab">
+                                <button className="form_button" onClick={fetchRadio}>Применить</button>
+                            </div>
+                        </div>
                     </div>
+                    {/* // ! comment  */}
+
                 </div>
             </div>
         </React.Fragment>
@@ -198,3 +292,7 @@ const N_document = () => {
 }
  
 export default N_document;
+
+const Filter = styled.div`
+ width:100%;
+`
