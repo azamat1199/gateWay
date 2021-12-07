@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 // import css
@@ -7,11 +7,31 @@ import "../../../style/css/dogovor.css";
 import download_icon from "../../../assets/icon/skachat.svg";
 import print_icon from "../../../assets/icon/pechat.svg";
 import StudentSidebar from "./SidebarStudent";
+import Axios from "../../../utils/axios.js";
 
 const Dogovor = () => {
   const selector = useSelector((state) => state);
   const { payload } = selector.payload;
-  const { agreement_docx, agreement_pdf } = payload.data;
+  const { first_name, last_name } = payload.data;
+  const [agreement_pdf, setAggrement] = useState();
+
+  const fetchAgreement = async () => {
+    try {
+      const res = await Axios.get("/applicant/me/");
+      console.log(res);
+      const { data, status } = res;
+      const { agreement_pdf } = data;
+      if (status === 200) {
+        setAggrement(agreement_pdf);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(agreement_pdf);
+  useEffect(() => {
+    fetchAgreement();
+  }, []);
   return (
     <>
       <StudentSidebar />
@@ -21,8 +41,8 @@ const Dogovor = () => {
           <div>
             <img src="https://picsum.photos/70" alt="" />
             <h2>
-              Nargiza Akhmedova
-              <span>IT Specialist</span>
+              {first_name} {last_name}
+              <span>Заявитель</span>
             </h2>
           </div>
         </div>
@@ -31,9 +51,9 @@ const Dogovor = () => {
             <h4>Договор </h4>
             <embed
               src={
-                agreement_pdf.startsWith("h")
+                agreement_pdf?.startsWith("h")
                   ? agreement_pdf
-                  : `http://backend.edugateway.uz/${agreement_pdf}`
+                  : `http://backend.edugateway.uz${agreement_pdf}`
               }
               style={{ width: "100%", height: "80vh" }}
               type=""
@@ -42,16 +62,17 @@ const Dogovor = () => {
           <div className="print">
             <button>
               <img src={download_icon} alt="" />
-              <a href={agreement_pdf} download>
+              <a
+                style={{ color: "#00587f" }}
+                href={
+                  agreement_pdf?.startsWith("h")
+                    ? agreement_pdf
+                    : `http://backend.edugateway.uz${agreement_pdf}`
+                }
+                download
+              >
                 {" "}
                 Скачать PDF
-              </a>
-            </button>
-            <button>
-              <img src={download_icon} alt="" />
-              <a href={agreement_docx} download>
-                {" "}
-                Скачать Word
               </a>
             </button>
             <button>
