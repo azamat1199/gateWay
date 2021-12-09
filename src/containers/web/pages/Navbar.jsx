@@ -1,15 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Link, animateScroll as scroll } from 'react-scroll';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";
+
+import { NavLink } from "react-router-dom";
+import { Link, animateScroll as scroll } from "react-scroll";
 // import css
-import '../../../style/css/Navbar.css';
+import "../../../style/css/Navbar.css";
 // import Icon
-import search_icon from '../../../assets/icon/searchIcon.svg';
-import { useSelector } from 'react-redux';
+import search_icon from "../../../assets/icon/searchIcon.svg";
+// import { updateLanguageAction } from "../../../store/actions/langAction";
+import ru from "../../lang/ru";
+import us from "../../lang/en";
+import uz from "../../lang/uz";
 
 const Navbar = () => {
+  // const [languageValue, setLanguageValue] = useState();
+  // const [putLanguage, setPutLanguage] = useState();
+  // const data = setPutLanguage;
+  // console.log(data);
+
+  const { t, i18n } = useTranslation();
+  console.log(t);
+
+  const changeLanguage = (e) => {
+    const languageValue = e.target.value;
+    i18n.changeLanguage(languageValue);
+  };
+
+  // const changeLanguageHandler = (e) => {
+  //   i18n.changeLanguage(e);
+  // };
+
+  // console.log(languageValue);
+
+  // if ("uz" === languageValue) {
+  //   return data;
+  // }
+
+  // if ("ru" === languageValue) {
+  //   return data;
+  // }
+  // if ("en" === languageValue) {
+  //   return data;
+  // }
+
+  // const [lang, setLang] = useState();
+  // const [data, setData] = useState({});
+
+  // console.log(ru);
+  // if ("ru" === lang) {
+  //   setData(statweru);
+  // }
+
+  // if ("uz" === lang) {
+  //   setData(uz);
+  // }
+
+  // if ("en" === lang) {
+  //   setData(en);
+  // }
+
+  // const handleLanguage = (e) => {
+  //   const { name, value } = e.target;
+  //   setLang((state) => ({ ...state, [name]: value }));
+  //   console.log(data);
+  // };
+
   const selector = useSelector((state) => state);
   const { payload } = selector.payload;
+  const currentRole = payload?.role;
+  //console.log(currentRole);
   const currentPath = window.location.pathname;
   const [burger, setBurger] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
@@ -19,9 +80,9 @@ const Navbar = () => {
     const onScroll = (e) => {
       setScrollTop(e.target.documentElement.scrollTop);
     };
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll);
 
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, [scrollTop]);
 
   const handleout = () => {
@@ -30,62 +91,59 @@ const Navbar = () => {
   };
 
   let button;
-  if (currentPath === '/') {
+  if (currentPath === "/") {
     button = (
       <Link
         to="main"
         spy={true}
-        smooth={true}
         offset={0}
         duration={700}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
       >
-        Главная страница
+        {t("part1")}
       </Link>
     );
   } else {
     button = (
       <NavLink
         onClick={handleout}
-        activeClass={navActive ? 'active' : null}
+        activeClass={navActive ? "active" : null}
         to="/"
       >
-        Главная страница
+        {t("part1")}
       </NavLink>
     );
   }
 
   let howItWork;
-  if (currentPath === '/') {
+  if (currentPath === "/") {
     howItWork = (
       <Link
         onClick={handleout}
         to="howItWork"
         spy={true}
-        smooth={true}
         offset={-60}
         duration={700}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
       >
-        Как это работает
+        {t("part2")}
       </Link>
     );
   } else {
     howItWork = null;
   }
   let universitet;
-  if (currentPath === '/') {
+  if (currentPath === "/") {
     universitet = (
       <Link
         onClick={handleout}
         to="university"
         spy={true}
-        smooth={true}
         offset={-60}
         duration={700}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
       >
-        Университеты
+        {t("part3")}
       </Link>
     );
   } else {
@@ -97,7 +155,7 @@ const Navbar = () => {
       <div className="eduGateMain">
         <button
           id="burgerMenu"
-          className={navActive ? 'burger_menu' : ''}
+          className={navActive ? "burger_menu" : ""}
           onClick={() => {
             setBurger(!burger);
           }}
@@ -107,8 +165,8 @@ const Navbar = () => {
           <span></span>
         </button>
         {/* NavbarFix */}
-        <div className="NavbarFix" id={burger ? 'right0' : 'right100'}>
-          <div className={scrollTop < 20 ? 'navbar navPass' : 'navbar navAct'}>
+        <div className="NavbarFix" id={burger ? "right0" : "right100"}>
+          <div className={scrollTop < 20 ? "navbar navPass" : "navbar navAct"}>
             {/* navLeft */}
             <div className="navLeft">
               <svg
@@ -233,17 +291,67 @@ const Navbar = () => {
               {howItWork}
               {universitet}
               <NavLink onClick={handleout} to="/partners">
-                Стать партнером
+                {t("part4")}
               </NavLink>
               <NavLink onClick={handleout} to="/registration">
-                Регистрация
+                {t("part5")}
               </NavLink>
-              <NavLink to={payload ? '/my-account' : '/login'}>
-                Личный кабинет
+              <NavLink
+                to={
+                  currentRole
+                    ? currentRole === "applicant"
+                      ? "/my-account"
+                      : currentRole === "notary"
+                      ? "/n-glavny"
+                      : currentRole === "accountant"
+                      ? "/accountant-ticket"
+                      : currentRole === "director"
+                      ? "/home/main"
+                      : currentRole === "supermanager"
+                      ? "superManager-analitika"
+                      : currentRole === "university"
+                      ? "/univer-backoffice-page"
+                      : "/login"
+                    : "/login"
+                }
+              >
+                {t("part6")}
               </NavLink>
-              <img src={search_icon} alt="" />
+              <div className="nav-item">
+                <div>
+                  <select
+                    className="lang-drop"
+                    name="lang"
+                    onClick={changeLanguage}
+                  >
+                    <option
+                      className="lang-opt"
+                      value="ru"
+                      //  onClick={() => changeLanguage("ru")}
+                    >
+                      RU
+                    </option>
+                    <option
+                      value="en"
+                      className="lang-opt"
+
+                      //  onClick={() => changeLanguage("en")}
+                    >
+                      EN
+                    </option>
+                    <option
+                      className="lang-opt"
+                      value="uz"
+                      // onClick={() => changeLanguage("uz")}
+                      to="/uz"
+                    >
+                      Uz
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
-            {/* end navRight */}{' '}
+            {/* end navRight */}{" "}
           </div>
         </div>
       </div>

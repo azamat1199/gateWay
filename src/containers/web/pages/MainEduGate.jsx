@@ -1,50 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper.min.css';
-import 'swiper/components/pagination/pagination.min.css';
-import 'swiper/components/navigation/navigation.min.css';
-import { Link } from 'react-router-dom';
-import Footer from '../footer/footer';
-import '../../../style/css/MainEduGate.css';
+import React, { useEffect,useState,useRef } from "react";
 
-import chat_icon from '../../../assets/icon/chat.svg';
-import univer_icon from '../../../assets/icon/univer.svg';
-import country_icon from '../../../assets/icon/country.svg';
-import univer_pic from "../../../assets/images/univer.jpg"
-import icon1 from '../../../assets/icon/icon1.svg';
-import icon2 from '../../../assets/icon/icon2.svg';
-import icon3 from '../../../assets/icon/icon3.svg';
-import icon4 from '../../../assets/icon/icon4.svg';
-import icon5 from '../../../assets/icon/icon5.svg';
-import icon6 from '../../../assets/icon/icon6.svg';
-import star1 from '../../../assets/icons/star1.svg';
-import star2 from '../../../assets/icons/star2.svg';
-import star3 from '../../../assets/icons/star3.svg';
-import star4 from '../../../assets/icons/star4.svg';
-import star5 from '../../../assets/icons/star5.svg';
-import Axios from '../../../utils/axios';
-import SwiperCore, { Pagination, Navigation } from 'swiper/core';
-import Navbar from './Navbar';
-import { useHistory } from 'react-router';
+import { useSelector, useDispatch } from "react-redux";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useTranslation } from "react-i18next";
+
+import "swiper/swiper.min.css";
+import "swiper/components/pagination/pagination.min.css";
+import "swiper/components/navigation/navigation.min.css";
+import { Link } from "react-router-dom";
+import Footer from "../footer/footer";
+import "../../../style/css/MainEduGate.css";
+import styled from "styled-components";
+import chat_icon from "../../../assets/icon/chat.svg";
+import univer_icon from "../../../assets/icon/univer.svg";
+import country_icon from "../../../assets/icon/country.svg";
+import univer_pic from "../../../assets/images/univer.jpg";
+import icon1 from "../../../assets/icon/icon1.svg";
+import icon2 from "../../../assets/icon/icon2.svg";
+import icon3 from "../../../assets/icon/icon3.svg";
+import icon4 from "../../../assets/icon/icon4.svg";
+import icon5 from "../../../assets/icon/icon5.svg";
+import icon6 from "../../../assets/icon/icon6.svg";
+import star1 from "../../../assets/icons/star1.svg";
+import star2 from "../../../assets/icons/star2.svg";
+import star3 from "../../../assets/icons/star3.svg";
+import star4 from "../../../assets/icons/star4.svg";
+import star5 from "../../../assets/icons/star5.svg";
+import Axios from "../../../utils/axios";
+import SwiperCore, { Pagination, Navigation } from "swiper/core";
+import Navbar from "./Navbar";
+import { useHistory } from "react-router";
+import axios from "axios";
+//
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Autocomplete } from "@material-ui/lab";
+import TextField from "@material-ui/core/TextField";
+import Swal from "sweetalert2";
+//
 
 // install Swiper modules
 SwiperCore.use([Pagination, Navigation]);
 
 // import data json
-const cardData = require('../json/card.json');
-const datafakultet = require('../json/topFakultet.json');
-const dataSwipper = require('../json/swipper.json');
+const datafakultet = require("../json/topFakultet.json");
+const dataSwipper = require("../json/swipper.json");
 
 const MainEduGate = () => {
+  const { t, i18n } = useTranslation();
+  console.log(t);
+
+  //Creating a method to change the language onChnage from select box
+  const changeLanguageHandler = (e) => {
+    const languageValue = e.target.value;
+    i18n.changeLanguage(languageValue);
+  };
+
   const selector = useSelector((state) => state);
   const [userId, setUserId] = useState();
   //console.log(selector);
-
+  const startRef = useRef();
   const history = useHistory();
-  const [change1, setChange1] = useState('');
-  const [change2, setChange2] = useState('');
-  const [change3, setChange3] = useState('');
+  const [change1, setChange1] = useState("");
+  const [change2, setChange2] = useState("");
+  const [change3, setChange3] = useState("");
   const [serach, setSearch] = useState(false);
   const [universities, setUniversities] = useState([]);
   const [dataFilter, setdataFilter] = useState([]);
@@ -52,9 +73,13 @@ const MainEduGate = () => {
   const [filterCountry, setFilterCountry] = useState([]);
   const [filterDegree, setFilterDegree] = useState([]);
 
+  const [countryID, setCountryID] = useState("");
+
   const fetchUniversities = async () => {
     try {
-      const data = await Axios.get('/university/university/');
+      const data = await axios.get(
+        "https://backend.edugateway.uz/api/v1/university/"
+      );
       const { results } = data.data;
       //console.log(results);
       if (data.status === 200) {
@@ -66,42 +91,68 @@ const MainEduGate = () => {
   };
 
   const univerMajor = async () => {
-    try{
-      const data1 = await Axios.get('/university/major/');
+    try {
+      const data1 = await axios.get(
+        "https://backend.edugateway.uz/api/v1/university/major/"
+      );
       const majors = data1.data.results;
       if (data1.status === 200) {
-        setFilterMajors(majors)
+        setFilterMajors(majors);
       }
-    } catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+
   const univerCountry = async () => {
-    try{
-      const data2 = await Axios.get('/common/country/');
-      const countrys = data2.data.results;
+    try {
+      const data2 = await Axios.get("/common/country/all/");
+      console.log(data2);
+      const countrys = data2.data;
       if (data2.status === 200) {
-        setFilterCountry(countrys)
+        setFilterCountry(countrys);
       }
-    } catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+
   const univerDegree = async () => {
-    try{
-      const data3 = await Axios.get('/university/degree/');
+    try {
+      const data3 = await axios.get(
+        "https://backend.edugateway.uz/api/v1/university/degree/"
+      );
       const degrees = data3.data.results;
       if (data3.status === 200) {
-        setFilterDegree(degrees)
+        setFilterDegree(degrees);
       }
-    } catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
-  
+  };
+  const handleRegion = (event, newValue) => {
+    console.log(newValue);
+    if (newValue?.id) {
+      setChange1((state) => ({ ...state, country: newValue.id }));
+    }
+  };
+  const handleDegree = (event, newValue) => {
+    console.log(newValue);
+    if (newValue?.id) {
+      setChange2((state) => ({ ...state, degree: newValue.id }));
+    }
+  };
+  const handleMajor = (event, newValue) => {
+    console.log(newValue);
+    if (newValue?.id) {
+      setChange3((state) => ({ ...state, major: newValue.id }));
+    }
+  };
   const filterUniver = async () => {
     try {
-      const data = await Axios.get(`/university/university/?country_id=${change1}&degree_id=${change2}&major_id=${change3}`);
+      const data = await axios.get(
+        `https://backend.edugateway.uz/api/v1/university/?country=${change1.country}&degree=${change2.degree}&major=${change3.major}`
+      );
       const { results } = data.data;
       if (data.status === 200) {
         setdataFilter(results);
@@ -112,112 +163,175 @@ const MainEduGate = () => {
     }
   };
 
-
+  //console.log(change1, change2, change3);
   const setFavourite = async (univerId) => {
     try {
-      const data = await Axios.post(
-        '/enrollee/enrollee-user-favorite-university/',
-        {
-          university: univerId,
-          enrollee_user: userId,
-        }
-      );
-      //console.log(data);
+      const res = await Axios.post("/applicant/favorite-university/", {
+        university_id: univerId,
+      });
+      console.log(res);
+      const { status } = res;
+      if (status === 201) {
+        const current = universities.filter((item) => item.id === univerId);
+        startRef.current.fill = "red";
+        console.log(current);
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
+      const { status, data } = error?.response;
+      if (status === 401) {
+        Swal.fire({
+          icon: "error",
+          text: "Пожалуйста, войдите в свою учетную запись",
+        }).then(() => history.push("/login"));
+      } else if (status === 403) {
+        Swal.fire({
+          icon: "warning",
+          text: "Уже добавлен в список",
+        });
+      }
     }
-  }
+  };
   const handler = (univerId) => {
-    //console.log(univerId);
-    setFavourite(univerId).then(() => history.push(`/university/${univerId}`));
+      history.push(`/university/${univerId}`)
   };
 
-  const [star, setStar] = useState(false)
+  const [star, setStar] = useState(false);
 
-  const handlestar = () =>{
-    setStar(!star)
-  }
-
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
+  const closeAll = () => {
+    if (open1 === true) {
+      setOpen1(false);
+    } else {
+      if (open2 === true) {
+        setOpen2(false);
+      }
+      if (open3 === true) {
+        setOpen3(false);
+      }
+    }
+  };
+  //console.log(change1)
   useEffect(() => {
     fetchUniversities();
     if (selector.payload.payload) {
       const { payload } = selector?.payload;
-      const  userId = payload?.data?.id;
+      const userId = payload?.data?.id;
       setUserId(userId);
     }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     univerMajor();
     univerDegree();
     univerCountry();
-  }, [])
-
+  }, []);
+  console.log(filterCountry);
+  console.log(change1, change3, change2);
   return (
     <>
       <div className="n1">
         <Navbar />
       </div>
-
-      <div className="mainEduGate" id="main">
+      <div onClick={closeAll} className="mainEduGate" id="main">
         <div className="header" id="heaer">
-          <h2>Выберите свой университет вместе с Education Gateway</h2>
-          <h3>
-            Education Gateway помогает абитуриентам найти свое направление в
-            выборе профессии и поступить в престижные ВУЗы на территории СНГ
-          </h3>
+          <h2>{t("part7")}</h2>
+          <h3>{t("part8")}</h3>
           <div className="listLvl">
             <p>
-              <div className="circleList"></div> Бакалаврият
+              <div className="circleList"></div> {t("part9")}
             </p>
             <p>
-              <div className="circleList"></div> Магистратура
+              <div className="circleList"></div> {t("part10")}
             </p>
             <p>
-              <div className="circleList"></div> Аспирантура
+              <div className="circleList"></div> {t("part11")}
             </p>
             <p>
-              <div className="circleList"></div> Докторантура
+              <div className="circleList"></div> {t("part12")}
             </p>
           </div>
-          <Link to="/konsultatsya" className="freeConsult">Бесплатная косультация</Link>
+          <Link to="/konsultatsya" className="freeConsult">
+            {t("part13")}
+          </Link>
           <div className="chat">
-            <h4>Найти Университет</h4>
-            <img src={chat_icon} alt="" />
+            <h4>{t("part37")}</h4>
+            {/* <img src={chat_icon} alt="" /> */}
           </div>
           <div className="filter">
             <div className="dropDwn">
-              <select onChange={(event) => setChange1(event.target.value)}>
-                <option value="">Страна</option>
-                {filterCountry.map((m) =>{
-                  return(
-                    <option value={m.id}>{m.name}</option>
-                  )
-                })}
-              </select>
+              <AutocompleteContainer>
+                <Autocomplete
+                  aria-required
+                  onChange={handleRegion}
+                  id="profayl_input"
+                  options={filterCountry}
+                  placeholder="country"
+                  getOptionLabel={(option) => (option ? option.name : "")}
+                  style={{ width: "100%" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      placeholder="Страна"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </AutocompleteContainer>
             </div>
             <div className="dropDwn">
-              <select onChange={(event) => setChange2(event.target.value)}>
-              <option value="">Степень</option>
-                {filterDegree.map((m) =>{
-                  return(
-                    <option value={m.id}>{m.title}</option>
-                  )
-                })}
-              </select>
+              <AutocompleteContainer>
+                <Autocomplete
+                  aria-required
+                  onChange={handleDegree}
+                  id="profayl_input"
+                  options={filterDegree}
+                  placeholder="country"
+                  getOptionLabel={(option) => (option ? option.title : "")}
+                  style={{ width: "100%" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      name="degree"
+                      placeholder="Страна"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </AutocompleteContainer>
             </div>
             <div className="dropDwn">
-              <select onChange={(event) => setChange3(event.target.value)}>
-                <option value="">Направления</option>
-                {filterMajors.map((m) =>{
-                  return(
-                    <option value={m.id}>{m.name}</option>
-                  )
-                })}
-              </select>
+              <AutocompleteContainer>
+                <Autocomplete
+                  aria-required
+                  onChange={handleMajor}
+                  id="profayl_input"
+                  options={filterMajors}
+                  placeholder="country"
+                  getOptionLabel={(option) => (option ? option.name : "")}
+                  style={{ width: "100%" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label=""
+                      name="degree"
+                      placeholder="Страна"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </AutocompleteContainer>
             </div>
 
-            <div className="dropSearch" onClick={filterUniver}>
+            <a
+              href="#result_of_search"
+              className="dropSearch"
+              onClick={filterUniver}
+            >
               <svg
                 width="28"
                 height="29"
@@ -243,27 +357,34 @@ const MainEduGate = () => {
                   stroke-linejoin="round"
                 />
               </svg>
-            </div>
+            </a>
           </div>
           {/* end filter */}
         </div>
         {/* end header */}
 
         {/* resultBlock */}
-        {serach === true ? dataFilter.length === 0 
-          ? 
-          <div className="resultBlock">
-            <h5>Результаты поиска 0</h5>
-          </div> 
-          :
-          <div className="resultBlock">
-            <h5>Результаты поиска {dataFilter.length}</h5>
-            <div className="result">
-              {/* card */}
-              {dataFilter.map((x) => {
+        {serach === true ? (
+          dataFilter.length === 0 ? (
+            <div className="resultBlock" id="result_of_search">
+              <h5>Результаты поиска 0</h5>
+            </div>
+          ) : (
+            <div className="resultBlock" id="result_of_search">
+              <h5>Результаты поиска {dataFilter.length}</h5>
+              <div className="result">
+                {/* card */}
+                {dataFilter.map((x) => {
                   return (
-                    <div className="card">
-                      <img onClick={() => handler(x.id)} src={x.images.length === 0 ? univer_pic : x.images[0].image.toString() } alt="" />
+                    <div className="card" onClick={()=> history.push(`/university/${x.id}`)}>
+                      <img
+                        src={
+                          x.images.length === 0
+                            ? univer_pic
+                            : x.images[0].image.toString()
+                        }
+                        alt=""
+                      />
                       <svg
                         width="20"
                         height="20"
@@ -281,46 +402,64 @@ const MainEduGate = () => {
                           stroke-linejoin="round"
                         />
                       </svg>
-                      <h1 onClick={() => handler(x.id)}>{x.name}</h1>
-                      {
-                        x.description.length > 100 ?
-                            <p onClick={() => handler(x.id)}>{x.description.substring(0, 100)}...</p>
-                          :
-                            <p onClick={() => handler(x.id)}>{x.description}</p>
-                      }
-                      <h2 onClick={() => handler(x.id)}>
-                        Рейтинг:{' '}
-                        <span>
-                          {x.rating} место {/* // ! {x.ratingCountry} */}
-                        </span>
-                      </h2>
-                      <h3 onClick={() => handler(x.id)}>Качество обучения: 
-                        <img src={
-                            x.education_quality === 1 ? star1 
-                            : x.education_quality === 2 ? star2 
-                            : x.education_quality === 3 ? star3
-                            : x.education_quality === 4 ? star4
-                            : star5 
-                        } alt="" />
-                      </h3>
-                      <h4 onClick={() => handler(x.id)}>
-                        Цена за один год: <span>${x.living_price_per_annum}</span>
-                      </h4>
+                      {x.name.length > 35 ? (
+                        <h1>{x.name.substring(0, 35)}...</h1>
+                      ) : (
+                        <h1>{x.name}</h1>
+                      )}
+                      {x.description.length > 150 ? (
+                        <p onClick={() => handler(x.id)}>
+                          {x.description.substring(0, 150)}...
+                        </p>
+                      ) : (
+                        <p onClick={() => handler(x.id)}>{x.description}</p>
+                      )}
+                      <CardFooter>
+                        <h2 onClick={() => handler(x.id)}>
+                          Рейтинг:{" "}
+                          <span>
+                            {x.rating} место {/* // ! {x.ratingCountry} */}
+                          </span>
+                        </h2>
+                        <h3 onClick={() => handler(x.id)}>
+                          Качество обучения:
+                          <img
+                            className="star_image"
+                            src={
+                              x.education_quality === 1
+                                ? star1
+                                : x.education_quality === 2
+                                ? star2
+                                : x.education_quality === 3
+                                ? star3
+                                : x.education_quality === 4
+                                ? star4
+                                : star5
+                            }
+                            alt=""
+                          />
+                        </h3>
+                        <h4 onClick={() => handler(x.id)}>
+                          Цена за один год:{" "}
+                          <span>${x.living_price_per_annum}</span>
+                        </h4>
+                      </CardFooter>
                     </div>
                   );
-              })}
-              {/* end card */}
+                })}
+                {/* end card */}
+              </div>
+              {/* end result */}
             </div>
-            {/* end result */}
-          </div>
-         : 
-          ''
-        }
+          )
+        ) : (
+          <div id="result_of_search"></div>
+        )}
         {/* end resultBlock */}
 
         {/* workBlock */}
         <div id="howItWork" className="workBlock">
-          <h4>Как мы работаем</h4>
+          <h4>{t("part14")}</h4>
           <div className="weareWork">
             {/* card */}
             <div className="card">
@@ -328,7 +467,7 @@ const MainEduGate = () => {
                 <div>
                   <img src={icon1} alt="" />
                 </div>
-                <p>Ищите программу и университет</p>
+                <p>{t("part38")}</p>
               </div>
             </div>
             {/* card */}
@@ -337,7 +476,7 @@ const MainEduGate = () => {
                 <div>
                   <img src={icon2} alt="" />
                 </div>
-                <p>Регистрируетесь на нашем сайте</p>
+                <p>{t("part39")}</p>
               </div>
             </div>
             {/* card */}
@@ -346,7 +485,7 @@ const MainEduGate = () => {
                 <div>
                   <img src={icon3} alt="" />
                 </div>
-                <p>Заполняете анкету и подаете документы</p>
+                <p>{t("part40")}</p>
               </div>
             </div>
             {/* card */}
@@ -355,7 +494,7 @@ const MainEduGate = () => {
                 <div>
                   <img src={icon4} alt="" />
                 </div>
-                <p>Получаете ответ от Университета</p>
+                <p>{t("part41")}</p>
               </div>
             </div>
             {/* card */}
@@ -364,7 +503,7 @@ const MainEduGate = () => {
                 <div>
                   <img src={icon5} alt="" />
                 </div>
-                <p>Мы отправляем ваши документы</p>
+                <p>{t("part42")}</p>
               </div>
             </div>
             {/* card */}
@@ -373,7 +512,7 @@ const MainEduGate = () => {
                 <div>
                   <img src={icon6} alt="" />
                 </div>
-                <p>Оплачиваете за наши услуги</p>
+                <p>{t("part43")}</p>
               </div>
             </div>
           </div>
@@ -382,11 +521,11 @@ const MainEduGate = () => {
 
         {/* resultBlock */}
         <div className="resultBlock" id="university">
-          <h5>Самые популярные Университетыа</h5>
+          <h5>{t("part15")}</h5>
           <div className="result">
             {/* card */}
             {universities.map((item) => {
-              console.log(item);
+              //console.log(item);
               const {
                 id,
                 name,
@@ -395,17 +534,26 @@ const MainEduGate = () => {
                 rating,
                 living_price_per_annum,
                 city,
+                images,
               } = item;
+              //console.log(images);
               return (
-                <div className="card">
-                  <img onClick={() => handler(id)} src={item.images.length === 0 ? univer_pic : item.images[0].image.toString() } alt="" />
+                <div className="card" onClick={()=>history.push(`/university/${id}`)}>
+                  <img
+                    src={
+                      item.images.length === 0
+                        ? univer_pic
+                        : item.images[0].image.toString()
+                    }
+                    alt=""
+                  />
                   <svg
                     width="20"
                     height="20"
-                    viewBox="0 0 20 20"
                     fill="none"
+                    viewBox="0 0 20 20"
+                    ref={startRef}
                     xmlns="http://www.w3.org/2000/svg"
-                    //onClick={handlestar}
                   >
                     <path
                       //fill={star === true ? "yellow" : ""}
@@ -418,33 +566,48 @@ const MainEduGate = () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <h1 onClick={() => handler(id)}>{name}</h1>
-                  {
-                    description.length > 100 ?
-                        <p onClick={() => handler(id)}>{description.substring(0, 100)}...</p>
-                      :
-                        <p onClick={() => handler(id)}>{description}</p>
-                  }
+                  {name.length > 35 ? (
+                    <h1>{name.substring(0, 35)}...</h1>
+                  ) : (
+                    <h1>{name}</h1>
+                  )}
+                  {description.length > 100 ? (
+                    <p onClick={() => handler(id)}>
+                      {description.substring(0, 180)}...
+                    </p>
+                  ) : (
+                    <p onClick={() => handler(id)}>{description}</p>
+                  )}
 
-
-                  <h2 onClick={() => handler(id)}>
-                    Рейтинг:{' '}
-                    <span>
-                      {rating} место {city.name}
-                    </span>
-                  </h2>
-                  <h3 onClick={() => handler(id)}>Качество обучения: 
-                    <img className="star_image" src={
-                        education_quality === 1 ? star1 
-                        : education_quality === 2 ? star2 
-                        : education_quality === 3 ? star3
-                        : education_quality === 4 ? star4
-                        : star5 
-                    } alt="" />
-                  </h3>
-                  <h4 onClick={() => handler(id)}>
-                    Цена за один год: <span>${living_price_per_annum}</span>
-                  </h4>
+                  <CardFooter>
+                    <h2 onClick={() => handler(id)}>
+                      Рейтинг:{" "}
+                      <span>
+                        {rating} место {city.name}
+                      </span>
+                    </h2>
+                    <h3 onClick={() => handler(id)}>
+                      Качество обучения:
+                      <img
+                        className="star_image"
+                        src={
+                          education_quality === 1
+                            ? star1
+                            : education_quality === 2
+                            ? star2
+                            : education_quality === 3
+                            ? star3
+                            : education_quality === 4
+                            ? star4
+                            : star5
+                        }
+                        alt=""
+                      />
+                    </h3>
+                    <h4 onClick={() => handler(id)}>
+                      Цена за один год: <span>${living_price_per_annum}</span>
+                    </h4>
+                  </CardFooter>
                 </div>
               );
             })}
@@ -456,7 +619,7 @@ const MainEduGate = () => {
 
         {/* top fakultet */}
         <div className="topFacultetBlock">
-          <h4>Самые популярные факультеты</h4>
+          <h4>{t("part16")}</h4>
           <div className="topFacultet">
             {datafakultet.map((a) => {
               return (
@@ -473,35 +636,35 @@ const MainEduGate = () => {
 
         {/* about block */}
         <div className="aboutBlock">
-          <h5>О нас</h5>
+          <h5>{t("part24")}</h5>
           <div className="aboutUs">
             {/*  */}
             <div className="cardAbout">
               <h1>250+</h1>
-              <h4>Филиали</h4>
+              <h4>{t("part25")}</h4>
               <p>
-                Education Gateway сотрудничает с более 250 филиали с
-                разных уголков мира{' '}
+                Education Gateway сотрудничает с более 250 филиали с разных
+                уголков мира
               </p>
             </div>
             {/*  */}
             {/*  */}
             <div className="cardAbout">
               <h1>{filterCountry.length} +</h1>
-              <h4>Страны партнёры</h4>
+              <h4>{t("part27")}</h4>
               <p>
-                Education Gateway сотрудничает с более {filterCountry.length} странами с
-                разных уголков мира{' '}
+                Education Gateway сотрудничает с более {filterCountry.length}{" "}
+                странами с разных уголков мира{" "}
               </p>
             </div>
             {/*  */}
             {/*  */}
             <div className="cardAbout">
               <h1>{universities.length} +</h1>
-              <h4>Университеты партнёры</h4>
+              <h4>{t("part28")}</h4>
               <p>
-                Education Gateway сотрудничает с более {universities.length} университетами с
-                разных уголков мира{' '}
+                Education Gateway сотрудничает с более {universities.length}{" "}
+                университетами с разных уголков мира{" "}
               </p>
             </div>
             {/*  */}
@@ -511,7 +674,7 @@ const MainEduGate = () => {
 
         {/* swipper block */}
         <div className="swipperBlock">
-          <h4>Что говорят наши студенты?</h4>
+          <h4>{t("part29")}</h4>
           <Swiper
             slidesPerView={3}
             spaceBetween={30}
@@ -585,4 +748,17 @@ const MainEduGate = () => {
   );
 };
 
-export default MainEduGate
+export default MainEduGate;
+
+const AutocompleteContainer = styled.div`
+  fieldset {
+    border: none;
+  }
+`;
+const CardFooter = styled.div`
+  position: absolute;
+  bottom: 36px;
+  line-height: 14px;
+`;
+
+
