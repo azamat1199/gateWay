@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "react-js-loader";
-
+import TablePagination from "@material-ui/core/TablePagination";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -39,13 +39,15 @@ const Fakultet = () => {
   const [nowDate, setNowDate] = useState(date);
   const [status, setStatus] = useState("");
   const [degree, setDegree] = useState([]);
+  const [count, setCount] = useState();
   const [quota, setQuota] = useState();
   const [price, setPrice] = useState(null);
   const [fixEnd, setFix] = useState(false);
   const [data, setData] = useState();
   const [univerData, setUniverData] = useState();
   const [facultet, setFacultet] = useState();
-
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState();
 
   const fetchData = async () => {
@@ -57,17 +59,42 @@ const Fakultet = () => {
   const getFacultet = async () => {
     setLoading(true);
     try {
-      const res = await Axios.get("/university/faculty/");
-      setFacultet(res.data.results.reverse());
+      const res = await Axios.get(`/university/faculty/?limit=${rowsPerPage}`);
+      setFacultet(res.data.results);
+      setCount(res.data.count);
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    fetchData();
-    getFacultet();
-  }, []);
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/university/faculty/?limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setFacultet(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setData((state) => ({ ...state, [name]: value }));
@@ -150,6 +177,13 @@ const Fakultet = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    getFacultet();
+  }, [rowsPerPage]);
+  useEffect(() => {
+    fetchData();
+    getFacultet();
+  }, []);
   useEffect(() => {
     fetchDegree();
   }, [fixEnd]);
@@ -239,6 +273,15 @@ const Fakultet = () => {
                   )}
                 </tbody>
               </table>
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </div>
             {/* end univerList */}
             {/* Filter */}
