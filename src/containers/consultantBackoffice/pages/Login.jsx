@@ -8,6 +8,7 @@ import "../../../style/css/Login.css";
 import Loader from "react-js-loader";
 import Axios from "../../../utils/axios";
 import Swal from "sweetalert2";
+import axios from "axios";
 // import axios from "axios";
 
 function Login() {
@@ -32,50 +33,63 @@ function Login() {
     },
     [state]
   );
-
   const submitData = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await Axios.post("/common/token/obtain", finalData);
-
-      const { access, refresh, data } = res.data;
-      const { role } = data;
-
-      dispatch(signUpAction({ access, refresh, role: data.role, data: data }));
-      localStorage.setItem("enrolle_user", data?.id);
-      if (role.startsWith("u")) {
-        history.push("/univer-backoffice-page");
-      } else if (role === "applicant") {
-        history.push("/my-account");
-      } else if (role.startsWith("d")) {
-        history.push("/home/main");
-      } else if (role.startsWith("m")) {
-        history.push("/m-analitika");
-      } else if (role.startsWith("supermanager")) {
-        history.push("/superManager-analitika");
-      } else if (role === "accountant") {
-        history.push("/accountant-ticket");
-      } else if (role.startsWith("n")) {
-        history.push("/n-glavny");
-      } else if (role.startsWith("branch_director")) {
-        history.push("/home/main");
-      }
-      // else if (role === "supermanager") {
-      //   history.push("/m-analitika");
-      // }
-      else {
-        history.push("/");
-      }
-      setLoading(false);
-    } catch (error) {
-      const status = error?.response?.status;
-
+    if (!window.navigator.onLine) {
       Swal.fire({
-        icon: "error",
-        text: "Активная учетная запись с указанными учетными данными не найдена",
+        icon: "warning",
+        text: "у вас нет подключения к интернету",
       });
-      setLoading(false);
+    } else {
+      setLoading(true);
+      try {
+        const res = await axios.post(
+          "https://backend.edugateway.uz/api/v1/common/token/obtain",
+          finalData
+        );
+
+        const { access, refresh, data } = res.data;
+        const { role } = data;
+
+        dispatch(
+          signUpAction({ access, refresh, role: data.role, data: data })
+        );
+        localStorage.setItem("enrolle_user", data?.id);
+        if (role.startsWith("u")) {
+          history.push("/univer-backoffice-page");
+        } else if (role === "applicant") {
+          history.push("/my-account");
+        } else if (role.startsWith("d")) {
+          history.push("/home/main");
+        } else if (role.startsWith("m")) {
+          history.push("/m-analitika");
+        } else if (role.startsWith("supermanager")) {
+          history.push("/superManager-analitika");
+        } else if (role === "accountant") {
+          history.push("/accountant-ticket");
+        } else if (role.startsWith("n")) {
+          history.push("/n-glavny");
+        } else if (role.startsWith("branch_director")) {
+          history.push("/home/main");
+        } else if (role.startsWith("agent")) {
+          history.push("/branchAgentGlavny");
+        }
+        // else if (role === "supermanager") {
+        //   history.push("/m-analitika");
+        // }
+        else {
+          history.push("/");
+        }
+        setLoading(false);
+      } catch (error) {
+        const status = error?.response?.status;
+
+        Swal.fire({
+          icon: "error",
+          text: "Активная учетная запись с указанными учетными данными не найдена",
+        });
+        setLoading(false);
+      }
     }
   };
 
@@ -92,7 +106,7 @@ function Login() {
           <form onSubmit={submitData} className="blockBox">
             <h3>Войти</h3>
             <div className="loginInput">
-              <p>Логин</p>
+              <p>Номер телефона</p>
               <div style={{ position: "relative" }}>
                 <span
                   style={{
