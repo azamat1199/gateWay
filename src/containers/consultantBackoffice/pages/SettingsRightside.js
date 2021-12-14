@@ -16,10 +16,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "../../../style/css/SidebarUniverstitet.css";
 import "../../../style/css/fakultet.css";
-
+import TablePagination from "@material-ui/core/TablePagination";
 import img1 from "../../../assets/icon/img1.svg";
 // import staticImg from "../../../assets/images/static.svg";
-import StaticImg from "../../../assets/images/StaticIMG.svg";
+import StaticImg from "../../../assets/icon/userpic1.svg";
 import blueStroke from "../../../assets/images/Stroke-blue.svg";
 import staticEdit from "../../../assets/images/staticEdit.svg";
 import plus from "../../../assets/images/plus.svg";
@@ -49,7 +49,9 @@ export default function SettingsRightside() {
   });
 
   const [tableData, setTableData] = useState();
-
+  const [counts, setCounts] = useState();
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
   const [allFaculties, setAllFaculties] = useState([]);
   const [bachelorList, setBachelorList] = useState([]);
   const [selectedDegree, setSelectedDegree] = useState();
@@ -98,7 +100,7 @@ export default function SettingsRightside() {
   //
   //   setSearchItem(e.target.value);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     setLoading(true);
     try {
       const res = await Axios.post("/company/set-service-price/", {
@@ -156,114 +158,10 @@ export default function SettingsRightside() {
         });
         setLoading(false);
       }
-
-      // if (status == 200) {
-      //   Swal.fire({
-      //     icon: "success",
-      //     text: "Успешно добавлен",
-      //     showCancelButton: false,
-      //     reverseButtons: true,
-      //     cancelButtonColor: "#F3F5F7",
-      //     cancelButtonText: "Отменить",
-      //     confirmButtonColor: "#00587F",
-      //     confirmButtonText: "Потвердить",
-      //   })
-      //     .then(() => {
-      //       Axios.get(`/company/set-service-price/`);
-      //       // const res = await Axios.get(`/company/set-service-price/`);
-      //       //
-      //     })
-      //     .then((res) => {
-      //       setStudents(res.data.results);
-      //     });
-      // }
-      // if (status == 200) {
-      //   dispatch(signUpAction({ data: data }));
-      //   localStorage.setItem("profile", JSON.stringify(data));
-      //   localStorage.setItem("enrolle_user", data?.id);
-      //   Swal.fire({
-      //     icon: "success",
-      //     text: "Успешно зарегистрирован",
-      //     showCancelButton: false,
-      //   }).then(() => {
-      //     Axios.post("/common/token/obtain", {
-      //       phone_number: `${finalData.phone_number}`,
-      //       password: `${finalData.password_1}`,
-      //     })
-      //       .then((res) => {
-      //         const { refresh, access } = res.data;
-      //         localStorage.setItem("acces", access);
-      //         localStorage.setItem("refresh", refresh);
-      //       })
-      //       .then(() => history.push("/my-account"));
-      //   });
-      // }
     } catch (error) {
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Oops...",
-      //   text: "Something went wrong!",
-      // });
-
       setLoading(false);
     }
   };
-
-  // const handleSubmitGet = async (e) => {
-  //   try {
-  //     const res = await Axios.get("/company/set-service-price/");
-  //
-  //     const { status } = res;
-  //     const { data } = res;
-  //     const { results } = data;
-  //     setStudents(results);
-  //
-
-  //     // if (status == 200) {
-  //     //   Swal.fire({
-  //     //     icon: "success",
-  //     //     text: "Успешно добавлен",
-  //     //     showCancelButton: false,
-  //     //     reverseButtons: true,
-  //     //     cancelButtonColor: "#F3F5F7",
-  //     //     cancelButtonText: "Отменить",
-  //     //     confirmButtonColor: "#00587F",
-  //     //     confirmButtonText: "Потвердить",
-  //     //   })
-  //     //     .then(() => {
-  //     //       Axios.get(`/company/set-service-price/`);
-  //     //       // const res = await Axios.get(`/company/set-service-price/`);
-  //     //       //
-  //     //     })
-  //     //     .then((res) => {
-  //     //       setStudents(res.data.results);
-  //     //     });
-  //     // }
-  //     // if (status == 200) {
-  //     //   dispatch(signUpAction({ data: data }));
-  //     //   localStorage.setItem("profile", JSON.stringify(data));
-  //     //   localStorage.setItem("enrolle_user", data?.id);
-  //     //   Swal.fire({
-  //     //     icon: "success",
-  //     //     text: "Успешно зарегистрирован",
-  //     //     showCancelButton: false,
-  //     //   }).then(() => {
-  //     //     Axios.post("/common/token/obtain", {
-  //     //       phone_number: `${finalData.phone_number}`,
-  //     //       password: `${finalData.password_1}`,
-  //     //     })
-  //     //       .then((res) => {
-  //     //         const { refresh, access } = res.data;
-  //     //         localStorage.setItem("acces", access);
-  //     //         localStorage.setItem("refresh", refresh);
-  //     //       })
-  //     //       .then(() => history.push("/my-account"));
-  //     //   });
-  //     // }
-  //   } catch (error) {
-  //
-  //   }
-  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -286,28 +184,7 @@ export default function SettingsRightside() {
     } catch (error) {}
   };
 
-  const filterUniversitiy = async (e) => {
-    //const { value } = e?.target;
-    //setSelectData((state) => ({ ...state, [name]: value }));
-    //
-    //   `/university/faculty/?university_id=${univercities.id}&degree=${selectedDegree}&education_type=${selectedEdcuation}`
-    // );
-    //
-    // try {
-    //   const res = await Axios.get(
-    //     `/university/faculty/?university_id=${selectData.university.id}&degree=${selectedDegree}&education_type=${selectedEdcuation}`
-    //   );
-    //   const { status, data } = res;
-    //   const { results } = data;
-    //
-    //   if (status == 200) {
-    //     setUnivercities(results);
-    //   }
-    //
-    // } catch (error) {
-    //
-    // }
-  };
+  const filterUniversitiy = async (e) => {};
 
   const getCertainId = async () => {
     try {
@@ -331,17 +208,48 @@ export default function SettingsRightside() {
       );
 
       const { status, data } = res;
-      const { results } = data;
+      const { results, count } = data;
 
       if (status === 200) {
         setSelectFaculty(results);
+        setCounts(count);
       }
     } catch (error) {}
+  };
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/university/faculty/?limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setSelectFaculty(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   useEffect(() => {
     getCertainId();
   }, [certainId]);
+  useEffect(() => {
+    getSelectedFaculty();
+  }, [rowsPerPage]);
   useEffect(() => {
     getSelectedFaculty();
   }, [certainDegree]);
@@ -693,6 +601,35 @@ export default function SettingsRightside() {
                                   : "Потвердить платеж"}
                               </button>
                             )}
+
+                            {isButton ? (
+                            <>
+                              <button
+                                onClick={() =>
+                                  handleOpeny(
+                                    data.id,
+                                    data.first_name,
+                                    data.last_name
+                                  )
+                                }
+                              >
+                                <img src={yes} alt="" />
+                              </button>
+                              <button onClick={() => handleOpenx(data.id)}>
+                                <img src={no} alt="" />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              {data?.status?.id ? (
+                                <h5> Success </h5>
+                              ) : (
+                                <h5>Fail </h5>
+                              )}
+                            </>
+                          )}
+
+
                           </td> */}
                         </tr>
                       );
@@ -700,6 +637,15 @@ export default function SettingsRightside() {
                   )}
                 </tbody>
               </table>
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={counts}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </div>
           </div>
         </div>
