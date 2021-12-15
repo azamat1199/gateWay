@@ -9,6 +9,7 @@ import Radio from "@material-ui/core/Radio";
 import Loader from "react-js-loader";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import TablePagination from "@material-ui/core/TablePagination";
 // import img
 import search_icon from "../../../assets/icon/search.svg";
 import filterSvg from "../../../assets/icon/Filter.svg";
@@ -20,68 +21,112 @@ import pencil from "../../../assets/icon/pencil.svg";
 import doc from "../../../assets/icon/doc.svg";
 import delet from "../../../assets/icon/delet1.svg";
 import blueStroke from "../../../assets/images/Stroke-blue.svg";
-
+import { Autocomplete } from "@material-ui/lab";
+import TextField from "@material-ui/core/TextField";
+import styled from "styled-components";
+import arrow1 from "../../../assets/icon/arrow1.svg";
 // import css
 import "../../../style/css/SidebarUniverstitet.css";
 import "react-datepicker/dist/react-datepicker.css";
 import Sidebar from "./SidebarConsult";
 import Axios from "../../../utils/axios";
 import Swal from "sweetalert2";
-import arrow1 from "../../../assets/icon/arrow1.svg";
 import log from "d3-scale/src/log";
 
 const SidebarUniverstitet = () => {
   const selector = useSelector((state) => state?.payload?.payload?.data);
   const [startDate, setStartDate] = useState(null);
+  const [next, setNext] = useState("");
+  const [students, setStudents] = useState([]);
   const [endDate, setEndDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fixEnd, setFix] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [name, setName] = useState("");
   const [countryLoc, setCountryLoc] = useState("");
-  const [cityLoc, setCityLoc] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [page, setPage] = useState(0);
+  // const [cityLoc, setCityLoc] = useState("");
   const [description, setDescription] = useState("");
   const [founding_year, setFoundingYear] = useState();
   const [editModal, setEditModal] = useState(false);
   const inputEl1 = useRef(null);
-  const [univerData, setUniverData] = useState({});
+  const [univerData, setUniverData] = useState([]);
   const [open_change, setOpen_change] = React.useState(false);
   const [country, setContry] = useState([]);
+  const [country_id, setCountryId] = useState("");
   const [city, setCity] = useState([]);
   const [cityId, setCityId] = useState(0);
+  const phoneRef = useRef();
   const [id, setId] = useState();
   const [inputValue, setInputValue] = useState("");
-  const [data, setData] = useState();
+  const [data, setData] = useState({
+    name: "",
+    country: "",
+    city: "",
+    phone_number: "",
+    password1: "",
+    password2: "",
+  });
   const [radio, setRadio] = useState("");
   const [img, setImg] = useState();
   const [cities, setCities] = useState([]);
+  const [change1, setChange1] = useState("");
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
+  const [error, setError] = useState(false);
+
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/university/?limit=${rowsPerPage}&offset=${newPage * rowsPerPage}`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setUniverData(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await Axios.get("/university/");
+      const res = await Axios.get(`/university/?limit=${rowsPerPage}`);
       const { status, data } = res;
       if (status === 200) {
-        const { results } = data;
-        setUniverData(res);
+        const { results, amount, count, next } = data;
+        setUniverData(results);
+        setCount(count);
       }
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (open) {
-      Axios.get("common/country/").then((res) => {
-        setContry(res.data.results);
-      });
+  const handleRegion = (event, newValue) => {
+    // console.log(newValue);
+    if (newValue?.id) {
+      setChange1((state) => ({ ...state, country: newValue.id }));
     }
-  }, [open, data?.country]);
-  useEffect(() => {
-    fetchData();
-  }, []);
+  };
 
-  //
   const handleOpen_change = () => {
     setOpen_change(true);
   };
@@ -99,136 +144,82 @@ const SidebarUniverstitet = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
+    if (name !== "phone_number") return;
+    setData({ ...data, phone_number: phoneRef?.current?.value });
   };
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setImg((state) => ({ ...state, [name]: files[0] }));
-  };
-
-  const formData = new FormData();
-  formData.append("name", data?.name);
-
-  formData.append("password", data?.password);
-  formData.append("email", data?.password);
-  formData.append("email", founding_year);
-  const formDataImg = new FormData();
-  formDataImg.append("university", univerData?.data?.count + 1);
-  formDataImg.append("image", img?.images);
-  formDataImg.append("description", data?.description);
 
   const submitUniverstet = async (e) => {
     e.preventDefault();
-    try {
-      const res = await Axios.post("/university/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      if (res.status == 200) {
-        Swal.fire({
-          icon: "success",
-          text: "Success",
-          showCancelButton: false,
-        });
-      }
-    } catch (err) {
-      if (err.response.status == 500)
-        Swal.fire({
-          icon: "error",
-          text: "Server Error",
-          showCancelButton: true,
-        });
+    if (data.password1 === data.password2) {
+      setError(false);
       try {
-        const res = await Axios.post("/university/image/", formDataImg, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      } catch (error) {
+        const res = await Axios.post("/university/?limit=1000", data);
+        if (res.status == 200) {
+          Swal.fire({
+            icon: "success",
+            text: "Success",
+            showCancelButton: false,
+          });
+        }
+      } catch (err) {
         if (err.response.status == 500)
           Swal.fire({
             icon: "error",
             text: "Server Error",
             showCancelButton: true,
           });
+        try {
+        } catch (error) {
+          if (err.response.status == 500)
+            Swal.fire({
+              icon: "error",
+              text: "Server Error",
+              showCancelButton: true,
+            });
+        }
       }
-    }
-    handleClose();
-  };
-  const edit = async (id) => {
-    handleOpen_change();
-    try {
-      const res = await Axios.get(`university/${id}`);
-      const { name, country, description, founding_year } = res.data;
-      setId(id + 1);
-      setName(name);
-      countryLoc(country);
-      setDescription(description);
-      setFoundingYear(parseInt(founding_year));
-    } catch (error) {
-      if (error.status == 500)
-        Swal.fire({
-          icon: "error",
-          text: "Server Errror",
-          showCancelButton: true,
-        });
+      fetchData();
+      handleClose();
+    } else {
+      setError(true);
     }
   };
-  const setEdit = async (id) => {
+  const getContry = async () => {
     try {
-      const res = await Axios.patch(`/university/${id}/`, formData);
-    } catch (error) {}
-    handleClose_change();
-  };
-
-  const fetchCities = async () => {
-    if (!fixEnd) return;
-    try {
-      const res = await Axios.get("/common/city/");
+      const res = await Axios.get("/company/country/");
       const { status, data } = res;
       if (status === 200) {
-        const { results } = data;
-        setCities(results);
+        setContry(res.data.results);
+      }
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+  const getCity = async () => {
+    try {
+      const res = await Axios.get(`company/country/${country_id}/`);
+      const { status, data } = res;
+      if (status === 200) {
+        setCity(res.data.cities);
       }
     } catch (error) {}
   };
 
-  const filterUniver = async () => {
-    setLoading(true);
-    try {
-      const res = await Axios.get(
-        `/university/?city=${cityId}&status=${radio}`
-      );
-
-      const { status, data } = res;
-      if (status === 200) {
-        const { results } = data;
-        setUniverData(res);
-      }
-      setLoading(false);
-      setFix(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
-  const handleSearch = async (e) => {
-    setLoading(true);
-    try {
-      const res = await Axios.get(`/university/?search=${e}`);
-      const { status, data } = res;
-      if (status === 200) {
-        const { results } = data;
-        setUniverData(res);
-      }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
-    fetchCities();
-  }, [fixEnd]);
+    getCity();
+  }, [country_id]);
+  useEffect(() => {
+    setData({ ...data, city_id: cityId });
+  }, [cityId]);
+
+  useEffect(() => {
+    fetchData();
+    getContry();
+  }, []);
+  useEffect(() => {
+    fetchData();
+  }, [rowsPerPage]);
+
   return (
     <div className="consultSidebarUniverstitet">
       <Sidebar>
@@ -251,148 +242,75 @@ const SidebarUniverstitet = () => {
               </div>
             </div>
             <div className="SidebarUniverstitet">
-              {!editModal ? (
-                selector?.role === "branch_director" ? (
-                  <span></span>
-                ) : (
-                  <button onClick={handleOpen}>Добавить университет</button>
-                )
+              {selector?.role === "branch_director" ? (
+                <span></span>
               ) : (
-                <div className="header-btn-edit-university-director">
-                  <button>Изменить</button>
-                  <button onClick={() => setEditModal(false)}>Отмена</button>
-                </div>
+                <button onClick={handleOpen}>Добавить университет</button>
               )}
-              {!editModal ? (
-                <div className="settSearch">
-                  <div className="searchUniv">
-                    <img src={search_icon} alt="" />
-                    <input
-                      type="text"
-                      onChange={(e) => handleSearch(e.target.value)}
-                      placeholder="Поиск университетов"
-                    />
-                  </div>
-                  <button
-                    onClick={() => {
-                      setFix(!fixEnd);
-                    }}
-                    className="settingsUniver"
-                  >
-                    <img src={filterSvg} alt="hi" />
-                  </button>
+
+              <div className="settSearch">
+                <div className="searchUniv">
+                  <img src={search_icon} alt="" />
+                  <input
+                    type="text"
+                    // onChange={(e) => handleSearch(e.target.value)}
+                    placeholder="Поиск университетов"
+                  />
                 </div>
-              ) : null}
-              {!editModal ? (
-                <div className="univerList director-univer">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th className="px-3">N</th>
-                        <th className="firstTD">Название</th>
-                        <th>Город</th>
-                        <th>Срок</th>
-                        <th>Статус</th>
-                        {selector?.role === "branch_director" ? (
-                          <span></span>
-                        ) : (
-                          <th className="infoTd">Информация</th>
-                        )}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {loading ? (
-                        <Loader
-                          type="spinner-circle"
-                          bgColor={"#FFFFFF"}
-                          color={"#FFFFFF"}
-                          size={80}
-                        />
-                      ) : (
-                        univerData?.data?.results?.map((v, i) => {
-                          return (
-                            <tr key={v.name}>
-                              <td className="px-3">{i + 1}</td>
-                              <td className="firstTD">{v.name}</td>
-                              <td>{v.city.name}</td>
-                              <td>
-                                {moment(v?.application_end_date).format(
-                                  "DD.MM.YYYY"
-                                )}
-                              </td>
-                              <td className="priDoc">Прием докуметов</td>
-                              {selector?.role === "branch_director" ? (
-                                <span></span>
-                              ) : (
-                                <td className="infoTd">
-                                  <img
-                                    src={info_icon}
-                                    alt=""
-                                    className="me-5"
-                                    onClick={() => setEditModal(true)}
-                                  />
-                                  <img
-                                    src={pencil}
-                                    onClick={(e) => edit(v.id)}
-                                    alt=""
-                                    width="28"
-                                    className="ms-5"
-                                  />
-                                </td>
-                              )}
-                            </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="SidebarUniverstitet modal-edit-table-univer">
-                  <div className="univerList director-univer">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th className="px-3">Имя</th>
-                          <td className="firstTD">Юсупов</td>
-                        </tr>
-                        <tr>
-                          <th className="px-3">Фамилия</th>
-                          <td className="firstTD">Юсупов</td>
-                        </tr>
-                        <tr>
-                          <th className="px-3">Отчество</th>
-                          <td className="firstTD">Юсупов</td>
-                        </tr>
-                        <tr>
-                          <th className="px-3">Университет</th>
-                          <td className="firstTD">
-                            ЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсуповЮсупов
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="px-3">Факультет</th>
-                          <td className="firstTD">Юсупов</td>
-                        </tr>
-                        <tr>
-                          <th className="px-3">Специальность</th>
-                          <td className="firstTD">Юсупов</td>
-                        </tr>
-                        <tr>
-                          <th className="px-3">Паспорт</th>
-                          <td className="firstTD">Юсупов</td>
-                        </tr>
-                        <tr>
-                          <th className="px-3">Диплом</th>
-                          <td className="firstTD">Юсупов</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
-              )}
+                <button
+                  onClick={() => {
+                    setFix(!fixEnd);
+                  }}
+                  className="settingsUniver"
+                >
+                  <img src={filterSvg} alt="hi" />
+                </button>
+              </div>
+              <div className="univerList director-univer">
+                <table>
+                  <thead>
+                    <tr>
+                      {/* <th className="px-3">N</th> */}
+                      <th className="firstTD">Название</th>
+                      <th>Город</th>
+                      {/* <th></th> */}
+                      <th>Номер телефона</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {loading ? (
+                      <Loader
+                        type="spinner-circle"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={80}
+                      />
+                    ) : (
+                      univerData?.map((v, i) => {
+                        return (
+                          <tr key={v.name}>
+                            {/* <td className="px-3">{i + 1}</td> */}
+                            <td className="firstTD">{v?.name}</td>
+                            <td>{v?.city?.name}</td>
+                            <td>{v?.phone_number}</td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+                <TablePagination
+                  rowsPerPageOptions={[20, 40, 60]}
+                  component="table"
+                  count={count}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={handlePageChange}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+              </div>
+
               {/* Filter */}
-              {/* // ! */}
               <div
                 className="abitFilBox"
                 style={
@@ -458,7 +376,7 @@ const SidebarUniverstitet = () => {
                         label="Прием докуметов закрытым"
                       />
                     </RadioGroup>
-                    <button onClick={filterUniver}>Применить</button>
+                    <button>Применить</button>
                   </div>
                   {/* end FilterUniver */}
                 </div>
@@ -492,7 +410,10 @@ const SidebarUniverstitet = () => {
                       </div>
                       <div>
                         <label>Страна</label>
-                        <select name="country">
+                        <select
+                          name="country"
+                          onChange={(e) => setCountryId(e.target.value)}
+                        >
                           {country.map((value) => {
                             const { name, id } = value;
                             return (
@@ -503,10 +424,15 @@ const SidebarUniverstitet = () => {
                           })}
                         </select>
                       </div>
+
                       <div>
                         <label>Город</label>
-                        <select name="city">
-                          {city?.cities?.map((value) => {
+                        <select
+                          name="city"
+                          onChange={(e) => setCityId(e.target.value)}
+                        >
+                          <option value="">Выберите город</option>
+                          {city?.map((value) => {
                             return (
                               <option key={value.id} value={value.id}>
                                 {value.name}
@@ -515,56 +441,37 @@ const SidebarUniverstitet = () => {
                           })}
                         </select>
                       </div>
-                      <div>
-                        {/* <label>Описание</label>
-                      <textarea
-                        name="description"
-                        id=""
-                        cols="30"
-                        rows="5"
-                        onChange={(e) => handleInputChange(e)}
-                      ></textarea> */}
-                      </div>
-                      <div className="modalDataPick">
-                        <label>Прием документов заканчивается</label>
-                        <DatePicker
-                          selected={founding_year}
-                          onChange={(e) => setFoundingYear(e)}
-                          placeholderText="sana"
-                        />
-                      </div>
-                      <div>
-                        <label>Email</label>
+                      <div style={{ position: "relative" }}>
+                        <label> Номер телефона</label>
+                        {/* <span style={{position: 'absolute',top: '40px',color:'#5c7c8a',left: '12px',fontSize:'30px'}}>+</span> */}
                         <input
-                          type="email"
-                          name="email"
+                          defaultValue="+"
+                          ref={phoneRef}
+                          style={{ fontSize: "20px" }}
+                          type="text"
+                          name="phone_number"
                           onChange={(e) => handleInputChange(e)}
                         />
                       </div>
                       <div>
-                        <label>Пароль</label>
+                        <label style={{ color: (error && "red") || "" }}>
+                          Пароль
+                        </label>
                         <input
                           type="password"
-                          name="password"
+                          name="password1"
                           onChange={(e) => handleInputChange(e)}
                         />
                       </div>
                       <div>
-                        <label>Картинка</label>
-                        <div className="import">
-                          <img src={folder_icon} alt="" />
-                          <p>
-                            Drop your files here or a
-                            <input
-                              onChange={(e) => handleFileChange(e)}
-                              ref={inputEl1}
-                              type="file"
-                              id="chFile2"
-                              name="images"
-                            />
-                            <label htmlFor="chFile2">choose file</label>
-                          </p>
-                        </div>
+                        <label style={{ color: (error && "red") || "" }}>
+                          проверка пароля
+                        </label>
+                        <input
+                          type="password"
+                          name="password2"
+                          onChange={(e) => handleInputChange(e)}
+                        />
                       </div>
                       <button onClick={(event) => submitUniverstet(event)}>
                         Добавить
@@ -576,117 +483,11 @@ const SidebarUniverstitet = () => {
                   </div>
                 </Fade>
               </Modal>
-              <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className="class1"
-                open={open_change}
-                onClose={handleClose_change}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-              >
-                <Fade in={open_change}>
-                  <div className="addNewUniverModalUniver talaba_modal">
-                    <img
-                      onClick={handleClose_change}
-                      src={close_modal}
-                      alt=""
-                    />
-                    <div className="modalContainer">
-                      <h5>Добавить новый университет</h5>
-                      <div>
-                        <label>Название университета</label>
-                        <input
-                          value={name}
-                          name="name"
-                          type="text"
-                          onChange={(e) => handleInputChange(e)}
-                        />
-                      </div>
-                      <div>
-                        <label>Страна</label>
-                        <select value={country}>
-                          <option>Tashkent</option>
-                          <option>Istabul</option>
-                          <option>Maskiva</option>
-                        </select>
-                      </div>
 
-                      <div>
-                        <label>Город</label>
-                        <select value={city}>
-                          <option>Tashkent</option>
-                          <option>Istabul</option>
-                          <option>Maskiva</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label>Описание</label>
-                        <textarea
-                          name="description"
-                          id=""
-                          cols="30"
-                          rows="5"
-                          value={description}
-                          onChange={(e) => handleInputChange(e)}
-                        ></textarea>
-                      </div>
-                      <div className="modalDataPick">
-                        <label>Прием документов заканчивается</label>
-                        <DatePicker
-                          selected={founding_year}
-                          onChange={(e) => setFoundingYear(e)}
-                          placeholderText="sana"
-                        />
-                      </div>
-                      <div>
-                        <label>Email</label>
-                        <input
-                          type="email"
-                          name="email"
-                          onChange={(e) => handleInputChange(e)}
-                        />
-                      </div>
-                      <div>
-                        <label>Пароль</label>
-                        <input
-                          type="password"
-                          name="password"
-                          onChange={(e) => handleInputChange(e)}
-                        />
-                      </div>
-                      <div>
-                        <label>Картинка</label>
-                        <div className="importFile">
-                          <img src={folder_icon} alt="" />
-                          <p>
-                            Drop your files here or a
-                            <input
-                              type="file"
-                              id="chFile"
-                              ref={inputEl1}
-                              name="images"
-                              onChange={(e) => handleFileChange(e)}
-                            />
-                            <label htmlFor="chFile">choose file</label>
-                          </p>
-                        </div>
-                      </div>
-                      <button onClick={() => setEdit(id)}>Добавить</button>
-                      <button onClick={handleClose_change} className="back_btn">
-                        <img src={arrow1} alt="" /> Вернуться
-                      </button>
-                    </div>
-                  </div>
-                </Fade>
-              </Modal>
               {/* end Filter */}
             </div>
             <a href="#top" title="Go to top" className="backTop">
-              <img src={blueStroke} alt="back to the top" />
+              <img src={blueStroke} alt="back to top" />
             </a>
           </>
         </div>
