@@ -176,32 +176,6 @@ const Sidebar = (props) => {
               <NavLink onClick={handleclose} to="/home/students">
                 Aбитуриент
               </NavLink>
-              <div>
-                <div className={doc ? "link_active bugalter" : "bugalter"}>
-                  <div>
-                    <NavLink
-                      to="/home/ducuments"
-                      className="toggle_link"
-                      onClick={onOpenDocumentsClick}
-                    >
-                      {/* Студенты */}
-                      Документы
-                      {/* <Badge color="danger">
-                    <span className="text-danger fs-6 ">{10}</span>
-                  </Badge> */}
-                    </NavLink>
-                  </div>
-                  <div className="toggle">
-                    <NavLink
-                      onClick={() => setDocBurger((prev) => !prev)}
-                      to="/home/send"
-                    >
-                      Отправленные
-                    </NavLink>
-                    <NavLink to="/home/received">Принятые</NavLink>
-                  </div>
-                </div>
-              </div>
               <div className="vector"></div>
               {(selector.role == "branch_director" && <span></span>) || (
                 <div className={menu ? "div_active div_a" : "div_a"}>
@@ -248,14 +222,15 @@ const Sidebar = (props) => {
                   Агенты
                 </NavLink>
               )}
-              {(selector.role == "branch_director" && <span></span>) || (
-                <NavLink onClick={handleclose} to="/home/analytics-department">
-                  Отдел аналитики
-                </NavLink>
-              )}
+              {/* {(selector.role == "branch_director" && <span></span> || <NavLink
+                                onClick={handleclose}
+                                to="/home/analytics-department"
+                            >
+                                Отдел аналитики
+                            </NavLink>)} */}
               {(selector.role == "branch_director" && <span></span>) || (
                 <NavLink onClick={handleclose} to="/settings">
-                  Настройки
+                  услуга
                 </NavLink>
               )}
               <Link to="/" onClick={signOut} className="logoutbtn">

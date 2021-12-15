@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import TablePagination from "@material-ui/core/TablePagination";
 import userpic from "../../../assets/icon/userpic.svg";
 import {
   LineChart,
@@ -46,10 +47,13 @@ const SidebarManager = () => {
   const [dataComposeds, setDataComposeds] = useState();
   const [data_doxod, setDataDoxod] = useState();
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState();
   const [second, setSecond] = useState([]);
   const [secondBlock, setSecondBlock] = useState([]);
   const [firstBlock, setFirstBlock] = useState([]);
   const [endDate, setEndDate] = useState(null);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
   const [payment, setPayment] = useState({
     not_paid: "",
     paid: "",
@@ -177,18 +181,46 @@ const SidebarManager = () => {
         }
       }
     );
-    Axios.get("company/director/statistics/manager/second_block/").then(
-      (res) => {
-        if (mounted) {
-          setLoading(false);
-          setSecondBlock(res.data);
-        }
+    Axios.get(
+      `company/director/statistics/manager/second_block/?limit=${rowsPerPage}`
+    ).then((res) => {
+      console.log(res);
+      if (mounted) {
+        setLoading(false);
+        setSecondBlock(res.data);
       }
-    );
+    });
     return () => {
       mounted = false;
     };
   }, []);
+
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/applicant/list/?limit=${rowsPerPage}&offset=${newPage * rowsPerPage}`
+      );
+      const { status, data, count } = res;
+      const { results } = data;
+      if (status == 200) {
+        setSecondBlock(data);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   return (
     <React.Fragment>
       <Sidebar>
@@ -275,9 +307,14 @@ const SidebarManager = () => {
                       <th className="">ФИО</th>
                       <th>У регистрации</th>
                       <th>У бухгалтера</th>
+                      <th>У менеджере</th>
                       <th>У нотариуса</th>
                       <th>Проверка перевода</th>
                       <th>У университета</th>
+                      <th></th>
+                      <th>успешно</th>
+                      <th></th>
+                      <th>возвращение</th>
                       {/* <th>Дедлайн</th> */}
                     </tr>
                   </thead>
@@ -301,53 +338,27 @@ const SidebarManager = () => {
                             <td>{x.applicants.in_notary}</td>
                             <td>{x.applicants.in_checking_translations}</td>
                             <td>{x.applicants.in_university}</td>
+                            <td>{}</td>
+                            <td>{x?.applicants?.completed}</td>
+                            <td>{}</td>
+                            <td>{x?.applicants?.rejected}</td>
                           </tr>
                         );
                       })
                     )}
                   </tbody>
                 </table>
+                <TablePagination
+                  rowsPerPageOptions={[20, 40, 60]}
+                  component="table"
+                  count={count}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               </div>
             </div>
-            {/* <div className=" fakultet" id="scroll_bar">
-              <table>
-                <thead>
-                  <tr>
-                    <th className="">ФИО</th>
-                    <th>У регистрации</th>
-                    <th>У бухгалтера</th>
-                    <th>У менеджера</th>
-                    <th>У нотариуса</th>
-                    <th>Проверка перевода</th>
-                    <th>У университета</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <Loader
-                      type="spinner-circle"
-                      bgColor={"#FFFFFF"}
-                      color={"#FFFFFF"}
-                      size={80}
-                    />
-                  ) : (
-                    secondBlock?.map((x) => {
-                      return (
-                        <tr>
-                          <td className="firstTD">{x.full_name}</td>
-                          <td>{x.applicants.in_register}</td>
-                          <td>{x.applicants.in_accountant}</td>
-                          <td>{x.applicants.in_manager}</td>
-                          <td>{x.applicants.in_notary}</td>
-                          <td>{x.applicants.in_checking_translations}</td>
-                          <td>{x.applicants.in_university}</td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div> */}
           </div>
         </div>
       </Sidebar>
