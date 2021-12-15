@@ -206,7 +206,7 @@ const Document = () => {
             {/* end settSearch */}
             <div className="univerList " id="scroll_bar">
               <h4 className="fw-bold mb-5 list-doc">Список документов</h4>
-              <table id="table_excel">
+              <table id="table_excel" >
                 <thead>
                   <th>ФИО</th>
                   <th>Телефон</th>
@@ -242,22 +242,12 @@ const Document = () => {
                       .map((v, i) => {
                         return (
                           <tr>
-                            {" "}
                             <th>
-                              <Link
-                                to={`${
-                                  (selector.role == "manager" &&
-                                    "/m-docs_all/") ||
-                                  "/superManager-docs_all/"
-                                }${v.id}`}
-                              >
                                 {v?.first_name} {v?.last_name}
-                              </Link>
                             </th>
                             <th>{v.phone_number}</th>
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
-                            {/* <th>{data?.manager}</th> */}
                             <th>
                               {(`${v?.education_type}` == "full_time" &&
                                 "Очный") ||

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import { scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
+import TablePagination from "@material-ui/core/TablePagination";
 import {
   ResponsiveContainer,
   Tooltip,
@@ -59,10 +60,14 @@ const SidebarAgentlar = () => {
   const [count, setCount] = useState(0); // modal
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
-
+  const phoneRef = useRef();
   const [isAct, setIsAct] = useState(false);
   const [value, setValue] = useState("all");
   const [searchName, setSearchName] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
+  const [counts, setCounts] = useState();
+  const [price, setPrice] = useState();
   const getManagerRayting = async () => {
     try {
       const res = await Axios.get(
@@ -73,18 +78,56 @@ const SidebarAgentlar = () => {
     } catch (error) {}
   };
   const getAgent = async () => {
+    setLoading(true);
     try {
-      const res = await Axios.get("/company/company-user");
-
+      const res = await Axios.get(
+        `/company/company-user/?search=${
+          searchName ? searchName : " "
+        }&limit=${rowsPerPage}`
+      );
       const results = res?.data?.results;
+      const numbers = res?.data?.count;
+      setCounts(numbers);
       setAgents(results);
-    } catch (error) {}
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/company/company-user/?limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setAgents(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const getManager = async () => {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `company/branch-manager/?search=${searchName ? searchName : " "}`
+        `/company/branch-agent/?search=${searchName ? searchName : " "}`
       );
       const results = res?.data?.results;
       setAgents(results);
@@ -95,16 +138,25 @@ const SidebarAgentlar = () => {
     }
     setFix(false);
   };
+  const getPrice = (e) => {
+    const { name, value } = e.target;
+    setPrice((state) => ({ ...state, [name]: value }));
+  };
   const handleOpen = () => {
     setOpen(true);
   };
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setData((state) => ({ ...state, [name]: value }));
+    if (name !== "phone_number") return;
+    setData({ ...data, phone_number: `+${phoneRef?.current?.value}` });
   };
+  console.log(data);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -129,19 +181,27 @@ const SidebarAgentlar = () => {
   formData.append("role", data?.role);
   formData.append("password_2", data?.password_2);
   const setAgent = async () => {
-    if (data?.password_1 == data?.password_2)
-      try {
-        const res = await Axios.post("/company/company-user/", formData);
-      } catch (error) {}
+    if (data?.password_1 == data?.password_2) setOpen(false);
+    setLoading(true);
+    try {
+      const res = await Axios.post("/company/company-user/", formData);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+    setPriceDoc();
     getAgent();
     handleClose();
   };
   const setManager = async () => {
     if (data?.password_1 == data?.password_2) {
+      setLoading(true);
       try {
-        const res = await Axios.post(`company/branch-manager/`, formData);
+        const res = await Axios.post(`company/branch-agent/`, formData);
+        setLoading(false);
       } catch (error) {
         errorMassage(error);
+        setLoading(false);
       }
       getManager();
       handleClose();
@@ -149,9 +209,14 @@ const SidebarAgentlar = () => {
       errorPassword();
     }
   };
+  const setPriceDoc = async () => {
+    try {
+      const res = await Axios.post("/company/notary-price/", price);
+    } catch (error) {}
+  };
   const isActiveId = async (id, is_active) => {
     try {
-      const res = await Axios.patch(`/company/branch-manager/${id}/`, {
+      const res = await Axios.patch(`/company/branch-agent/${id}/`, {
         is_active: !is_active,
       });
     } catch (error) {}
@@ -159,13 +224,20 @@ const SidebarAgentlar = () => {
   };
 
   useEffect(() => {
-    getManager();
+    if (selector.role == "director") {
+      getAgent();
+    } else {
+      getManager();
+    }
   }, [searchName]);
-
+  console.log(phoneRef?.current?.value);
   useEffect(() => {
     getManagerRayting();
-    {
-      (selector.role == "branch_director" && getManager()) || getAgent();
+    console.log(selector.role);
+    if (selector.role == "director") {
+      getAgent();
+    } else {
+      getManager();
     }
   }, []);
   return (
@@ -175,7 +247,16 @@ const SidebarAgentlar = () => {
           <div className="Up_navbar">
             <h4>Агенты</h4>
             <div className="user_info">
-              <img src={userpic} alt="" />
+              {loading ? (
+                <Loader
+                  type="spinner-circle"
+                  bgColor={"#FFFFFF"}
+                  color={"#FFFFFF"}
+                  size={80}
+                />
+              ) : (
+                <img src={userpic} alt="" />
+              )}
               <div>
                 <p>
                   {selector?.first_name} {selector?.last_name}
@@ -189,7 +270,10 @@ const SidebarAgentlar = () => {
             </div>
           </div>
           <div className="SidebarAgentlar">
-            <button onClick={handleOpen}>Добавить Менеджер</button>
+            {(selector?.role == "branch_director" && (
+              <button onClick={handleOpen}>Добавить Менеджер</button>
+            )) || <button onClick={handleOpen}>Добавить Агенты</button>}
+
             <div className="settSearch">
               <div className="searchUniv">
                 <img src={search_icon} alt="" />
@@ -199,14 +283,6 @@ const SidebarAgentlar = () => {
                   placeholder="Поиск сотрудника"
                 />
               </div>
-              <button
-                onClick={() => {
-                  setFix(!fixEnd);
-                }}
-                className="settingsUniver"
-              >
-                <img src={filterSvg} alt="" />
-              </button>
             </div>
             {/* end settSearch */}
             <div className="univerList tableManager">
@@ -217,7 +293,13 @@ const SidebarAgentlar = () => {
                     <th className="firstTD">ФИО</th>
                     <th>Позиция</th>
                     <th> телефона</th>
-                    <th>Число клие...</th>
+                    {(selector?.role == `director` && <span></span>) || (
+                      <th>Число клие...</th>
+                    )}
+
+                    {(selector?.role == `director` && <span></span>) || (
+                      <th>статус</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -236,41 +318,126 @@ const SidebarAgentlar = () => {
                         phone_number,
                         id,
                         is_active,
+                        middle_name,
                         applicant_count,
                       } = value;
 
                       return (
                         <tr>
                           <td className="firstTD">
-                            {first_name} - {last_name}
+                            {last_name} - {first_name} - {middle_name}
                           </td>
-                          <td>
-                            {(value?.role && `${value?.role}`) || "Менеджер"}
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "manager" && "flex") ||
+                                "none",
+                            }}
+                          >
+                            Менеджер
+                          </td>
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "branch_director" &&
+                                  "flex") ||
+                                "none",
+                            }}
+                          >
+                            директор филиала
+                          </td>
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "partner" && "flex") ||
+                                "none",
+                            }}
+                          >
+                            партнер
+                          </td>
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "agent" && "flex") ||
+                                "none",
+                            }}
+                          >
+                            агент
+                          </td>
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "supermanager" &&
+                                  "flex") ||
+                                "none",
+                            }}
+                          >
+                            суперменеджер
+                          </td>
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "accountant" && "flex") ||
+                                "none",
+                            }}
+                          >
+                            бухгалтер
+                          </td>
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "director" && "flex") ||
+                                "none",
+                            }}
+                          >
+                            директор
+                          </td>
+                          <td
+                            style={{
+                              display:
+                                (`${value?.role}` == "notary" && "flex") ||
+                                "none",
+                            }}
+                          >
+                            notary
                           </td>
                           <td>{phone_number}</td>
                           <td className="priDoc">{applicant_count}</td>
-                          <td>
-                            <button
-                              style={{
-                                backgroundColor: is_active ? "blue" : "#C6C6C6",
-                                color: "white",
-                                padding: "5px 10px",
-                                border: "none",
-                                borderRadius: "10px",
-                                fontSize: "22px",
-                                outline: "none",
-                              }}
-                              onClick={() => isActiveId(id, is_active)}
-                            >
-                              {(is_active && "активный") || "неактивный"}
-                            </button>
-                          </td>
+                          {(selector?.role == `director` && <span></span>) || (
+                            <td className="c">
+                              <button
+                                style={{
+                                  backgroundColor: is_active
+                                    ? "blue"
+                                    : "#C6C6C6",
+                                  color: "white",
+                                  padding: "5px 10px",
+                                  border: "none",
+                                  borderRadius: "10px",
+                                  fontSize: "22px",
+                                  outline: "none",
+                                }}
+                                onClick={() => isActiveId(id, is_active)}
+                              >
+                                {(is_active && "активный") || "неактивный"}
+                              </button>
+                            </td>
+                          )}
                         </tr>
                       );
                     })
                   )}
                 </tbody>
               </table>
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={counts}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </div>
             <div className="raytingAgentBlock block_chart vertical_charts">
               <div className="raytingAgentTitle">
@@ -305,167 +472,7 @@ const SidebarAgentlar = () => {
 
             {/* end univerList */}
             {/* Filter */}
-            {(selector.role == "branch_director" && (
-              <div
-                className="abitFilBox"
-                style={
-                  fixEnd
-                    ? { width: "100%" }
-                    : { width: "0", transition: "0.5s step-end" }
-                }
-              >
-                <div
-                  className="abitFilCl"
-                  onClick={() => setFix(!fixEnd)}
-                ></div>
-                <div
-                  className="FilterFix"
-                  style={
-                    fixEnd
-                      ? { transform: "translateX(0)", transition: "0.5s" }
-                      : { transform: "translateX(100%)", transition: "0.5s" }
-                  }
-                >
-                  <div
-                    className="fixLeft"
-                    onClick={() => {
-                      setFix(!fixEnd);
-                    }}
-                  ></div>
-                  <div className="FilterUniver">
-                    <button
-                      onClick={() => {
-                        setFix(!fixEnd);
-                      }}
-                      className="ab_2_close"
-                    >
-                      <img src={closeFilter} alt="" />
-                    </button>
-                    <h4>Фильтры</h4>
-                    {/* <p>Выберите дату вступления на работу</p> */}
-                    <div className="form_ab">
-                      <FormControl component="fieldset">
-                        {/* <FormLabel component="legend">Status</FormLabel> */}
-                        <RadioGroup
-                          aria-label="gender"
-                          name="gender1"
-                          value={value}
-                          onChange={handleChange}
-                        >
-                          <FormControlLabel
-                            value="true"
-                            control={<Radio color="primary" />}
-                            label="активный"
-                          />
-                          <FormControlLabel
-                            value="false"
-                            control={<Radio color="primary" />}
-                            label="неактивный"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </div>
-                    <button onClick={getManager}>Применить</button>
-                  </div>
-                  {/* end FilterUniver */}
-                </div>
-              </div>
-            )) || (
-              <div
-                className="abitFilBox"
-                style={
-                  fixEnd
-                    ? { width: "100%" }
-                    : { width: "0", transition: "0.5s step-end" }
-                }
-              >
-                <div
-                  className="abitFilCl"
-                  onClick={() => setFix(!fixEnd)}
-                ></div>
-                <div
-                  className="FilterFix"
-                  style={
-                    fixEnd
-                      ? { transform: "translateX(0)", transition: "0.5s" }
-                      : { transform: "translateX(100%)", transition: "0.5s" }
-                  }
-                >
-                  <div
-                    className="fixLeft"
-                    onClick={() => {
-                      setFix(!fixEnd);
-                    }}
-                  ></div>
-                  <div className="FilterUniver">
-                    <button
-                      onClick={() => {
-                        setFix(!fixEnd);
-                      }}
-                      className="ab_2_close"
-                    >
-                      <img src={closeFilter} alt="" />
-                    </button>
-                    <h4>Фильтры</h4>
-                    <p>Выберите дату вступления на работу</p>
-                    <div className="datapickBlock">
-                      <div>
-                        <DatePicker
-                          selected={startDate}
-                          onChange={(date) => setStartDate(date)}
-                          placeholderText="sana"
-                        />
-                      </div>
-                    </div>
-                    <p>Выберите семестр</p>
-                    <div className="selectCountry">
-                      <select name="" id="">
-                        <option value="">Летний</option>
-                        <option value="">Летний</option>
-                        <option value="">Летний</option>
-                        <option value="">Летний</option>
-                      </select>
-                    </div>
-                    <label className="custom-checkbox checkSt1">
-                      <input type="checkbox" name="" id="" />
-                      <span></span>
-                      <p>Поступившие</p>
-                    </label>
-                    <label className="custom-checkbox checkSt2">
-                      <input type="checkbox" name="" id="" />
-                      <span></span>
-                      <p>Непоступившие</p>
-                    </label>
 
-                    <div className="viewConsult">
-                      <p>Показать консультанта</p>
-                      {viewConsul ? (
-                        <div
-                          className="actview"
-                          onClick={() => {
-                            setConsul(!viewConsul);
-                          }}
-                        >
-                          <div></div>
-                        </div>
-                      ) : (
-                        <div
-                          className="passview"
-                          onClick={() => {
-                            setConsul(!viewConsul);
-                          }}
-                        >
-                          <div></div>
-                        </div>
-                      )}
-                    </div>
-
-                    <button>Применить</button>
-                  </div>
-                  {/* end FilterUniver */}
-                </div>
-              </div>
-            )}
             {(selector.role == "branch_director" && (
               <Modal
                 aria-labelledby="transition-modal-title"
@@ -485,7 +492,7 @@ const SidebarAgentlar = () => {
                     <div className="modalContainer">
                       <h5>Добавить сотрудника</h5>
                       <div>
-                        <label> Ваша Имя </label>
+                        <label>Имя </label>
                         <input
                           type="text"
                           name="first_name"
@@ -493,7 +500,7 @@ const SidebarAgentlar = () => {
                         />
                       </div>
                       <div>
-                        <label>Ваша фамилия </label>
+                        <label>фамилия </label>
                         <input
                           type="text"
                           name="last_name"
@@ -509,7 +516,7 @@ const SidebarAgentlar = () => {
                         />
                       </div>
                       <div>
-                        <label>Логин</label>
+                        <label>Номер телефона</label>
                         <input
                           type="text"
                           name="phone_number"
@@ -586,17 +593,120 @@ const SidebarAgentlar = () => {
                           onChange={(e) => handleInputChange(e)}
                           name="role"
                         >
-                          <option>Директор</option>
-                          <option>менеджер </option>
-                          <option>нотариус </option>
-                          <option>партнер</option>
-                          <option>Бухгалтер</option>
+                          <option value="director">Директор</option>
+                          <option value="manager">менеджер </option>
+                          <option value="notary"> нотариус</option>
+                          <option value="partner">партнер</option>
+                          <option value="accountant">Бухгалтер</option>
+                          <option value="supermanager">супер-менеджер</option>
                         </select>
                       </div>
-                      <div>
-                        <label>Логин</label>
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label>пасспорт цена</label>
+                          <input
+                            type="text"
+                            name="passport_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label>диплом цена</label>
+                          <input
+                            type="text"
+                            name="diploma_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label> паспорт матер цена</label>
+                          <input
+                            type="text"
+                            name="passport_mother_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label>свидетельство о браке цена</label>
+                          <input
+                            type="text"
+                            name="marriage_cert_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label> рождение сертификат цена</label>
+                          <input
+                            type="text"
+                            name="birth_cert_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label>медицина 063 сертификат цена</label>
+                          <input
+                            type="text"
+                            name="med_063_cert_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label>медицина 086 сертификат цена</label>
+                          <input
+                            type="text"
+                            name="med_086_cert_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+                      {(data?.role == "notary" && (
+                        <div>
+                          <label> сертификат ВИЧ цена</label>
+                          <input
+                            type="text"
+                            name="hiv_cert_confirmed"
+                            onChange={(e) => getPrice(e)}
+                          />
+                        </div>
+                      )) ||
+                        ""}
+
+                      <div style={{ position: "relative" }}>
+                        <label>Номер телефона</label>
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "46px",
+                            left: "15px",
+                            fontSize: "22px",
+                          }}
+                        >
+                          +
+                        </span>
                         <input
                           type="text"
+                          defaultValue="998"
+                          ref={phoneRef}
+                          style={{ fontSize: "20px" }}
                           name="phone_number"
                           onChange={(e) => handleInputChange(e)}
                         />
