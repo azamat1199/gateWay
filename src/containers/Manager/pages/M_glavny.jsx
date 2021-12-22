@@ -33,8 +33,7 @@ const M_glavny = () => {
       const res = await Axios.post(`/company/note/`, {
         text: data.description,
       });
-    } catch (error) {
-    }
+    } catch (error) {}
     fetchNote();
   };
 
@@ -55,6 +54,7 @@ const M_glavny = () => {
       const { results } = data;
       if (status === 200) {
         setNote(results);
+        setLoading(false);
       }
       setLoading(false);
     } catch (error) {

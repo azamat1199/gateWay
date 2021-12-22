@@ -3,7 +3,7 @@ import ManegerSidebar from "../ManagerSidebar";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import Axios from "../../../utils/axios";
-
+import TablePagination from "@material-ui/core/TablePagination";
 import userpic from "../../../assets/icon/userpic.svg";
 import filter from "../../../assets/icon/Filter.svg";
 import search from "../../../assets/icon/Search2.svg";
@@ -23,7 +23,13 @@ const M_status = () => {
 
   const [key, setkey] = React.useState("");
   const [loading, setLoading] = useState(true);
-
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
   function handleChange(event) {
     setkey(event.target.value);
   }
@@ -39,9 +45,7 @@ const M_status = () => {
       if (data2.status === 200) {
         setFilterCountry(countrys);
       }
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   };
 
   const fetchUniversities = async () => {
@@ -51,9 +55,7 @@ const M_status = () => {
       if (data.status === 200) {
         setUniversities(results);
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const [users, setUsers] = useState([]);
@@ -65,12 +67,39 @@ const M_status = () => {
       setLoading((loading) => !loading);
       if (data.status === 200) {
         setDocument(results);
+        setCount(data.data.count);
       }
+    } catch (error) {}
+  };
+
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `applicant/list/?status=all&limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setDocument(results);
+      }
+      console.log(res);
+      setLoading(false);
     } catch (error) {
-      
+      console.log(error);
+      setLoading(false);
     }
   };
 
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   const setFavourite = async (univerId) => {
     try {
       const data = await Axios.post(
@@ -79,9 +108,7 @@ const M_status = () => {
           university: univerId,
         }
       );
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const handler = (userId) => {
@@ -92,6 +119,9 @@ const M_status = () => {
     univerCountry();
     userList();
   }, []);
+  useEffect(() => {
+    userList();
+  }, [rowsPerPage]);
   const selector = useSelector((state) => state.payload.payload.data);
 
   return (
@@ -155,7 +185,6 @@ const M_status = () => {
                       if (v.step == "registered" || v.step == "frofile_filled")
                         return (
                           <tr>
-                          
                             <th>
                               <Link to={`/m-glavny/${v.id}`}>
                                 {v.first_name} {v.last_name}
@@ -191,13 +220,11 @@ const M_status = () => {
                                 7 <p>invois University </p>
                               </span>
                             </th>
-                           
                           </tr>
                         );
                       if (v.step == "payment_confirmation")
                         return (
                           <tr>
-                          
                             <th>
                               <Link to={`/m-glavny/${v.id}`}>
                                 {v.first_name} {v.last_name}
@@ -228,7 +255,6 @@ const M_status = () => {
                                 7 <p>invois University </p>
                               </span>
                             </th>
-                           
                           </tr>
                         );
                       if (
@@ -237,7 +263,6 @@ const M_status = () => {
                       )
                         return (
                           <tr>
-                          
                             <th>
                               <Link to={`/m-glavny/${v.id}`}>
                                 {v.first_name} {v.last_name}
@@ -268,7 +293,6 @@ const M_status = () => {
                                 7 <p>invois University </p>
                               </span>
                             </th>
-                           
                           </tr>
                         );
                       if (
@@ -284,7 +308,7 @@ const M_status = () => {
                             </th>
                             <th>{v.university}</th>
                             <th>{v.faculty}</th>
-                          
+
                             <th className="steps">
                               <span className={`step`}>
                                 1 <p>Заявка</p>
@@ -308,13 +332,11 @@ const M_status = () => {
                                 7 <p>invois University </p>
                               </span>
                             </th>
-                           
                           </tr>
                         );
                       if (v.step == "manager_checking_notary")
                         return (
                           <tr>
-                          
                             <th>
                               <Link to={`/m-glavny/${v.id}`}>
                                 {v.first_name} {v.last_name}
@@ -345,13 +367,11 @@ const M_status = () => {
                                 7 <p>invois University </p>
                               </span>
                             </th>
-                           
                           </tr>
                         );
                       if (v.step == "university")
                         return (
                           <tr>
-                          
                             <th>
                               <Link to={`/m-glavny/${v.id}`}>
                                 {v.first_name} {v.last_name}
@@ -382,13 +402,11 @@ const M_status = () => {
                                 7 <p>invois University </p>
                               </span>
                             </th>
-                           
                           </tr>
                         );
                       if (v.step == "completed" || v.step == "cancelled")
                         return (
                           <tr>
-                          
                             <th>
                               <Link to={`/m-glavny/${v.id}`}>
                                 {v.first_name} {v.last_name}
@@ -419,13 +437,21 @@ const M_status = () => {
                                 7 <p>invois University </p>
                               </span>
                             </th>
-                           
                           </tr>
                         );
                     })}
                   </tbody>
                 )}
               </table>
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </div>
           </div>
           <div className="ab_2" id={filters ? "ra0" : "ra100"}>

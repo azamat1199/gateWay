@@ -29,19 +29,23 @@ const M_glavny_table = () => {
   const [users, setUsers] = useState([]);
   const [key, setkey] = React.useState("");
   const [loading, setLoading] = useState();
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
+
   const [searchName, setSearchName] = useState("");
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
-  };
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
+
   const handleChange = (event) => {
     setValue(event.target.value);
   };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(+event.target.value);
+  //   setPage(0);
+  // };
 
   const handelFilter = () => {
     setfilters(!filters);
@@ -64,9 +68,10 @@ const M_glavny_table = () => {
         }`
       );
       setUsers(data.data.results);
+      setCount(data.data.count);
       setLoading(false);
     } catch (error) {
-      
+      setLoading(false);
     }
     setfilters(false);
   };
@@ -81,10 +86,37 @@ const M_glavny_table = () => {
 
       if (data.status === 200) {
       }
+    } catch (error) {}
+  };
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/applicant/list/?limit=${rowsPerPage}&offset=${newPage * rowsPerPage}`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setUsers(results);
+      }
+      console.log(res);
+      setLoading(false);
     } catch (error) {
-      
+      console.log(error);
+      setLoading(false);
     }
   };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  useEffect(() => {
+    userList();
+  }, [rowsPerPage]);
   useEffect(() => {
     userList();
   }, [searchName]);
@@ -163,15 +195,15 @@ const M_glavny_table = () => {
                               </span>
 
                               <span className="">
-                                3 <p>bugalter </p>
+                                3 <p>Бугалтер </p>
                               </span>
 
                               <span className="">
-                                4 <p>Manager </p>
+                                4 <p>Менеджер </p>
                               </span>
 
                               <span className="">
-                                5 <p>Notary </p>
+                                5 <p>Нотариус </p>
                               </span>
 
                               <span className="">
@@ -179,7 +211,7 @@ const M_glavny_table = () => {
                               </span>
 
                               <span className="">
-                                6 <p>University </p>
+                                6 <p>менеджер проверяет файл у нотариуса </p>
                               </span>
                             </th>
                           </tr>
@@ -207,17 +239,17 @@ const M_glavny_table = () => {
                                 1 <p>Заявка</p>
                               </span>
                               <span className="step">
-                                2 <p>Profile </p>
+                                2 <p>регистр </p>
                               </span>
                               <span className="">
-                                3 <p>bugalter </p>
+                                3 <p>Бугалтер </p>
                               </span>
                               <span className="">
-                                4 <p>Manager </p>
+                                4 <p>Менеджер </p>
                               </span>
 
                               <span className="">
-                                5<p>Notary </p>
+                                5<p>Нотариус </p>
                               </span>
 
                               {/* <span className="">
@@ -225,7 +257,7 @@ const M_glavny_table = () => {
                               </span> */}
 
                               <span className="">
-                                6<p>University </p>
+                                6<p>менеджер проверяет файл у нотариуса </p>
                               </span>
                             </th>
                           </tr>
@@ -252,22 +284,22 @@ const M_glavny_table = () => {
                                 1 <p>Заявка</p>
                               </span>
                               <span className="step">
-                                2 <p>Profile </p>
+                                2 <p>регистр </p>
                               </span>
                               <span className="step">
-                                3 <p>bugalter </p>
+                                3 <p>Бугалтер </p>
                               </span>
                               <span className="">
-                                4 <p>Manager </p>
+                                4 <p>Менеджер </p>
                               </span>
                               <span className="">
-                                5 <p>Notary </p>
+                                5 <p>Нотариус </p>
                               </span>
                               {/* <span className="">
                                 6 <p>manager_checking_notary </p>
                               </span> */}
                               <span className="">
-                                6 <p>University </p>
+                                6 <p>менеджер проверяет файл у нотариуса </p>
                               </span>
                             </th>
                           </tr>
@@ -298,22 +330,22 @@ const M_glavny_table = () => {
                                 1 <p>Заявка</p>
                               </span>
                               <span className="step">
-                                2 <p>Profile </p>
+                                2 <p>регистр </p>
                               </span>
                               <span className="step">
-                                3 <p>bugalter </p>
+                                3 <p>Бугалтер </p>
                               </span>
                               <span className="step">
-                                4 <p>Manager </p>
+                                4 <p>Менеджер </p>
                               </span>
                               <span className="">
-                                5 <p>Notary </p>
+                                5 <p>Нотариус </p>
                               </span>
                               {/* <span className="">
                                 6 <p>manager_checking_notary </p>
                               </span> */}
                               <span className="">
-                                6 <p>University </p>
+                                6 <p>менеджер проверяет файл у нотариуса </p>
                               </span>
                             </th>
                           </tr>
@@ -345,22 +377,22 @@ const M_glavny_table = () => {
                                 1 <p>Заявка</p>
                               </span>
                               <span className="step">
-                                2 <p>Profile </p>
+                                2 <p>регистр </p>
                               </span>
                               <span className="step">
-                                3 <p>bugalter </p>
+                                3 <p>Бугалтер </p>
                               </span>
                               <span className="step">
-                                4 <p>Manager </p>
+                                4 <p>Менеджер </p>
                               </span>
                               <span className="step">
-                                5 <p>Notary </p>
+                                5 <p>Нотариус </p>
                               </span>
                               {/* <span className="">
                                 6 <p>manager_checking_notary </p>
                               </span> */}
                               <span className="">
-                                6 <p>University </p>
+                                6 <p>менеджер проверяет файл у нотариуса </p>
                               </span>
                             </th>
                           </tr>
@@ -388,22 +420,20 @@ const M_glavny_table = () => {
                                 1 <p>Заявка</p>
                               </span>
                               <span className="step">
-                                2 <p>Profile </p>
+                                2 <p>регистр </p>
                               </span>
                               <span className="step">
-                                3 <p>bugalter </p>
+                                3 <p>Бугалтер </p>
                               </span>
                               <span className="step">
-                                4 <p>Manager </p>
+                                4 <p>Менеджер </p>
                               </span>
                               <span className="step">
-                                5 <p>Notary </p>
+                                5 <p>Нотариус </p>
                               </span>
-                              {/* <span className="step">
-                                6 <p>manager_checking_notary </p>
-                              </span> */}
+
                               <span className="step">
-                                6 <p>University </p>
+                                6 <p>менеджер проверяет файл у нотариуса </p>
                               </span>
                             </th>
                           </tr>
@@ -413,9 +443,9 @@ const M_glavny_table = () => {
               )}
             </table>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 20, 30]}
+              rowsPerPageOptions={[20, 40, 60]}
               component="table"
-              count={users?.length}
+              count={count}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handlePageChange}
@@ -486,32 +516,32 @@ const M_glavny_table = () => {
                   <FormControlLabel
                     value="registered"
                     control={<Radio color="primary" />}
-                    label="Register"
+                    label="регистр"
                   />
                   <FormControlLabel
                     value="profile_filled"
                     control={<Radio color="primary" />}
-                    label="Profile"
+                    label="Профиль"
                   />
                   <FormControlLabel
                     value="payment_confirmation"
                     control={<Radio color="primary" />}
-                    label="Bugalter"
+                    label="Бугалтер"
                   />
                   <FormControlLabel
                     value="payment_confirmed"
                     control={<Radio color="primary" />}
-                    label="Manager"
+                    label="Менеджер"
                   />
                   <FormControlLabel
                     value="notary"
                     control={<Radio color="primary" />}
-                    label="Notary"
+                    label="Нотариус"
                   />
                   <FormControlLabel
                     value="manager_checking_notary"
                     control={<Radio color="primary" />}
-                    label="University"
+                    label="менеджер проверяет файл у нотариуса"
                   />
                 </RadioGroup>
               </FormControl>

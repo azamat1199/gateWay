@@ -27,19 +27,72 @@ const M_prayslist = () => {
   const [degree, setDegree] = useState();
   const [datas, setDatas] = useState();
   const [filters, setfilters] = useState(false);
-  const [searchName,setSearchName]=useState('')
+  const [searchName, setSearchName] = useState("");
   const [key, setkey] = React.useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page, setPage] = useState(0);
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const handlePageChange = (e, newPage) => {
+
+  const handlePageChange = async (e, newPage) => {
     setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/company/set-service-price/?limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setDatas(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
-  const handleChangeRowsPerPage = (event) => {
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const getDatas = async () => {
+    setLoading(true);
+    const sd = startDate?.getDate();
+    const sm = startDate?.getMonth() + 1;
+    const sy = startDate?.getFullYear();
+    const ed = endDate?.getDate();
+    const em = endDate?.getMonth() + 1;
+    const ey = endDate?.getFullYear();
+    try {
+      const res = await Axios.get(
+        `/company/set-service-price/?date-from=${
+          startDate ? `${sd}.${sm}.${sy}` : ""
+        }&date-to=${endDate ? `${ed}.${em}.${ey}` : ""}&search=${
+          searchName ? searchName : " "
+        }&limit=1000`
+      );
+
+      setDatas(res.data.results);
+      setLoading(false);
+      setCount(res.data.count);
+    } catch (error) {
+      setLoading(false);
+    }
+    setfilters(false);
+  };
+
   // const handleChange = (event) => {
   //   setValue(event.target.value);
   // };
@@ -47,37 +100,16 @@ const M_prayslist = () => {
     setfilters(!filters);
   };
 
-  const getDatas = async () => {
-    setLoading(true);
-    const sd=startDate?.getDate()
-    const sm=startDate?.getMonth()+1
-    const sy=startDate?.getFullYear()
-    const ed=endDate?.getDate()
-    const em=endDate?.getMonth()+1
-    const ey=endDate?.getFullYear()
-    try {
-      const res = await Axios.get(`/company/set-service-price/?date-from=${
-        startDate ?`${sd}.${sm}.${sy}`:""
-      }&date-to=${
-        endDate ? `${ed}.${em}.${ey}`: ""
-      }&search=${
-        searchName ? searchName : " "
-      }`);
-      
-      setDatas(res.data.results);
-      setLoading(false);
- 
-    } catch (error) {}
-    setfilters(false)
-  };
-
   useEffect(() => {
     getDatas();
   }, []);
 
- useEffect(()=>{
-  getDatas();
- },[searchName])
+  useEffect(() => {
+    getDatas();
+  }, [searchName]);
+  useEffect(() => {
+    getDatas();
+  }, [rowsPerPage]);
 
   return (
     <>
@@ -104,7 +136,10 @@ const M_prayslist = () => {
                 <button>
                   <img src={search} alt="" />
                 </button>
-                <input type="text" onChange={(e)=>setSearchName(e.target.value)} />
+                <input
+                  type="text"
+                  onChange={(e) => setSearchName(e.target.value)}
+                />
               </div>
               <div className="filtr_btn">
                 <button onClick={handelFilter}>
@@ -115,10 +150,10 @@ const M_prayslist = () => {
             <div className="table">
               <table>
                 <thead>
-                  <th style={{textAlign:'left'}}>Университет</th>
-                  <th style={{textAlign:'left'}}>Степень</th>
-                  <th style={{textAlign:'left'}}>Факультет</th>
-                  <th style={{textAlign:'left'}}>Цена за услуги</th>
+                  <th style={{ textAlign: "left" }}>Университет</th>
+                  <th style={{ textAlign: "left" }}>Степень</th>
+                  <th style={{ textAlign: "left" }}>Факультет</th>
+                  <th style={{ textAlign: "left" }}>Цена за услуги</th>
                 </thead>
                 <tbody>
                   {loading ? (
@@ -136,11 +171,15 @@ const M_prayslist = () => {
                       )
                       .map((v, i) => {
                         return (
-                          <tr >
-                            <th style={{textAlign:'left'}}>{v?.university.name}</th>
-                            <th style={{textAlign:'left'}}>{v?.degree}</th>
-                            <th style={{textAlign:'left'}}>{v?.name}</th>
-                            <th style={{textAlign:'left'}}>{v?.service_price}</th>
+                          <tr>
+                            <th style={{ textAlign: "left" }}>
+                              {v?.university.name}
+                            </th>
+                            <th style={{ textAlign: "left" }}>{v?.degree}</th>
+                            <th style={{ textAlign: "left" }}>{v?.name}</th>
+                            <th style={{ textAlign: "left" }}>
+                              {v?.service_price}
+                            </th>
                           </tr>
                         );
                       })
@@ -148,9 +187,9 @@ const M_prayslist = () => {
                 </tbody>
               </table>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20, 30]}
+                rowsPerPageOptions={[20, 40, 60]}
                 component="table"
-                count={datas?.length}
+                count={count}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handlePageChange}
@@ -159,63 +198,66 @@ const M_prayslist = () => {
             </div>
           </div>
           <div
-          className="abitFilBox"
-          style={
-            filters
-              ? { width: "100%" }
-              : { width: "0", transition: "0.5s step-end" }
-          }
-        >
-          <div className="abitFilCl" onClick={() => setfilters(!filters)}></div>
-          <div
-            className="ab_2"
+            className="abitFilBox"
             style={
               filters
-                ? { transform: "translateX(0)", transition: "0.5s" }
-                : { transform: "translateX(100%)", transition: "0.5s" }
+                ? { width: "100%" }
+                : { width: "0", transition: "0.5s step-end" }
             }
           >
-            <button
-              onClick={() => {
-                setfilters(!filters);
-              }}
-              className="ab_2_close"
+            <div
+              className="abitFilCl"
+              onClick={() => setfilters(!filters)}
+            ></div>
+            <div
+              className="ab_2"
+              style={
+                filters
+                  ? { transform: "translateX(0)", transition: "0.5s" }
+                  : { transform: "translateX(100%)", transition: "0.5s" }
+              }
             >
-              <img src={close} alt="" />
-            </button>
-            <h1>Фильтры</h1>
-            <div className="form_ab">
-              <h2>Выберите период</h2>
-              <div className="form_div">
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  selectsStart
-                  startDate={startDate}
-                  endDate={endDate}
-                  dateFormat="dd MMM yyyy"
-                  placeholderText=""
-                />
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                  selectsEnd
-                  startDate={startDate}
-                  endDate={endDate}
-                  dateFormat="dd MMM yyyy"
-                  minDate={startDate}
-                  placeholderText=""
-                />
+              <button
+                onClick={() => {
+                  setfilters(!filters);
+                }}
+                className="ab_2_close"
+              >
+                <img src={close} alt="" />
+              </button>
+              <h1>Фильтры</h1>
+              <div className="form_ab">
+                <h2>Выберите период</h2>
+                <div className="form_div">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    dateFormat="dd MMM yyyy"
+                    placeholderText=""
+                  />
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    dateFormat="dd MMM yyyy"
+                    minDate={startDate}
+                    placeholderText=""
+                  />
+                </div>
+              </div>
+
+              <div className="form_ab">
+                <button className="form_button" onClick={getDatas}>
+                  Применить
+                </button>
               </div>
             </div>
-      
-            <div className="form_ab">
-              <button className="form_button" onClick={getDatas}>
-                Применить
-              </button>
-            </div>
           </div>
-        </div>
         </div>
       </div>
     </>
