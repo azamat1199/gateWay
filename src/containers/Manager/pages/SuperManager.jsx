@@ -11,7 +11,7 @@ import Vector from "../../../assets/icons/Vector.svg";
 import blueStroke from "../../../assets/images/Stroke-blue.svg";
 import closeFilter from "../../../assets/icon/close.svg";
 import check from "../../../assets/icon/check1.svg";
-import styled from 'styled-components'
+import styled from "styled-components";
 // import css
 import "../../../style/css/SidebarUniverstitet.css";
 import "../../../style/css/fakultet.css";
@@ -28,39 +28,65 @@ import { Pagination } from "@material-ui/lab";
 import TablePagination from "@material-ui/core/TablePagination";
 export default function SuperManager() {
   const [items, setItems] = useState([]);
-  const [radio,setRadio] = useState('')
+  const [radio, setRadio] = useState("");
   //   const [tempNote, setTempNote] = useState([]);
-    const [value, setValue] = useState();
-    const [note, setNote] = useState([]);
-    const [words, setWords] = useState();
-    
-    const [loading, setLoading] = useState(false);
-    let [count, setCount] = useState(0);
-    const counts = new Date().getUTCMilliseconds();
+  const [value, setValue] = useState();
+  const [note, setNote] = useState([]);
+  const [words, setWords] = useState();
+
+  const [loading, setLoading] = useState(false);
+  const counts = new Date().getUTCMilliseconds();
   const [students, setStudents] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [paymentConfirm, setPaymentConfirm] = useState(false);
   const [open_change, setOpen_change] = React.useState(false);
   const [fixEnd, setFix] = useState(false);
-  // const [count, setCount] = useState();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [data, setData] = useState(null);
-  // const [loading, setLoading] = useState();
   const [managersFrom, setManager] = useState();
   const [managerAll, setManagerAll] = useState();
   const container = useRef();
-  const [faculty,setFaculty] = useState([])
+  const [faculty, setFaculty] = useState([]);
   const [managerName, setManagerName] = useState();
   const [userId, setUserId] = useState();
-  const [select,setSelect] = useState([])
+  const [select, setSelect] = useState([]);
   const [nameIdM, setNameIdM] = useState();
   const [confirms, setConfirms] = useState();
   const history = useHistory();
   const selector = useSelector((state) => state.payload.payload.data);
+
+  const [univer, setUniver] = useState([]);
+  const [next, setNext] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [univer,setUniver] = useState([])
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
+  const fethcStudents = async () => {
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        "applicant/list/?manager-attached=false&limit=1000"
+      );
+      const { status, data } = res;
+      const { results, count } = data;
+      results.map((v, i) => {
+        return setConfirms((state) => ({
+          ...state,
+          [`confirms_${v?.id}`]: false,
+        }));
+      });
+      if (status === 200) {
+        setStudents(results);
+        setCount(count);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   const addCard = () => {
     setItems([
       ...items,
@@ -73,30 +99,54 @@ export default function SuperManager() {
 
   const saveCard = async (id) => {
     let data = items.find((items) => items.id === id);
-    let newData = items.filter(item=> item.id !== id);
-    setItems(newData)
+    let newData = items.filter((item) => item.id !== id);
+    setItems(newData);
     try {
       const res = await Axios.post(`/company/note/`, {
         text: data.description,
-      })
-      
-    } catch (error) {
-      
-    }
-    fetchNote()
+      });
+    } catch (error) {}
+    fetchNote();
   };
 
   const deleteCard = (index) => {
-    
     const filteredData = items.filter((item) => item.id != index);
     setItems(filteredData);
+  };
+
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `applicant/list/?manager-attached=false&limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setStudents(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   const inputHandler = (e, index) => {
     let filteredWords = items.find((item) => item.id == index);
     filteredWords.description = e.target.value;
     // handleWords(data, index);
-    
   };
 
   const fetchNote = async () => {
@@ -108,72 +158,34 @@ export default function SuperManager() {
       if (status === 200) {
         setNote(results);
         setLoading(false);
-      }
-      else{
+      } else {
         setLoading(false);
       }
-      
-    
     } catch (error) {
-      
       setLoading(false);
     }
   };
- const deleteFetchedCard = async(id)=>{
-     Swal.fire({
-         icon:'warning',
-         text:'Вы уверены, что хотите удалить?',
-         showCancelButton:true,
-         showConfirmButton:true,
-     }).then(async(result) =>  {
-        if (result.isConfirmed) {
-            try {
-                const res = await Axios.delete(`/company/note/${id}/`)
-                const {status} = res;
-                if(status === 204){
-                    fetchNote()
-                }
-            } catch (error) {
-                
-            }
-        }
-      })
-     
-    
- }
+  const deleteFetchedCard = async (id) => {
+    Swal.fire({
+      icon: "warning",
+      text: "Вы уверены, что хотите удалить?",
+      showCancelButton: true,
+      showConfirmButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await Axios.delete(`/company/note/${id}/`);
+          const { status } = res;
+          if (status === 204) {
+            fetchNote();
+          }
+        } catch (error) {}
+      }
+    });
+  };
   useEffect(() => {
     fetchNote();
   }, []);
-
-  const handlePageChange = (e, newPage) => {
-    
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  const fethcStudents = async () => {
-    setLoading(true);
-    try {
-      const res = await Axios.get("applicant/list/?manager-attached=false");
-      const { status, data } = res;
-      const { results, count } = data;
-      results.map((v, i) => {
-        return setConfirms((state) => ({
-          ...state,
-          [`confirms_${v?.id}`]: false,
-        }));
-      });
-      if (status === 200) {
-        setStudents(results);
-      }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
   const handleOpen = () => {
     setOpen(true);
   };
@@ -193,9 +205,7 @@ export default function SuperManager() {
       });
       setPaymentConfirm(true);
       const { data, status } = res;
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const handleManager = async (id) => {
@@ -206,9 +216,7 @@ export default function SuperManager() {
       if (status === 200) {
         setManager(results);
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
   const handleClick = (id) => {
     Swal.fire({
@@ -233,7 +241,7 @@ export default function SuperManager() {
 
   const addItem = (item) => {
     setIdUser((prev) => new Set(prev).add(item));
-    // 
+    //
   };
 
   const getManagerId = () => {
@@ -250,82 +258,69 @@ export default function SuperManager() {
     managersFrom?.map((v) => {
       if (e.target.innerText == v.first_name) {
         setNameIdM((nameIdM) => v.id);
-        // try {
-        //   const dataUser = { manager: nameIdM, applicant: id };
-        //   const res = Axios.post(
-        //     "/company/super-manager-set-manager/",
-        //     dataUser
-        //   );
-        // } catch (error) {}
       }
     });
   };
-  const handleRadio = (e)=>{
-    const {name , value} = e.target
-    setRadio({ [name] : value})
+  const handleRadio = (e) => {
+    const { name, value } = e.target;
+    setRadio({ [name]: value });
+  };
+  const handleSelect = (e) => {
+    const { name, value } = e.target;
+    setSelect((prev) => ({ ...prev, [name]: value }));
+  };
 
-  }
-  const handleSelect = (e)=>{
-    const {name , value} = e.target
-    setSelect((prev)=> ({...prev,[name]:value}))
-
-  }
-  
   const setManagers = async (id) => {
     const dataUser = { manager: nameIdM, applicant: id };
     try {
       const res = Axios.post("/company/super-manager-set-manager/", dataUser);
-    } catch (error) {
-      
-    }
+    } catch (error) {}
     setConfirms((state) => ({ ...state, [`confirms_${id}`]: true }));
   };
-  const fetchUniver = async()=>{
+  const fetchUniver = async () => {
     try {
-      const res = await Axios.get('/university/')
-      const {status,data} = res
-      if(status === 200){
-        const {results} = data
-        setUniver(results)
+      const res = await Axios.get("/university/");
+      const { status, data } = res;
+      if (status === 200) {
+        const { results } = data;
+        setUniver(results);
       }
-      
-    } catch (error) {
-      
-    }
-  }
-  const fetchFaculty = async()=>{
+    } catch (error) {}
+  };
+  const fetchFaculty = async () => {
     try {
-      const res = await Axios.get(`/university/${select?.university}`)
-      const {status,data} = res
-      if(status === 200){
-        const {faculties} = data
-        setFaculty(faculties)
+      const res = await Axios.get(`/university/${select?.university}`);
+      const { status, data } = res;
+      if (status === 200) {
+        const { faculties } = data;
+        setFaculty(faculties);
       }
-      
-    } catch (error) {
-      
-    }
-  }
-  const handleSubmit = async()=>{
+    } catch (error) {}
+  };
+  const handleSubmit = async () => {
     try {
-      const res = await Axios.get(`/applicant/list/?manager-attached=false&has_univer=${radio.has_univer}&date-from=${startDate.toLocaleDateString()}&date-to=${endDate.toLocaleDateString()}&university=${select.university}&faculty=${select.faculty}&education_type=${select.education_type}`)
+      const res = await Axios.get(
+        `/applicant/list/?manager-attached=false&has_univer=${
+          radio.has_univer
+        }&date-from=${startDate.toLocaleDateString()}&date-to=${endDate.toLocaleDateString()}&university=${
+          select.university
+        }&faculty=${select.faculty}&education_type=${select.education_type}`
+      );
       const { status, data } = res;
       const { results, count } = data;
-    
+
       if (status === 200) {
         setStudents(results);
       }
-      
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
   const handleSearch = async (e) => {
-    
     const { value } = e.target;
     if (value.length > 2) {
       try {
-        const res = await Axios.get(`/applicant/list/?manager-attached=false&search=${value}`);
+        const res = await Axios.get(
+          `/applicant/list/?manager-attached=false&search=${value}`
+        );
         const { status, data } = res;
         const { results, count } = data;
         results.map((v, i) => {
@@ -337,24 +332,22 @@ export default function SuperManager() {
         if (status === 200) {
           setStudents(results);
         }
-      } catch (error) {
-        
-      }
+      } catch (error) {}
     }
   };
   useEffect(() => {
     fethcStudents();
-    fetchUniver()
+    fetchUniver();
   }, []);
-  useEffect(()=>{
-    fetchFaculty()
-  },[select?.university])
+  useEffect(() => {
+    fetchFaculty();
+  }, [select?.university]);
   useEffect(() => {
     handleManager();
   }, []);
-  // useEffect(() => {
-  //   fethcStudents();
-  // }, [count]);
+  useEffect(() => {
+    fethcStudents();
+  }, [rowsPerPage]);
   useEffect(() => {
     getManagerId();
   }, [managerName]);
@@ -407,7 +400,11 @@ export default function SuperManager() {
           <div className="settSearch">
             <div className="searchUniv">
               <img src={search_icon} alt="" />
-              <input type="text" onChange={e=>handleSearch(e)} placeholder="Поиск Студенты" />
+              <input
+                type="text"
+                onChange={(e) => handleSearch(e)}
+                placeholder="Поиск Студенты"
+              />
             </div>
             <button
               onClick={() => {
@@ -545,9 +542,9 @@ export default function SuperManager() {
               </tbody>
             </table>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 20, 30]}
+              rowsPerPageOptions={[20, 40, 60]}
               component="table"
-              count={students?.length}
+              count={count}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handlePageChange}
@@ -557,45 +554,44 @@ export default function SuperManager() {
 
           {/* NOTES */}
           <div className="n_glavny">
-          <h1>Примечания</h1>
-          <div className="zametki">
-            <div
-              onClick={addCard}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-              className="paper"
-            >
-              <img src={plus} alt="plus" />
-            </div>
-            {items.map((data, index) => {
-              const { description, id } = data;
-              return (
-                <div onBlur={() => saveCard(id)} key={id} className="paper">
-                  <span onClick={() => deleteCard(id)}>x</span>
-                  <h1>Заметка {index + 1}</h1>
-                  <textarea onChange={(e) => inputHandler(e, id)}></textarea>
-                  {/* <p onClick={saveCard} className="saveButton">сохранит</p> */}
-                </div>
-              );
-            })}
-
-       {       note.map((data, index) => {
-                const { id, text } = data;
+            <h1>Примечания</h1>
+            <div className="zametki">
+              <div
+                onClick={addCard}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+                className="paper"
+              >
+                <img src={plus} alt="plus" />
+              </div>
+              {items.map((data, index) => {
+                const { description, id } = data;
                 return (
-                  <div key={id} className="paper">
-                    <span onClick={()=>deleteFetchedCard(id)}>x</span>
+                  <div onBlur={() => saveCard(id)} key={id} className="paper">
+                    <span onClick={() => deleteCard(id)}>x</span>
                     <h1>Заметка {index + 1}</h1>
-                    <p style={{textAlign:'justify'}}>{text}</p>
+                    <textarea onChange={(e) => inputHandler(e, id)}></textarea>
+                    {/* <p onClick={saveCard} className="saveButton">сохранит</p> */}
                   </div>
                 );
               })}
-            
+
+              {note.map((data, index) => {
+                const { id, text } = data;
+                return (
+                  <div key={id} className="paper">
+                    <span onClick={() => deleteFetchedCard(id)}>x</span>
+                    <h1>Заметка {index + 1}</h1>
+                    <p style={{ textAlign: "justify" }}>{text}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
           {/* end Filter */}
 
           <div
@@ -657,50 +653,68 @@ export default function SuperManager() {
                   </div>
                 </div>
                 <FormFilter>
-                   <InputDiv>
-                      <input value="false" onChange={handleRadio} type="radio" name="has_univer" id="registered"/>
-                      <label htmlFor="registered">Registered</label>
-                   </InputDiv>
-                   <InputDiv>
-                      <input value="true" onChange={handleRadio} type="radio" name="has_univer" id="univer" />
-                      <label htmlFor="univer">Univer tanlangan</label>
-                   </InputDiv>
-                   <div style={radio?.has_univer === 'true' ? {visibility:'visible'}: {visibility:'hidden'}}>
-                      <p>Выберите Университет</p>
+                  <InputDiv>
+                    <input
+                      value="false"
+                      onChange={handleRadio}
+                      type="radio"
+                      name="has_univer"
+                      id="registered"
+                    />
+                    <label htmlFor="registered">Registered</label>
+                  </InputDiv>
+                  <InputDiv>
+                    <input
+                      value="true"
+                      onChange={handleRadio}
+                      type="radio"
+                      name="has_univer"
+                      id="univer"
+                    />
+                    <label htmlFor="univer">Univer tanlangan</label>
+                  </InputDiv>
+                  <div
+                    style={
+                      radio?.has_univer === "true"
+                        ? { visibility: "visible" }
+                        : { visibility: "hidden" }
+                    }
+                  >
+                    <p>Выберите Университет</p>
                     <div className="selectCountry">
                       <select name="university" onChange={handleSelect}>
-                        {univer.map(item=>{
-                          const {id,name} = item;
-                          return(
-                            <option value={id}>{name}</option>
-                          )
+                        {univer.map((item) => {
+                          const { id, name } = item;
+                          return <option value={id}>{name}</option>;
                         })}
                       </select>
                     </div>
                     <p>Выберите факультет</p>
                     <div className="selectCountry">
                       <select name="faculty" onChange={handleSelect} id="">
-                        {faculty.map(item=>{
-                          const {id,name} = item;
-                          return(
-                            <option value={id}>{name}</option>
-                          )
+                        {faculty.map((item) => {
+                          const { id, name } = item;
+                          return <option value={id}>{name}</option>;
                         })}
                       </select>
                     </div>
                     <div>
-                    <p>Выберите тип образования</p>
+                      <p>Выберите тип образования</p>
                       <div className="selectCountry">
-                        <select onChange={handleSelect} name="education_type" id="">
+                        <select
+                          onChange={handleSelect}
+                          name="education_type"
+                          id=""
+                        >
                           <option value="full_time">очное</option>
                           <option value="distance">дистанционный</option>
                           <option value="part_time">пол ставка</option>
                         </select>
                       </div>
                     </div>
-                   </div>
+                  </div>
                 </FormFilter>
-                
+
                 <button onClick={handleSubmit}>Применить</button>
               </div>
               {/* end FilterUniver */}
@@ -715,22 +729,19 @@ export default function SuperManager() {
   );
 }
 
-const FormFilter  = styled.div`
-
-`
+const FormFilter = styled.div``;
 const InputDiv = styled.div`
- margin:18px 0;
- font-size:18px;
- display:flex;
- align-items:center;
- input{
-  height: 18px;
-  width: 18px;
- }
- label{
-   margin-left:15px;
-   font-weight:600;
-   cursor:pointer;
- }
-
-`
+  margin: 18px 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  input {
+    height: 18px;
+    width: 18px;
+  }
+  label {
+    margin-left: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+`;
