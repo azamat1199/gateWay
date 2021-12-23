@@ -6,6 +6,7 @@ import search from "../../../assets/icon/Search2.svg";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "react-js-loader";
+import avatar from "../../../assets/icon/Avatar.svg";
 
 const N_info = () => {
   const [key, setkey] = useState("");
@@ -21,7 +22,7 @@ const N_info = () => {
   const fetchCountries = async () => {
     setLoading(true);
     try {
-      const res = await Axios.get("/common/country/list/");
+      const res = await Axios.get("/company/country/?limit=1000");
       const { status, data } = res;
       if (status === 200) {
         const { results } = data;
@@ -46,7 +47,7 @@ const N_info = () => {
             <h1 className="link_h1">Информация по требованием государств</h1>
           </div>
           <div className="user_info">
-            <img src={userpic} alt="" />
+            <img src={avatar} alt="" />
             <div>
               <h1>
                 {first_name} {last_name}
