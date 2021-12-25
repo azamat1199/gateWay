@@ -4,6 +4,7 @@ import React, { Component, useEffect, useState } from "react";
 import "../../../style/css/personal.css";
 
 // imort icon
+import avatar from "../../../assets/icon/Avatar.svg";
 import message_icon from "../../../assets/icon/message.svg";
 import call_icon from "../../../assets/icon/call.svg";
 import StudentSidebar from "./SidebarStudent";
@@ -52,7 +53,7 @@ const Personal = () => {
         <div className="top">
           <h1>Персональный менеджер</h1>
           <div>
-            <img src="https://picsum.photos/70" alt="" />
+            <img src={avatar} alt="" />
             <h2>
               {userFirstName} {userLasttName} <span>Заявитель</span>
             </h2>

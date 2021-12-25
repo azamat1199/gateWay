@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 // import css
 import "../../../style/css/dogovor.css";
-
+import avatar from "../../../assets/icon/Avatar.svg";
 import download_icon from "../../../assets/icon/skachat.svg";
 import print_icon from "../../../assets/icon/pechat.svg";
 import StudentSidebar from "./SidebarStudent";
@@ -37,9 +37,9 @@ const Dogovor = () => {
       <StudentSidebar />
       <div className="dogovor">
         <div className="top">
-          <h1>Ваши университеты</h1>
+          <h1>электронный дагавор</h1>
           <div>
-            <img src="https://picsum.photos/70" alt="" />
+            <img src={avatar} alt="" />
             <h2>
               {first_name} {last_name}
               <span>Заявитель</span>
