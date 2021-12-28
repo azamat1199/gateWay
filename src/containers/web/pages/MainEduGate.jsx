@@ -1,4 +1,4 @@
-import React, { useEffect,useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -72,13 +72,13 @@ const MainEduGate = () => {
   const [filterMajors, setFilterMajors] = useState([]);
   const [filterCountry, setFilterCountry] = useState([]);
   const [filterDegree, setFilterDegree] = useState([]);
-
+  const [univerCount, setUniverCount] = useState(8);
   const [countryID, setCountryID] = useState("");
 
   const fetchUniversities = async () => {
     try {
       const data = await axios.get(
-        "https://backend.edugateway.uz/api/v1/university/"
+        `https://backend.edugateway.uz/api/v1/university/?limit=${univerCount}`
       );
       const { results } = data.data;
       //console.log(results);
@@ -90,56 +90,64 @@ const MainEduGate = () => {
     }
   };
 
-  const univerMajor = async () => {
-    try {
-      const data1 = await axios.get(
-        "https://backend.edugateway.uz/api/v1/university/major/"
-      );
-      const majors = data1.data.results;
-      if (data1.status === 200) {
-        setFilterMajors(majors);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const univerMajor = async () => {
+  //   try {
+  //     const data1 = await axios.get(
+  //       "https://backend.edugateway.uz/api/v1/university/major/"
+  //     );
+  //     const majors = data1.data.results;
+  //     if (data1.status === 200) {
+  //       setFilterMajors(majors);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const univerCountry = async () => {
     try {
-      const data2 = await Axios.get("/common/country/all/");
-      console.log(data2);
-      const countrys = data2.data;
-      if (data2.status === 200) {
-        setFilterCountry(countrys);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const univerDegree = async () => {
-    try {
-      const data3 = await axios.get(
-        "https://backend.edugateway.uz/api/v1/university/degree/"
+      const res = await axios.get(
+        "https://backend.edugateway.uz/api/v1/company/country/degree/major/?limit=1000"
       );
-      const degrees = data3.data.results;
-      if (data3.status === 200) {
-        setFilterDegree(degrees);
+      const { data, status } = res;
+      if (status === 200) {
+        const { results } = data;
+        setFilterCountry(results);
       }
     } catch (err) {
       console.log(err);
     }
   };
+  // https://backend.edugateway.uz/api/v1/company/country/?limit=1000
+  // const univerDegree = async () => {
+  //   try {
+  //     const data3 = await axios.get(
+  //       "https://backend.edugateway.uz/api/v1/university/degree/"
+  //     );
+  //     const degrees = data3.data.results;
+  //     if (data3.status === 200) {
+  //       setFilterDegree(degrees);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const handleRegion = (event, newValue) => {
     console.log(newValue);
     if (newValue?.id) {
       setChange1((state) => ({ ...state, country: newValue.id }));
+      const newFilter = filterCountry.filter((item) => item.id === newValue.id);
+      setFilterDegree(newFilter[0].degrees);
+      console.log(newFilter[0].degrees);
     }
   };
   const handleDegree = (event, newValue) => {
     console.log(newValue);
     if (newValue?.id) {
       setChange2((state) => ({ ...state, degree: newValue.id }));
+      const newFilter = filterDegree.filter((item) => item.id === newValue.id);
+      setFilterMajors(newFilter[0].majors);
+      console.log(newFilter);
     }
   };
   const handleMajor = (event, newValue) => {
@@ -163,7 +171,7 @@ const MainEduGate = () => {
     }
   };
 
-  //console.log(change1, change2, change3);
+  console.log(change1, change2, change3);
   const setFavourite = async (univerId) => {
     try {
       const res = await Axios.post("/applicant/favorite-university/", {
@@ -193,11 +201,10 @@ const MainEduGate = () => {
     }
   };
   const handler = (univerId) => {
-      history.push(`/university/${univerId}`)
+    history.push(`/university/${univerId}`);
   };
 
   const [star, setStar] = useState(false);
-
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
@@ -221,11 +228,11 @@ const MainEduGate = () => {
       const userId = payload?.data?.id;
       setUserId(userId);
     }
-  }, []);
+  }, [univerCount]);
 
   useEffect(() => {
-    univerMajor();
-    univerDegree();
+    // univerMajor();
+    // univerDegree();
     univerCountry();
   }, []);
   console.log(filterCountry);
@@ -297,7 +304,7 @@ const MainEduGate = () => {
                       {...params}
                       label=""
                       name="degree"
-                      placeholder="Страна"
+                      placeholder="Степень"
                       variant="outlined"
                     />
                   )}
@@ -319,7 +326,7 @@ const MainEduGate = () => {
                       {...params}
                       label=""
                       name="degree"
-                      placeholder="Страна"
+                      placeholder="Направление"
                       variant="outlined"
                     />
                   )}
@@ -365,21 +372,24 @@ const MainEduGate = () => {
 
         {/* resultBlock */}
         {serach === true ? (
-          dataFilter.length === 0 ? (
+          dataFilter?.length === 0 ? (
             <div className="resultBlock" id="result_of_search">
               <h5>Результаты поиска 0</h5>
             </div>
           ) : (
             <div className="resultBlock" id="result_of_search">
-              <h5>Результаты поиска {dataFilter.length}</h5>
+              <h5>Результаты поиска {dataFilter?.length}</h5>
               <div className="result">
                 {/* card */}
                 {dataFilter.map((x) => {
                   return (
-                    <div className="card" onClick={()=> history.push(`/university/${x.id}`)}>
+                    <div
+                      className="card"
+                      onClick={() => history.push(`/university/${x.id}`)}
+                    >
                       <img
                         src={
-                          x.images.length === 0
+                          x?.images?.length === 0
                             ? univer_pic
                             : x.images[0].image.toString()
                         }
@@ -402,12 +412,12 @@ const MainEduGate = () => {
                           stroke-linejoin="round"
                         />
                       </svg>
-                      {x.name.length > 35 ? (
+                      {x?.name?.length > 35 ? (
                         <h1>{x.name.substring(0, 35)}...</h1>
                       ) : (
                         <h1>{x.name}</h1>
                       )}
-                      {x.description.length > 150 ? (
+                      {x.description?.length > 150 ? (
                         <p onClick={() => handler(x.id)}>
                           {x.description.substring(0, 150)}...
                         </p>
@@ -520,11 +530,15 @@ const MainEduGate = () => {
         {/* end workBlock */}
 
         {/* resultBlock */}
-        <div className="resultBlock" id="university">
+        <div
+          style={{ position: "relative" }}
+          className="resultBlock"
+          id="university"
+        >
           <h5>{t("part15")}</h5>
           <div className="result">
             {/* card */}
-            {universities.map((item) => {
+            {universities?.map((item) => {
               //console.log(item);
               const {
                 id,
@@ -538,10 +552,13 @@ const MainEduGate = () => {
               } = item;
               //console.log(images);
               return (
-                <div className="card" onClick={()=>history.push(`/university/${id}`)}>
+                <div
+                  className="card"
+                  onClick={() => history.push(`/university/${id}`)}
+                >
                   <img
                     src={
-                      item.images.length === 0
+                      item?.images?.length === 0
                         ? univer_pic
                         : item.images[0].image.toString()
                     }
@@ -566,12 +583,12 @@ const MainEduGate = () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  {name.length > 35 ? (
-                    <h1>{name.substring(0, 35)}...</h1>
+                  {name?.length > 35 ? (
+                    <h1>{name?.substring(0, 35)}...</h1>
                   ) : (
                     <h1>{name}</h1>
                   )}
-                  {description.length > 100 ? (
+                  {description?.length > 100 ? (
                     <p onClick={() => handler(id)}>
                       {description.substring(0, 180)}...
                     </p>
@@ -613,6 +630,7 @@ const MainEduGate = () => {
             })}
             {/* end card */}
           </div>
+          <Button onClick={() => setUniverCount(10000)}>Все</Button>
           {/* end result */}
         </div>
         {/* end resultBlock */}
@@ -650,20 +668,20 @@ const MainEduGate = () => {
             {/*  */}
             {/*  */}
             <div className="cardAbout">
-              <h1>{filterCountry.length} +</h1>
+              <h1>{filterCountry?.length} +</h1>
               <h4>{t("part27")}</h4>
               <p>
-                Education Gateway сотрудничает с более {filterCountry.length}{" "}
+                Education Gateway сотрудничает с более {filterCountry?.length}{" "}
                 странами с разных уголков мира{" "}
               </p>
             </div>
             {/*  */}
             {/*  */}
             <div className="cardAbout">
-              <h1>{universities.length} +</h1>
+              <h1>{universities?.length} +</h1>
               <h4>{t("part28")}</h4>
               <p>
-                Education Gateway сотрудничает с более {universities.length}{" "}
+                Education Gateway сотрудничает с более {universities?.length}{" "}
                 университетами с разных уголков мира{" "}
               </p>
             </div>
@@ -760,5 +778,20 @@ const CardFooter = styled.div`
   bottom: 36px;
   line-height: 14px;
 `;
-
-
+const Button = styled.button`
+  position: absolute;
+  right: 52px;
+  padding: 10px 30px;
+  background: #00587f;
+  color: white;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  transition: 0.4s all ease;
+  cursor: pointer;
+  &:hover {
+    background: white;
+    color: #00587f;
+    border: 1px solid #00587f;
+  }
+`;
