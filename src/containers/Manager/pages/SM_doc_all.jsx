@@ -14,6 +14,7 @@ import "../../../style/css/SidebarUniverstitet.css";
 import close from "../../../assets/icon/close.svg";
 import Loader from "react-js-loader";
 import { useSelector } from "react-redux";
+import TablePagination from "@material-ui/core/TablePagination";
 const M_doc_all = () => {
   const history = useHistory();
 
@@ -26,6 +27,13 @@ const M_doc_all = () => {
   const [loading, setLoading] = useState(true);
   const [managers, setManager] = useState([]);
   const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
   function handleChange(event) {
     setkey(event.target.value);
   }
@@ -34,6 +42,21 @@ const M_doc_all = () => {
     setfilters(!filters);
   };
 
+  const userList = async () => {
+    setLoading(true);
+    try {
+      const data = await Axios.get(
+        `/applicant/list/?manager-attached=true&limit=${rowsPerPage}`
+      );
+      if (data.status === 200) {
+        setUsers(data.data.results);
+        setCount(data.data.count);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   const handleManager = async (id) => {
     try {
       const res = await Axios.get(`/company/managers/list/`);
@@ -43,6 +66,34 @@ const M_doc_all = () => {
         setManager(results);
       }
     } catch (error) {}
+  };
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/applicant/list/?manager-attached=true&limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setUsers(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   const handleSubmit = async () => {
@@ -65,6 +116,7 @@ const M_doc_all = () => {
       if (status === 200) {
         const { results } = data;
         setUsers(results);
+        setLoading(false);
       }
       setfilters(false);
       setLoading(false);
@@ -74,20 +126,6 @@ const M_doc_all = () => {
   };
 
   const [users, setUsers] = useState([]);
-
-  const userList = async () => {
-    setLoading(true);
-
-    try {
-      const data = await Axios.get("/applicant/list/?manager-attached=true");
-      if (data.status === 200) {
-        setUsers(data.data.results);
-      }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     userList();
@@ -220,6 +258,15 @@ const M_doc_all = () => {
                   </tbody>
                 )}
               </table>
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </div>
           </div>
 
