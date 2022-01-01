@@ -1,64 +1,64 @@
-import React, { useState ,useEffect} from 'react';
-import {useSelector} from 'react-redux'
-import { withStyles } from '@material-ui/core/styles';
-import { NavLink, useHistory } from 'react-router-dom';
-import arrowright from '../../../../assets/icon/arrowright.svg';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Slider from '@material-ui/core/Slider';
-import NumberFormat from 'react-number-format';
-import Navbar from '../Navbar';
-import Axios from '../../../../utils/axios'
-const data = require('../../json/data.json');
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
+import { NavLink, useHistory } from "react-router-dom";
+import arrowright from "../../../../assets/icon/arrowright.svg";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Slider from "@material-ui/core/Slider";
+import NumberFormat from "react-number-format";
+import Navbar from "../Navbar";
+import Axios from "../../../../utils/axios";
+const data = require("../../json/data.json");
 const marks = [
   {
     value: 0,
-    label: '$0',
+    label: "$0",
   },
   {
     value: 200,
-    label: '$200',
+    label: "$200",
   },
   {
     value: 500,
-    label: '$500',
+    label: "$500",
   },
   {
     value: 800,
-    label: '$800',
+    label: "$800",
   },
   {
     value: 1000,
-    label: '$1000',
+    label: "$1000",
   },
   {
     value: 2000,
-    label: '$2000',
+    label: "$2000",
   },
   {
     value: 3000,
-    label: '$3000+',
+    label: "$3000+",
   },
 ];
 const SSlider = withStyles({
   root: {
-    color: '#00587F',
+    color: "#00587F",
     height: 15,
   },
   thumb: {
     height: 45,
     width: 45,
-    backgroundColor: '#E5F7FF',
-    border: '6px solid currentColor',
+    backgroundColor: "#E5F7FF",
+    border: "6px solid currentColor",
     marginTop: -17,
     marginLeft: -12,
-    '&:focus, &:hover, &$active': {
-      boxShadow: 'inherit',
+    "&:focus, &:hover, &$active": {
+      boxShadow: "inherit",
     },
   },
   active: {},
   valueLabel: {
-    left: 'calc(-50% - 3px)',
+    left: "calc(-50% - 3px)",
   },
   track: {
     height: 15,
@@ -67,21 +67,21 @@ const SSlider = withStyles({
   rail: {
     height: 15,
     borderRadius: 7,
-    backgroundColor: '#cdeefce8',
+    backgroundColor: "#cdeefce8",
   },
 })(Slider);
 
 function Zayavka() {
   console.log(data);
-  const selector = useSelector(state=> state)
-  console.log(selector)
-  const {payload} = selector?.payload
-  const {id} = payload.data
-  const userId = id
+  const selector = useSelector((state) => state);
+  console.log(selector);
+  const { payload } = selector?.payload;
+  const { id } = payload.data;
+  const userId = id;
   console.log(id);
   const history = useHistory();
   const [service, setService] = useState();
-  const [fetchedService,setFetchedService] = useState([])
+  const [fetchedService, setFetchedService] = useState([]);
   const [comment, setDiscription] = useState();
   const [value, setValue] = useState();
   const [requisiton, setRequisition] = useState({
@@ -92,42 +92,90 @@ function Zayavka() {
     setRequisition((state) => ({ ...state, [name]: +value.trim() }));
   };
   const handleChange = (event, newValue) => {
-    setRequisition(state => ({...state,budget:newValue}))
+    setRequisition((state) => ({ ...state, budget: newValue }));
     setValue(newValue);
   };
   const handleUniver = (event, newValue) => {
-    if(newValue){
+    if (newValue) {
       const { id } = newValue;
       setService(id);
     }
   };
   const finalData = {
-    enrollee_user:userId,
-    service: service, 
-    budget:requisiton.budget,
+    enrollee_user: userId,
+    service: service,
+    budget: requisiton.budget,
     comment,
   };
- 
-  const fetchServiceCompany = async()=>{
-    try {
-      const res = await Axios.get("/company/company-service/")
-      const {status} = res
-      const {results} = res.data
-      if(status === 200){
-           setFetchedService(results)
-      }
-    } catch (error) {
+
+  const handleMajor = (event, newValue) => {
+    if (newValue) {
+      const { id } = newValue;
+      setSelectedMajor(id);
     }
-  }
+  };
+
+  const handleEducation = (event, newValue) => {
+    console.log(newValue);
+    if (newValue) {
+      setSelectedEducation(newValue);
+    }
+  };
+
+  const handleFaculty = (event, newValue) => {
+    if (newValue) {
+      const { id } = newValue;
+      setSelectedFaculty(id);
+    }
+  };
+
+  const fetchUnivercities = async () => {
+    try {
+      const res = await Axios.get("/university/");
+      const { status, data } = res;
+      const { results } = data;
+      if (status === 200) {
+        setUnivercities(results);
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDegreeList = async () => {
+    try {
+      const res = await Axios.get(
+        `/university/degree/?university_id=${service || univerId}`
+      );
+      console.log(res);
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setDegreeList(results);
+      }
+    } catch (error) {}
+  };
+
+  const fetchServiceCompany = async () => {
+    try {
+      const res = await Axios.get("/company/company-service/");
+      const { status } = res;
+      const { results } = res.data;
+      if (status === 200) {
+        setFetchedService(results);
+      }
+    } catch (error) {}
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const localStr = () => {
-    localStorage.setItem('zayavka', JSON.stringify(finalData));
+    localStorage.setItem("zayavka", JSON.stringify(finalData));
   };
-  useEffect(()=>{
-    fetchServiceCompany()
-  },[])
+  useEffect(() => {
+    fetchServiceCompany();
+  }, []);
   return (
     <React.Fragment>
       <div className="navRegist">
@@ -189,7 +237,7 @@ function Zayavka() {
               onChange={handleUniver}
               id="combo-box-demo"
               options={fetchedService}
-              getOptionLabel={(option) => option ? option.name:' '}
+              getOptionLabel={(option) => (option ? option.name : " ")}
               style={{ width: 600 }}
               renderInput={(params) => (
                 <TextField
@@ -233,7 +281,7 @@ function Zayavka() {
               step={10}
               marks={marks}
               valueLabelDisplay="on"
-              valueLabelFormat={''}
+              valueLabelFormat={""}
             />
           </div>
           <p className="zayavka_alert">
