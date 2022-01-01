@@ -1,34 +1,34 @@
-import React, { Component, useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Navbar from '../Navbar';
-import Axios from '../../../../utils/axios';
-import Swal from 'sweetalert2';
-import { useSelector } from 'react-redux';
+import React, { Component, useState } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Navbar from "../Navbar";
+import Axios from "../../../../utils/axios";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
-const dataT = require('../../json/data.json');
+const dataT = require("../../json/data.json");
 
 function Profayl3() {
-  const selector = useSelector(state=> state)
-  const {data} = selector?.payload?.payload
-  const {id} = data
+  const selector = useSelector((state) => state);
+  const { data } = selector?.payload?.payload;
+  const { id } = data;
   const history = useHistory();
   const [dataSet, setData] = useState(dataT);
   const [profile, setProfile] = useState(
-    JSON.parse(localStorage.getItem('profileData'))
+    JSON.parse(localStorage.getItem("profileData"))
   );
   const [profile2, setProfile2] = useState(
-    JSON.parse(localStorage.getItem('profile2Data'))
+    JSON.parse(localStorage.getItem("profile2Data"))
   );
   const [active_activity, setActivity] = useState();
-  const data1 = JSON.parse(localStorage.getItem('profile'));
-  const data2 = JSON.parse(localStorage.getItem('profile2'));
-  const data3 = JSON.parse(localStorage.getItem('zayavka'));
+  const data1 = JSON.parse(localStorage.getItem("profile"));
+  const data2 = JSON.parse(localStorage.getItem("profile2"));
+  const data3 = JSON.parse(localStorage.getItem("zayavka"));
   const [profileData, setProfileData] = useState({
-    sport_achievements: '',
-    visas: '',
-    education_purpose: '',
+    sport_achievements: "",
+    visas: "",
+    education_purpose: "",
   });
   const handleActivity = (event, newValue) => {
     setActivity(newValue?.hobbi);
@@ -42,22 +42,35 @@ function Profayl3() {
     visas: profileData.visas,
     education_purpose: profileData.education_purpose,
     active_activity,
-    service: 1,
-    ...data1,
     ...data2,
     ...data3,
-    enrollee_user: id,
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('files', JSON.stringify(finalData));
-    history.push('/files');
+    localStorage.setItem("files", JSON.stringify(finalData));
+    try {
+      const res = await Axios.post("/applicant/profile/step/", {
+        step: "data_entry",
+      });
+      const { status } = res;
+      if (status === 200) {
+        history.push("/files");
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        text: "something went wrong",
+      });
+    }
   };
   return (
     <React.Fragment>
-      <div className="navRegist">
+      {/* <div className="navRegist">
         <Navbar />
-      </div>
+      </div> */}
       <div className="singup_asos container">
         <div className="nav_name">
           <h1>Процесс поступления</h1>
