@@ -49,6 +49,7 @@ function SinglePage(props) {
   const history = useHistory();
   const [data, setData] = useState(dataT);
   const params = useParams();
+  const majorId = localStorage.getItem("majorId");
   const [univer, setUniver] = useState({
     id: "",
     name: "",
@@ -92,11 +93,10 @@ function SinglePage(props) {
   // const lat = location.split(",")[0]
   // const lng = location.split(",")[1]
 
-  console.log(location.split(",")[1]);
   props = {
     center: {
-      lat: location.split(",")[0],
-      lng: location.split(",")[1],
+      lat: location?.split(",")[0],
+      lng: location?.split(",")[1],
       // lat: 41.31082388091818,
       // lng: 69.796142578125
     },
@@ -112,7 +112,24 @@ function SinglePage(props) {
       console.log(error);
     }
   };
-
+  const postSelectedUniver = async () => {
+    if (!selector?.payload?.payload) {
+      history.push("/login");
+    } else if (selector?.payload?.payload) {
+      try {
+        const res = await Axios.post("/applicant/chosen-university/", {
+          major_id: majorId,
+        });
+        const { status } = res;
+        console.log(res);
+        if (status === 201) {
+          history.push("/requisition");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   useEffect(() => {
     fetchUniversityById();
   }, []);
@@ -138,21 +155,13 @@ function SinglePage(props) {
               <h1>{name}</h1>
             </div>
             <div>
-              <button
-                onClick={() =>
-                  selector.payload.payload
-                    ? history.push("/requisition")
-                    : history.push("/login")
-                }
-              >
-                Подать
-              </button>
+              <button onClick={() => postSelectedUniver()}>Подать</button>
             </div>
           </div>
         </div>
         <div className="sp_navbar">
           <a href="#opisaniya">Описание</a>
-          <a href="#lokatsya">Локация</a>
+          {/* <a href="#lokatsya">Локация</a> */}
           <a href="#postupleniya">Поступление</a>
           <a href="#galereya">Галерея</a>
         </div>
