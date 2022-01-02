@@ -196,7 +196,7 @@ function Zayavka() {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M82 5L74.5 0.669873V9.33013L82 5ZM0 5.75H5.125V4.25H0V5.75ZM15.375 5.75H25.625V4.25H15.375V5.75ZM35.875 5.75H46.125V4.25H35.875V5.75ZM56.375 5.75H66.625V4.25H56.375V5.75Z"
+              d="M82 5L74.5 0.669873V9.33013L82 5ZM0 5.75H5.125V4.25H0V5.75ZM15.375 5.75H25.625V4.25H15.375V5.75ZM35.875 5.75H46.125V4.25H35.875V5.75ZM56.3755.75H66.625V4.25H56.375V5.75Z"
               fill="#5C7C8A"
             />
           </svg>
@@ -228,15 +228,132 @@ function Zayavka() {
           </svg>
           <h2>Оплата</h2>
         </div>
+
         <form onSubmit={handleSubmit} className="main_singup">
           <h1>Заявка</h1>
           <div className="form_div">
-            <p>Услуги Education Gateway</p>
+            <p>
+              {" "}
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              Университет{" "}
+            </p>
+            <input
+              style={{ width: "600px" }}
+              onChange={handleUniver}
+              defaultValue={userUniversity.name}
+              list="europe-countries"
+              placeholder="Поиск академических программ"
+            ></input>
+            <datalist id="europe-countries">
+              {univercities.map((item) => {
+                const { id, name } = item;
+                return <option value={id}> {name}</option>;
+              })}
+            </datalist>
+          </div>
+          <div className="form_div">
+            <p>
+              {" "}
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              Степень
+            </p>
             <Autocomplete
               aria-required
-              onChange={handleUniver}
+              onChange={handleDegree}
               id="combo-box-demo"
-              options={fetchedService}
+              options={degreeList}
+              getOptionLabel={(option) =>
+                option ? option.title : "Нет данных"
+              }
+              style={{ width: 600 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label=""
+                  variant="outlined"
+                  placeholder="Поиск академических программ"
+                />
+              )}
+            />
+          </div>
+          <div className="form_div">
+            <p>
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              Тип обучения
+            </p>
+            <Autocomplete
+              aria-required
+              onChange={handleEducation}
+              id="combo-box-demo"
+              options={educationType}
+              getOptionLabel={(option) =>
+                option
+                  ? option === "full_time"
+                    ? "Очное обучение "
+                    : option === "part_time"
+                    ? "Заочное обучение "
+                    : option === "distance"
+                    ? "Дистанционное обучение"
+                    : "Нет данных"
+                  : "Нет данных"
+              }
+              style={{ width: 600 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label=""
+                  variant="outlined"
+                  placeholder="Поиск академических программ"
+                />
+              )}
+            />
+          </div>
+          <div className="form_div">
+            <p>
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              Факультет
+            </p>
+            <Autocomplete
+              aria-required
+              onChange={handleFaculty}
+              id="combo-box-demo"
+              options={faculties.length > 0 ? faculties : allFaculties}
               getOptionLabel={(option) => (option ? option.name : " ")}
               style={{ width: 600 }}
               renderInput={(params) => (
@@ -250,46 +367,41 @@ function Zayavka() {
             />
           </div>
           <div className="form_div">
-            <p>Комментарии</p>
-            <textarea
-              required
-              value={comment}
-              onChange={(e) => setDiscription(e.target.value)}
-              name=""
-              id=""
-              cols="30"
-              rows="10"
-              placeholder="Оставьте комментарии или предложения"
-            ></textarea>
-          </div>
-          <div className="line_dash"></div>
-          <h4>Ваш бюджет</h4>
-          <input
-            required
-            name="budget"
-            onChange={handleInputChange}
-            className="input_budjet"
-            placeholder="$0"
-            value={requisiton.budget}
-          />
-          <div className="form_div input_range">
-            <SSlider
-              defaultValue={0}
-              value={requisiton.budget}
-              max={3000}
-              onChange={handleChange}
-              step={10}
-              marks={marks}
-              valueLabelDisplay="on"
-              valueLabelFormat={""}
+            <p>
+              {" "}
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              Направление
+            </p>
+            <Autocomplete
+              aria-required
+              onChange={handleMajor}
+              id="combo-box-demo"
+              options={major}
+              getOptionLabel={(option) => (option ? option.name : "Нет данных")}
+              style={{ width: 600 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label=""
+                  variant="outlined"
+                  placeholder="Поиск академических программ"
+                />
+              )}
             />
           </div>
-          <p className="zayavka_alert">
-            *Пожалуйста укажите ваш реальный бюджет
-          </p>
-          <NavLink onClick={localStr} to="/profile2" className="reg_btn">
+          {/* <p>Услуга за поступление: $450</p> */}
+          <button onClick={postUniversity} className="reg_btn">
             Следующее <img src={arrowright} alt="" />
-          </NavLink>
+          </button>
         </form>
       </div>
     </React.Fragment>
