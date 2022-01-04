@@ -9,15 +9,15 @@ import Loader from "react-js-loader";
 
 const N_info_id = () => {
   const text = {
-    t1: "Гарвардский университет (Гарвард) (англ. Harvard University) — один из самых известных университетов США и всего мира, старейший вуз США. Находится в городе Кембридж (входит в состав Бостонской городской агломерации), штат Массачусетс.",
-    t2: "Гарвардский университет (Гарвард) (англ. Harvard University) — один из самых известных университетов США и всего мира, старейший вуз США. Находится в городе Кембридж (входит в состав Бостонской городской агломерации), штат Массачусетс.",
-    t3: "Гарвардский университет (Гарвард) (англ. Harvard University) — один из самых известных университетов США и всего мира, старейший вуз США. Находится в городе Кембридж (входит в состав Бостонской городской агломерации), штат Массачусетс.",
+    t1: "Напишите здесь стандарты документов",
   };
   const [loading, setLoading] = useState(false);
-  const [content1, setContent1] = useState(text.t1);
+  const [content1, setContent1] = useState();
   const [content2, setContent2] = useState(text.t2);
   const [content3, setContent3] = useState(text.t3);
-  const [countryDetail, setCountryDetail] = useState("");
+  const [countryDetail, setCountryDetail] = useState({
+    documents_standard: "",
+  });
   const [inp, setInp] = useState(false);
   const params = useParams();
   const handleon = (e) => {
@@ -27,7 +27,7 @@ const N_info_id = () => {
   const fetchCountryById = async () => {
     setLoading(true);
     try {
-      const res = await Axios.get(`/common/country/${params.id}/detail/`);
+      const res = await Axios.get(`/company/country/${params.id}/`);
       const { status, data } = res;
       if (status === 200) {
         setCountryDetail(data);
@@ -39,7 +39,16 @@ const N_info_id = () => {
       setLoading(false);
     }
   };
-
+  const reSend = async () => {
+    try {
+      const res = await Axios.patch(`/company/country/${params.id}/`, {
+        documents_standard: content1,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     fetchCountryById();
   }, []);
@@ -76,13 +85,17 @@ const N_info_id = () => {
               {inp === false ? (
                 <button onClick={handleon}>Изменить</button>
               ) : (
-                <button onClick={handleon}>Подтверждать</button>
+                <button onClick={reSend}>Подтверждать</button>
               )}
             </div>
             <h1>Формат документов</h1>
             <div>
               {inp === false ? (
-                <p>{text.t1}</p>
+                countryDetail.documents_standard ? (
+                  countryDetail.documents_standard
+                ) : (
+                  <p>{text.t1}</p>
+                )
               ) : (
                 <textarea
                   onChange={(e) => {
@@ -90,46 +103,27 @@ const N_info_id = () => {
                   }}
                   name=""
                   id=""
-                  value={content1}
                   cols="100"
                   rows="5"
                 ></textarea>
               )}
             </div>
-            <h1>Требование университетов</h1>
-            <div>
-              {inp === false ? (
-                <p>{text.t2}</p>
-              ) : (
-                <textarea
-                  onChange={(e) => {
-                    setContent2(e.target.value);
-                  }}
-                  name=""
-                  id=""
-                  value={content2}
-                  cols="100"
-                  rows="5"
-                ></textarea>
-              )}
-            </div>
-            <h1>Требование университетов</h1>
-            <div>
-              {inp === false ? (
-                <p>{text.t3}</p>
-              ) : (
-                <textarea
-                  onChange={(e) => {
-                    setContent3(e.target.value);
-                  }}
-                  name=""
-                  id=""
-                  value={content3}
-                  cols="100"
-                  rows="5"
-                ></textarea>
-              )}
-            </div>
+            {/* <h1>Требование университетов</h1>
+                        <div>
+                            {
+                                inp === false 
+                                ? <p>{text.t2}</p> 
+                                : <textarea onChange={(e) =>{setContent2(e.target.value)}} name="" id="" value={content2} cols="100" rows="5"></textarea>
+                            }
+                        </div>
+                        <h1>Требование университетов</h1>
+                        <div>
+                            {
+                                inp === false 
+                                ? <p>{text.t3}</p> 
+                                : <textarea onChange={(e) =>{setContent3(e.target.value)}} name="" id="" value={content3} cols="100" rows="5"></textarea>
+                            }
+                        </div> */}
           </div>
         </div>
       </div>

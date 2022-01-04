@@ -1,10 +1,11 @@
-import React, { Component, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useLocation, useHistory } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import arrowright from '../../../../assets/icon/arrowright.svg';
-import { authSaveData } from '../../../../store/actions/authActions';
-import Navbar from '../Navbar';
+import React, { Component, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation, useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
+import arrowright from "../../../../assets/icon/arrowright.svg";
+import { authSaveData } from "../../../../store/actions/authActions";
+import Axios from "../../../../utils/axios";
+import Navbar from "../Navbar";
 
 function Profayl2() {
   const selector = useSelector((state) => state);
@@ -14,11 +15,9 @@ function Profayl2() {
   const { pathname } = location;
   const history = useHistory();
   const [profileData, setProfileData] = useState({
-    educated_in: '',
-    achievements: '',
-    gpa: '',
-    english_level_type: '',
-    english_level_value: 120,
+    educated_in: "",
+    achievements: "",
+    gpa: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,19 +28,38 @@ function Profayl2() {
   const saveData = () => {
     dispatch(authSaveData(pathname, profileData));
     Swal.fire({
-      icon: 'success',
-      text: 'Текущие данные сохранены без промедления',
-    }).then(() => history.push('/my-account'));
+      icon: "success",
+      text: "Текущие данные сохранены без промедления",
+    }).then(() => history.push("/my-account"));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await Axios.post("/applicant/profile/step/", {
+        step: "data_entry",
+      });
+      const { status } = res;
+      if (status === 200) {
+        history.push("/files");
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        text: "something went wrong",
+      });
+    }
   };
   const localStr = () => {
-    localStorage.setItem('profile2', JSON.stringify(profileData));
+    localStorage.setItem("profile2", JSON.stringify(profileData));
   };
   console.log(profileData);
   return (
     <React.Fragment>
-      <div className="navRegist">
+      {/* <div className="navRegist">
         <Navbar />
-      </div>
+      </div> */}
       <div className="singup_asos container">
         <div className="nav_name">
           <h1>Процесс поступления</h1>
@@ -100,39 +118,6 @@ function Profayl2() {
             <input type="text" onChange={handleChange} name="educated_in" />
           </div>
           <div className="form_div">
-            <p>Выберите тип сертификата</p>
-            <select onChange={handleChange} name="english_level_type">
-              <option value="ielts">ielts</option>
-              <option value="cefr">cefr</option>
-              <option value="sat">sat</option>
-              <option value="pearson">pearson</option>
-              <option value="other">other</option>
-            </select>
-          </div>
-          <div
-            className="form_div"
-            style={
-              profileData.english_level_type == 'other'
-                ? { display: 'block' }
-                : { display: 'none' }
-            }
-          >
-            <p>напишите свой тип сертификата</p>
-            <input
-              onChange={handleChange}
-              type="text"
-              name="english_level_other"
-            />
-          </div>
-          <div className="form_div">
-            <p>оценка вашего сертификата</p>
-            <input
-              onChange={handleChange}
-              type="text"
-              name="english_level_value"
-            />
-          </div>
-          <div className="form_div">
             <p>Достижения</p>
             <input onChange={handleChange} type="text" name="achievements" />
           </div>
@@ -141,11 +126,14 @@ function Profayl2() {
             <input onChange={handleChange} type="text" name="gpa" />
           </div>
           <div className="btn_div">
-            <button type="button" onClick={saveData} className="save_btn">
+            {/* <button type="button" onClick={saveData} className="save_btn">
               Сохранить
-            </button>
+            </button> */}
             <NavLink onClick={localStr} to="/profile3" className="next_btn">
               Следующее <img src={arrowright} alt="" />
+            </NavLink>
+            <NavLink onClick={handleSubmit} to="/profile3" className="next_btn">
+              Пропустить
             </NavLink>
           </div>
         </form>

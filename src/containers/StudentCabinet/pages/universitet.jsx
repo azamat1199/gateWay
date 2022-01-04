@@ -17,6 +17,7 @@ import SwiperCore, { Pagination, Navigation } from "swiper/core";
 import search_icon from "../../../assets/icon/search.svg";
 import settings from "../../../assets/icon/Filter.svg";
 import Loader from "react-js-loader";
+import avatar from "../../../assets/icon/Avatar.svg";
 // import css
 import "../../../style/css/universitet.css";
 import StudentSidebar from "./SidebarStudent";
@@ -29,7 +30,12 @@ const Universitet = () => {
   const selector = useSelector((state) => state);
   const { payload } = selector?.payload;
   const { data } = payload;
-  const [favourites, setFavourites] = useState([]);
+  const [favourites, setFavourites] = useState({
+    id: "",
+    description: "",
+    images: [],
+    name: "",
+  });
   const { first_name, last_name } = data;
   const [universities, setUniversities] = useState([]);
   const history = useHistory();
@@ -37,7 +43,7 @@ const Universitet = () => {
   const [loading, setLoading] = useState(false);
   const [degree, setDegree] = useState([]);
   const [major, setMajor] = useState([]);
-  const univerId = localStorage.getItem("univerId");
+  const [univerId, setUniverId] = useState();
   const [fixEnd, setFix] = useState(false);
   const [searchedData, setSearchedData] = useState({
     country: "",
@@ -70,34 +76,14 @@ const Universitet = () => {
   };
   console.log(searchedData?.major?.toString());
 
-  const fetchSelectedUniver = async () => {
-    try {
-      const res = await Axios.get("enroll/enroll-user-favorite-university/");
-      console.log(res);
-      const { status } = res;
-      const { results } = res.data;
-      console.log(results);
-      if (status === 200) {
-        const newData = [];
-        for (let x = 0; x < results.length; x++) {
-          newData.push(results[x].university);
-          console.log(results[x].university);
-        }
-        setUniversities(newData);
-        console.log(newData);
-      }
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
   const fetchCountry = async () => {
     try {
-      const res = await Axios.get("/common/country/all/");
+      const res = await Axios.get("/company/country/?limit=1000");
       const { status, data } = res;
       console.log(res);
       if (status === 200) {
-        setCountries(data);
+        const { results } = data;
+        setCountries(results);
       }
     } catch (error) {
       console.log(error);
@@ -143,6 +129,7 @@ const Universitet = () => {
     console.log(newValue);
     if (newValue?.id) {
       setSearchedData((state) => ({ ...state, major: newValue.id }));
+      localStorage.setItem("majorId", newValue.id);
     }
   };
 
@@ -180,11 +167,39 @@ const Universitet = () => {
   const fetchUserFavourite = async () => {
     setLoading(true);
     try {
-      const res = await Axios.get("/applicant/favorite-university/");
+      const res = await Axios.get("/applicant/chosen-university/");
       const { status, data } = res;
       if (status === 200) {
         const { results } = data;
-        setFavourites(results);
+        setLoading(true);
+        try {
+          const res = await Axios.get(
+            `/university/${results[0]?.major?.faculty?.university?.id}`
+          );
+          const { status, data } = res;
+          if (status === 200) {
+            setFavourites(data);
+          }
+          console.log(res);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+        }
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  const fetchUserUniver = async () => {
+    setLoading(true);
+    try {
+      const res = await Axios.get(`/university/${univerId}`);
+      const { status, data } = res;
+      if (status === 200) {
+        const { results } = data;
+        setUniverId(results);
       }
       console.log(res);
       setLoading(false);
@@ -193,20 +208,17 @@ const Universitet = () => {
     }
   };
 
-  const sendRequest = () => {
-    if (searchValue.length > 2) {
-      handleSearch();
-    }
-  };
   useEffect(() => {
-    fetchSelectedUniver();
     fetchCountry();
     fetchDegree();
     fetchMajor();
     fetchUserFavourite();
   }, []);
+  useEffect(() => {
+    fetchUserUniver();
+  }, [univerId]);
   console.log(searchedData);
-  console.log(countries);
+  console.log(favourites);
   return (
     <>
       <StudentSidebar />
@@ -214,7 +226,7 @@ const Universitet = () => {
         <div className="top">
           <h1>Ваши университеты</h1>
           <div>
-            <img src="https://picsum.photos/70" alt="" />
+            <img src={avatar} alt="userImage" />
             <h2>
               {first_name} {last_name} <span>Заявитель</span>
             </h2>
@@ -237,6 +249,16 @@ const Universitet = () => {
               }}
               className="settingsUniver"
             >
+              {loading ? (
+                <Loader
+                  type="spinner-circle"
+                  bgColor={"#FFFFFF"}
+                  color={"#FFFFFF"}
+                  size={60}
+                />
+              ) : (
+                ""
+              )}
               <img src={settings} alt="" />
             </button>
           </div>
@@ -437,109 +459,68 @@ const Universitet = () => {
                 // <div className="cardSwipperBlock">
                 filteredData.map((x) => {
                   console.log(x);
-                  const { name, description, id } = x;
+                  const { name, description, id, images } = x;
                   return (
                     <SwiperSlide>
                       <div
                         onClick={() => history.push(`/university/${id}`)}
-                        // className="card"
+                        className="card"
                       >
-                        {filteredData.length > 0 ? (
-                          // <div className="cardSwipperBlock">
-                          filteredData.map((x) => {
-                            console.log(x);
-                            const { name, description, id, images } = x;
-                            return (
-                              <SwiperSlide>
-                                <div
-                                  onClick={() =>
-                                    history.push(`/university/${id}`)
-                                  }
-                                  className="card"
-                                >
-                                  <img
-                                    src={
-                                      images[0]?.image
-                                        ? images[0].image
-                                        : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
-                                    }
-                                    alt=""
-                                  />
-                                  <h1>{name}</h1>
-                                  <p>
-                                    {description.length > 100
-                                      ? description.slice(0, 100) +
-                                        "...  Read More"
-                                      : description}
-                                  </p>
-                                  <div className="buttonContainer">
-                                    <button
-                                      onClick={() =>
-                                        history.push("/requisition")
-                                      }
-                                    >
-                                      Подать заявку
-                                    </button>
-                                  </div>
-                                </div>
-                              </SwiperSlide>
-                            );
-                          })
-                        ) : loading ? (
-                          filteredData.map((x) => {
-                            console.log(x);
-                            const { name, description, id } = x;
-                            return (
-                              <SwiperSlide>
-                                <div
-                                  onClick={() =>
-                                    history.push(`/university/${id}`)
-                                  }
-                                  className="card"
-                                >
-                                  <img
-                                    src="https://universegroup.uz/wp-content/uploads/2020/02/harvard.jpg"
-                                    alt=""
-                                  />
-                                  <h1>{name}</h1>
-                                  <p>
-                                    {description.length > 170
-                                      ? description.slice(0, 170) +
-                                        "...  Read More"
-                                      : description}
-                                  </p>
-                                  <div className="buttonContainer">
-                                    <button
-                                      onClick={() =>
-                                        history.push("/requisition")
-                                      }
-                                    >
-                                      Подать заявку
-                                    </button>
-                                  </div>
-                                </div>
-                              </SwiperSlide>
-                            );
-                          })
-                        ) : (
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column ",
-                              alignItems: "center",
-                            }}
-                            className="emptyImgContainer"
-                          >
-                            <img src={EmptyPic} style={{ height: "309px" }} />
-                            <p style={{ fontSize: "22px", fontWeight: "600" }}>
-                              У вас пока не имеется выбранных университетов
-                            </p>
-                          </div>
-                        )}
+                        <img
+                          src={
+                            images[0]?.image
+                              ? images[0].image
+                              : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
+                          }
+                          alt=""
+                        />
+                        <h1>{name}</h1>
+                        <p>
+                          {description.length > 100
+                            ? description.slice(0, 100) + "...  Read More"
+                            : description}
+                        </p>
+                        <div className="buttonContainer">
+                          <button onClick={() => history.push("/requisition")}>
+                            Подать заявку
+                          </button>
+                        </div>
                       </div>
                     </SwiperSlide>
                   );
                 })
+              ) : favourites.id ? (
+                <div
+                  style={{ padding: "0 10px", marginTop: "0" }}
+                  className="document"
+                >
+                  <h1 style={{ marginBottom: "0" }}>Куда вы подали документ</h1>
+                  <div style={{ display: "flex", flexWrap: "wrap" }}>
+                    <div
+                      // onClick={() =>
+                      //   history.push(`/university/${favourites?.id}`)
+                      // }
+                      style={{ marginTop: "15px", cursor: "pointer" }}
+                      className="card"
+                    >
+                      <img
+                        src={
+                          favourites?.images[0]?.image
+                            ? favourites?.images[0].image
+                            : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
+                        }
+                        alt=""
+                      />
+                      <h1>{favourites?.name}</h1>
+                      <p>
+                        {favourites?.description.length > 100
+                          ? favourites?.description.slice(0, 100) + "..."
+                          : favourites?.description}
+                      </p>
+                      <h4>Качество обучения:</h4>
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div
                   style={{
@@ -557,47 +538,33 @@ const Universitet = () => {
               )}
             </Swiper>
           </div>
-          {favourites ? (
-            <div className="document">
-              <h1>ваши любимые университеты</h1>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                {favourites.map((x) => {
-                  const { name, description, id, images } = x.university;
-                  return (
-                    <div
-                      onClick={() => history.push(`/university/${id}`)}
-                      style={{ marginTop: "15px", cursor: "pointer" }}
-                      className="card"
-                    >
-                      <img
-                        src={
-                          images[0]?.image
-                            ? images[0].image
-                            : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
-                        }
-                        alt=""
-                      />
-                      <h1>{name}</h1>
-                      <p>
-                        {description.length > 100
-                          ? description.slice(0, 100) + "..."
-                          : description}
-                      </p>
-                      <h4>Качество обучения:</h4>
-                    </div>
-                  );
-                })}
-              </div>
+          {/* {favourites.id ? 
+          <div style={{padding:'0 10px',marginTop:'0'}} className="document">
+            <h1 style={{marginBottom:'0'}}>Куда вы подали документ</h1>
+            <div style={{display:"flex",flexWrap:'wrap'}}>
+                                <div
+                                // onClick={() =>
+                                //   history.push(`/university/${favourites?.id}`)
+                                // }
+                                 style={{marginTop:'15px',cursor:'pointer'}}
+                                 className="card">
+                                   <img
+                                      src={
+                                        favourites?.images[0]?.image
+                                          ? favourites?.images[0].image
+                                          : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
+                                      }
+                                      alt=""
+                                    />
+                                    <h1>{favourites?.name}</h1>
+                                    <p>{favourites?.description.length > 100 ? favourites?.description.slice(0,100) + '...': favourites?.description}</p>
+                                    <h4>Качество обучения:</h4>
+                                </div>
             </div>
-          ) : (
-            ""
-          )}
+          </div>
+          :
+          ''
+          } */}
         </div>
       </div>
     </>

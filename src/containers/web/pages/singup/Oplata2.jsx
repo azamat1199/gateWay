@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { NavLink,Link } from 'react-router-dom';
+import React, { Component, useState,useEffect } from 'react';
+import { NavLink,Link ,useHistory} from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import uzcard from "../../../../assets/icon/uzcard.svg" 
 import click from "../../../../assets/icon/click.svg" 
@@ -13,33 +13,107 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Navbar from '../Navbar';
-
-class Oplata2 extends Component {
-	state = { 
+import Axios from "../../../../utils/axios";
+import Swal from 'sweetalert2';
+import Loader from "react-js-loader";
+const  Oplata2 = ()=>{
+	const [loading,setLoading] = useState(false)
+	const [cardData,setCardData] = useState({
+		card_number:'',
+		expire:''
+	});
+	const [amount,setAmount] = useState()
+	 const [state,setState] = useState( { 
 		modal1:false,
 		modal2:false
-	 }
-	handleopen1 = () => {
-		this.setState({
+	 })
+	const handleopen1 = () => {
+		setState({
 			modal1: true
 		})
 	}
-	handleclose1 = () => {
-		this.setState({
+	const history  = useHistory()
+	const handleclose1 = () => {
+		setState({
 			modal1: false
 		})
 	}
-	handleopen2 = () => {
-		this.setState({
+	const handleopen2 = () => {
+		setState({
 			modal2: true
 		})
 	}
-	handleclose2 = () => {
-		this.setState({
+	const handleclose2 = () => {
+		setState({
 			modal2: false
 		})
 	}
-	render() { 
+	const handleChange = (e)=>{
+		const {value,name} = e.target;
+		setCardData({...cardData,[name]:value})
+		console.log(value,name);
+	}
+	const fetchUserData = async()=>{
+        try {
+			const res = await Axios.get('/applicant/me/')
+			const {status,data} = res;
+			if(status === 200){
+               const {amount} = data;
+			   setAmount(amount)
+			}
+		} catch (error) {
+			
+		}
+	}
+	const handleSubmit = async()=>{
+		setLoading(true)
+		try {
+			const res = await Axios.post('/payments/payme/cardinfo/',cardData)
+			const {status,data} = res;
+			const {token} = data;
+			const {phone} = data?.result
+			if(status === 200){
+				const {value:text} =  await Swal.fire({
+					text:`Пожалуйста введите код который отправлен на ваш номер!`,
+					input:'text',
+					timer:60000,
+					timerProgressBar: true,
+				})
+				if(text){
+					try {
+						const res = await Axios.post('/payments/payme/verify/',{token,amount:amount,code:text})
+						const {status} = res
+						if(status === 200 ){
+							Swal.fire({
+								icon:'success',
+								text:'Ваш платеж  успешно оплачено'
+							}).then(()=> history.push('/my-account'))
+						}
+						console.log(res);
+					} catch (error) {
+						const {status} = error?.response
+						if(status === 400){
+							const {message} = error?.response?.data?.error;
+							Swal.fire({
+								icon:'error',
+								text:`${message}`
+							})
+						}
+						console.log(error.response);
+					}
+				}
+			}
+			console.log(res);
+			setLoading(false)
+		} catch (error) {
+			setLoading(false)
+		}
+	}
+	useEffect(()=>{
+		fetchUserData()
+	},[]);
+	console.log(amount);
+	console.log(cardData);
 		return ( 
 			<React.Fragment>
 				<div className="navRegist">
@@ -78,37 +152,34 @@ class Oplata2 extends Component {
 									<div className="oplata_card">
 										<p>Номер карты</p>
 										<div className="oplata_div">
-											<NumberFormat format="#### #### #### ####" placeholder="8600 хххх хххх ххх" mask="_" />
+											<NumberFormat name="card_number" onChange={handleChange} format="################" placeholder="8600 хххх хххх ххх" mask="_" />
 											<img src={uzcard} alt="" />
 										</div>
 									</div><br />
 									<div className="oplata_card">
 										<p>Дата истечения</p>
 										<div className="oplata_div">
-											<NumberFormat format="##/##" placeholder="MM/ГГ" mask={['М', 'М', 'Г', 'Г']} />
+											<NumberFormat name='expire' format="####" onChange={handleChange} placeholder="MM/ГГ" mask={['М', 'М', 'Г', 'Г']} />
 										</div>
 									</div>
 								</div>
 							</div>
 							<div className="oplata_kvitansa">
 								<p>Квитанция</p>
-								<div className="kvitansa_list"><h1>Поиск академических програм</h1><p>$450</p></div>
-								<div className="kvitansa_list"><h1>Подбор подкурсов</h1><p>$450</p></div>
-								<div className="kvitansa_list"><h1>Оформление визы</h1><p>$450</p></div>
-								<div className="kvitansa_list"><h1>Общее</h1><p>$1,350</p></div>
+								<div className="kvitansa_list"><h1>Услуги Education Gateway</h1><p>{amount}</p></div>
 							</div>
 						</div>
 						<div className="oplata_btn">
-							<button onClick={this.handleopen1}><img src={lock} alt="" /> Оплатить $1,350</button>
-							<Link to="/registration"><img src={arrowleft} alt="" />Вернуться</Link>
+							<button onClick={handleSubmit}><img src={lock} alt="" /> {loading ?  <Loader  type="spinner-circle" bgColor={"#FFFFFF"}  color={'#FFFFFF'} size={50} /> :' Оплатить ' + amount} </button>
+							<Link to="/my-account"><img src={arrowleft} alt="" />Вернуться</Link>
 						</div>
 					</div>
 					<Modal
 						aria-labelledby="spring-modal-title"
 						aria-describedby="spring-modal-description"
 						className="modalll"
-						open={this.state.modal1}
-						onClose={this.handleclose1}
+						open={state.modal1}
+						onClose={handleclose1}
 						className="oplata_modal"
 						closeAfterTransition
 						BackdropComponent={Backdrop}
@@ -116,11 +187,11 @@ class Oplata2 extends Component {
 							timeout: 500
 						}}
 					>
-						<Fade in={this.state.modal1}>
+						<Fade in={state.modal1}>
 							<div className="alert_tasdiq">
 								<img src={tasdiq} alt="" />
 								<p>Ваш платеж был проведен успешно</p>
-								<button onClick={this.handleclose1}>Вернуться</button>
+								<button onClick={()=> history.push('/my-account')}>Вернуться</button>
 							</div>
 						</Fade>
 					</Modal>
@@ -128,8 +199,8 @@ class Oplata2 extends Component {
 						aria-labelledby="spring-modal-title"
 						aria-describedby="spring-modal-description"
 						className="modalll"
-						open={this.state.modal2}
-						onClose={this.handleclose2}
+						open={state.modal2}
+						onClose={handleclose2}
 						className="oplata_modal"
 						closeAfterTransition
 						BackdropComponent={Backdrop}
@@ -137,12 +208,12 @@ class Oplata2 extends Component {
 							timeout: 500
 						}}
 					>
-						<Fade in={this.state.modal2}>
+						<Fade in={state.modal2}>
 						<div className="alert_error">
 							<img src={error} alt="" />
 							<p>Произошла ошибка при оплате</p>
 							<div className="alert_btn">
-								<button Click={this.submit_error}>Отменить</button>
+								<button >Отменить</button>
 								<button>Повторить оплату</button>
 							</div>
 				  		</div>
@@ -151,7 +222,6 @@ class Oplata2 extends Component {
 				</div>
 			</React.Fragment>
 		 );
-	}
 }
  
 export default Oplata2;

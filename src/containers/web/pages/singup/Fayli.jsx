@@ -1,35 +1,42 @@
-import React, { Component, useRef, useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
-import folder_icon from '../../../../assets/icon/folder_icon.svg';
-import Navbar from '../Navbar';
-import Axios from '../../../../utils/axios';
-import { useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
-import check from '../../../../assets/icon/checked.svg';
-import { Spin } from 'antd';
+import React, { Component, useRef, useState } from "react";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
+import folder_icon from "../../../../assets/icon/folder_icon.svg";
+import Navbar from "../Navbar";
+import Axios from "../../../../utils/axios";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import Loader from "react-js-loader";
+import check from "../../../../assets/icon/checked.svg";
+import { authSaveData } from "../../../../store/actions/authActions";
+import Zayavka from "./Zayavka";
 
 function Fayli() {
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const userID = JSON.parse(localStorage.getItem('userId'));
+  const dispatch = useDispatch();
+  const majorID = JSON.parse(localStorage.getItem("zayavka"));
+  const userId = JSON.parse(localStorage.getItem("enrolle_user"));
+  const files = JSON.parse(localStorage.getItem("files"));
   const [data, setData] = useState({
-    scan_passport_self: '',
-    scan_diplom: '',
-    photo: '',
-    mather_passport: '',
-    married: '',
-    birth: '',
-    med063: '',
-    med086: '',
-    drink: '',
+    scan_passport_self: "",
+    scan_diplom: "",
+    photo: "",
+    mather_passport: "",
+    married: "",
+    birth: "",
+    med063: "",
+    med086: "",
+    drink: "",
+    cert: "",
   });
   const [doc, setDoc] = useState();
-  const files = JSON.parse(localStorage.getItem('files'));
   const handleInputChange = (e) => {
     const { name, files } = e.target;
     setData((state) => ({ ...state, [name]: files[0] }));
   };
-
+  const { pathname } = location;
   const inputEl1 = useRef(null);
   const inputEl2 = useRef(null);
   const inputEl3 = useRef(null);
@@ -39,55 +46,89 @@ function Fayli() {
   const inputEl7 = useRef(null);
   const inputEl8 = useRef(null);
   const inputEl9 = useRef(null);
+  const inputEl10 = useRef(null);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
     for (let x in files) {
-      formData.append(x, files[x]);
+      if (files[x].lenght !== "") {
+        formData.append(x, files[x]);
+      }
+      console.log(x, files[x].length);
     }
-    formData.append('scan_passport_self', inputEl1.current.files[0]);
-    formData.append('scan_diploma', inputEl2.current.files[0]);
-    formData.append('scan_photo', inputEl3.current.files[0]);
-    formData.append(
-      'scan_passport_mother_with_residence_permit	',
-      inputEl4.current.files[0]
-    );
-    formData.append('cert_marriage', inputEl5.current.files[0]);
-    formData.append('cert_birth', inputEl6.current.files[0]);
-    formData.append('cert_063', inputEl7.current.files[0]);
-    formData.append('cert_086', inputEl8.current.files[0]);
-    formData.append('cert_hivs', inputEl9.current.files[0]);
-
+    for (let x in majorID) {
+      if (majorID[x].length !== "") {
+        formData.append(x, majorID[x]);
+      }
+    }
+    formData.append("applicant_id", userId);
+    formData.append("passport ", inputEl1.current.files[0]);
+    formData.append("diploma", inputEl2.current.files[0]);
+    formData.append("photo", inputEl3.current.files[0]);
+    if (inputEl4.current.files[0]) {
+      formData.append("passport_mother", inputEl4.current.files[0]);
+    }
+    if (inputEl5.current.files[0]) {
+      formData.append("marriage_cert", inputEl5.current.files[0]);
+    }
+    if (inputEl6.current.files[0]) {
+      formData.append("birth_cert", inputEl6.current.files[0]);
+    }
+    if (inputEl7.current.files[0]) {
+      formData.append("med_063_cert", inputEl7.current.files[0]);
+    }
+    if (inputEl8.current.files[0]) {
+      formData.append("med_086_cert", inputEl8.current.files[0]);
+    }
+    if (inputEl9.current.files[0]) {
+      formData.append("hiv_cert", inputEl9.current.files[0]);
+    }
+    if (inputEl10.current.files[0]) {
+      formData.append("language_cert", inputEl10.current.files[0]);
+    }
     try {
-      const data = await Axios.post(`/enroll/enroll-profile/`, formData, {
+      const data = await Axios.put(`/applicant/profile/${userId}/`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
+      console.log(data);
       const { status } = data;
-      if (status === 201) {
+      if (status === 200) {
         Swal.fire({
-          icon: 'success',
-          text: 'Файлы загружены успешно',
-        }).then(() => history.push('/payment-transaction'));
+          icon: "success",
+          text: "Файлы загружены успешно",
+        }).then(() => {
+          Axios.post("/applicant/profile/step/", {
+            step: "document_upload",
+          }).then(() => history.push("/payment-transaction"));
+          localStorage.setItem("profile3", status);
+        });
       }
       setLoading(false);
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        text: 'Что-то пошло не так, пожалуйста, повторно загрузите файлы',
+        icon: "error",
+        text: "Что-то пошло не так, пожалуйста, повторно загрузите файлы",
       });
       setLoading(false);
     }
   };
-
+  const saveData = () => {
+    dispatch(authSaveData(pathname, files));
+    Swal.fire({
+      icon: "success",
+      text: "Текущие данные сохранены без промедления",
+    }).then(() => history.push("/my-account"));
+  };
+  console.log(data);
   return (
     <React.Fragment>
-      <div className="navRegist">
+      {/* <div className="navRegist">
         <Navbar />
-      </div>
+      </div> */}
       <div className="singup_asos container">
         <div className="nav_name">
           <h1>Процесс поступления</h1>
@@ -148,12 +189,26 @@ function Fayli() {
             </p>
           </div>
           <div className="form_div">
-            <p>Сканер с оригинала паспорта</p>
+            <p>
+              {" "}
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              Сканер с оригинала паспорта
+            </p>
             <div className="importFile">
               <img src={folder_icon} alt="" />
               <p>
                 Drop your files here or a
                 <input
+                  required
                   onChange={handleInputChange}
                   ref={inputEl1}
                   type="file"
@@ -164,17 +219,30 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.scan_passport_self ? <img src={check} alt="success" /> : ''}
+              {data.scan_passport_self ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
 
           <div className="form_div">
-            <p>Сканер диплом или аттестат с приложением</p>
+            <p>
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              Сканер диплом или аттестат с приложением
+            </p>
             <div className="importFile">
               <img src={folder_icon} alt="" />
               <p>
                 Drop your files here or a
                 <input
+                  required
                   onChange={handleInputChange}
                   ref={inputEl2}
                   type="file"
@@ -185,16 +253,30 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.scan_diplom ? <img src={check} alt="success" /> : ''}
+              {data.scan_diplom ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="form_div">
-            <p>8 шт. фото 3х4, скан с оригинала</p>
+            <p>
+              {" "}
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "40px",
+                  position: "relative",
+                  top: "14px",
+                }}
+              >
+                *
+              </span>{" "}
+              8 шт. фото 3х4, скан с оригинала
+            </p>
             <div className="importFile">
               <img src={folder_icon} alt="" />
               <p>
                 Drop your files here or a
                 <input
+                  required
                   onChange={handleInputChange}
                   ref={inputEl3}
                   type="file"
@@ -205,7 +287,7 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.photo ? <img src={check} alt="success" /> : ''}
+              {data.photo ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="form_div">
@@ -225,7 +307,7 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.mather_passport ? <img src={check} alt="success" /> : ''}
+              {data.mather_passport ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="form_div">
@@ -245,7 +327,7 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.married ? <img src={check} alt="success" /> : ''}
+              {data.married ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="form_div">
@@ -265,7 +347,7 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.birth ? <img src={check} alt="success" /> : ''}
+              {data.birth ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="form_div">
@@ -285,7 +367,7 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.med063 ? <img src={check} alt="success" /> : ''}
+              {data.med063 ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="form_div">
@@ -305,7 +387,7 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.med086 ? <img src={check} alt="success" /> : ''}
+              {data.med086 ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="form_div">
@@ -325,24 +407,51 @@ function Fayli() {
               </p>
             </div>
             <p className="checkIcon">
-              {data.drink ? <img src={check} alt="success" /> : ''}
+              {data.drink ? <img src={check} alt="success" /> : ""}
+            </p>
+          </div>
+          <div className="form_div">
+            <p>Языковой сертификат</p>
+            <div className="importFile">
+              <img src={folder_icon} alt="" />
+              <p>
+                Drop your files here or a
+                <input
+                  style={{ display: "none" }}
+                  onChange={handleInputChange}
+                  ref={inputEl10}
+                  type="file"
+                  id="chFile10"
+                  name="cre"
+                />
+                <label htmlFor="chFile10">choose file</label>
+              </p>
+            </div>
+            <p className="checkIcon">
+              {data.cert ? <img src={check} alt="success" /> : ""}
             </p>
           </div>
           <div className="btn_div">
             <button
               style={
-                loading ? { background: '#8cb4c5' } : { background: '#00587F' }
+                loading ? { background: "#8cb4c5" } : { background: "#00587F" }
               }
               className="reg_btn"
             >
               {loading ? (
                 <>
-                  <Spin size="middle" spinning={loading} />
+                  <Loader
+                    type="spinner-circle"
+                    bgColor={"#FFFFFF"}
+                    color={"#FFFFFF"}
+                    size={50}
+                  />
                 </>
               ) : (
-                'Завершить'
+                "Завершить"
               )}
             </button>
+            {/* <button type="button" onClick={saveData}  style={{background: "#e6ebed",border:'none',color:'#00587f',cursor:'pointer'}} className="a_send">Сохранить</button> */}
           </div>
         </form>
       </div>

@@ -5,7 +5,7 @@ import styled from "styled-components";
 // import css
 import "../../../style/css/kabinet.css";
 // import icon
-import download_icon from "../../../assets/icon/download.svg";
+import avatar from "../../../assets/icon/Avatar.svg";
 import StudentCabinet from "../studentCabinet";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -126,7 +126,7 @@ const Kabinet = () => {
                 </span>
               </div>
               <div className="person">
-                <img src="https://picsum.photos/200" alt="" />
+                <img src={avatar} alt="userImage" />
                 <h4>
                   {first_name} {last_name}
                 </h4>
@@ -220,11 +220,16 @@ const Kabinet = () => {
                 <ButtonContainer>
                   {myStep === "payment_confirmation" ? (
                     <h1>Платеж проверяется</h1>
+                  ) : myStep === "completed" ||
+                    myStep === "university" ||
+                    myStep === "электронный дагавор" ||
+                    currentStep === "data_entry" ? (
+                    ""
                   ) : (
                     <>
                       <button
                         style={
-                          myStep === "profile_filled" ? { display: "none" } : {}
+                          myStep === "registered" ? {} : { display: "none" }
                         }
                         onClick={() => history.push("/universities")}
                       >
