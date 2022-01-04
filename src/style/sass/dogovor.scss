@@ -1,180 +1,175 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @mixin t-black-18-500 {
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    color: #000000;
-    border: none;
-    background: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
 }
 @mixin t-black-24-600 {
-    @include t-black-18-500();
-    font-weight: 600;
-    font-size: 24px;
+  @include t-black-18-500();
+  font-weight: 600;
+  font-size: 24px;
 }
 @mixin t_24_500 {
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 166.7%;
-    letter-spacing: 0.015em;
-    color: #000000;
-    margin: 0;
-    padding: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 166.7%;
+  letter-spacing: 0.015em;
+  color: #000000;
+  margin: 0;
+  padding: 0;
 }
 
-.dogovor{
-    padding: 30px;
-    .top{
+.dogovor {
+  padding: 30px;
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h1 {
+      @include t-black-24-600();
+      font-size: 26px;
+      font-weight: bold;
+    }
+    div {
+      display: flex;
+      align-items: center;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+      h2 {
+        @include t-black-24-600();
+        margin-left: 12px;
+        font-size: 16px;
+        span {
+          @include t-black-18-500();
+          font-weight: 500;
+          display: block;
+        }
+      }
+    }
+  } // end top
+  .bootm {
+    margin-top: 48px;
+    background: #ffffff;
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    padding: 22px 33px;
+    .print {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 40px;
+      button {
+        @include t-black-18-500();
+        width: 260px;
+        font-size: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        h1{
-            @include t-black-24-600();
-            font-size: 26px;
-            font-weight: bold;
+        justify-content: center;
+        cursor: pointer;
+        background: #f3f5f7;
+        border-radius: 10px;
+        color: #00587f;
+        img {
+          margin-right: 12px;
         }
-        div{
-            display: flex;
-            align-items: center;
-            img{
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-            }
-            h2{
-                @include t-black-24-600();
-                margin-left: 12px;
-                font-size: 16px;
-                span{
-                    @include t-black-18-500();
-                    font-weight: 500;
-                    display: block;
-
-                }
-            }
-        }
-    } // end top
-    .bootm{
-        margin-top: 48px;
-        background: #FFFFFF;
-        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
-                    2px 4px 9px rgba(0, 0, 0, 0.1);
-        border-radius: 14px;
-        padding: 22px 33px;
-        .print{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 40px;
-            button{
-                @include t-black-18-500();
-                width: 260px;
-                font-size: 20px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                background: #F3F5F7;
-                border-radius: 10px;
-                color: #00587F;
-                img{
-                    margin-right: 12px;
-                }
-            }
-            button:nth-child(2){
-                margin: 0 30px;
-            }
-        }
-        & > .main{
-            & *{
-                @include t_24_500();
-            }
-            & > h1{
-            
-            }
-            & > h2{
-                
-            }
-            
-            .titleP1{
-                margin-top: 20px;
-                margin-bottom: 20px;
-                span{
-                    margin-left: 140px;
-                }
-            }
-            .titleP2{
-                text-indent: 40px;  
-            }
-            h3{
-                text-align: center;
-                margin-top: 25px;
-                margin-bottom: 25px;
-            }
-            .titleP3{
-                span{
-                    display: block;
-                    text-indent: 40px;
-                }  
-            }
-        }
-        
+      }
+      button:nth-child(2) {
+        margin: 0 30px;
+      }
     }
+    & > .main {
+      & * {
+        @include t_24_500();
+      }
+      // & > h1{
+
+      // }
+      // & > h2{
+
+      // }
+
+      .titleP1 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        span {
+          margin-left: 140px;
+        }
+      }
+      .titleP2 {
+        text-indent: 40px;
+      }
+      h3 {
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 25px;
+      }
+      .titleP3 {
+        span {
+          display: block;
+          text-indent: 40px;
+        }
+      }
+    }
+  }
 }
 
-@media(max-width:1024px){
-    .dogovor .bootm .print button{
-        font-size: 18px;
-        width: 180px;
-        img{
-            margin-right: 5px;
-        }
+@media (max-width: 1024px) {
+  .dogovor .bootm .print button {
+    font-size: 18px;
+    width: 180px;
+    img {
+      margin-right: 5px;
     }
-    .dogovor .bootm > .main *{
-        font-size: 22px;
-    }
+  }
+  .dogovor .bootm > .main * {
+    font-size: 22px;
+  }
 }
-@media(max-width:768px){
-    .dogovor{
-        padding:60px 10px 30px 10px;
-    }
+@media (max-width: 768px) {
+  .dogovor {
+    padding: 60px 10px 30px 10px;
+  }
 }
-@media(max-width:500px){
-    .dogovor .bootm .print{
-        flex-direction: column;
-        button{
-            width: 303px;
-            margin-bottom: 15px !important;
-        }
+@media (max-width: 500px) {
+  .dogovor .bootm .print {
+    flex-direction: column;
+    button {
+      width: 303px;
+      margin-bottom: 15px !important;
     }
-
+  }
 }
-@media(max-width:425px){
-    .dogovor{
-        padding-top: 5px;
-         .top{
-            align-items: flex-start;
-            flex-direction: column-reverse;
-            align-items: center;
-            padding-top: 5px;
-            & > div{
-                align-self: flex-end;
-                margin-bottom: 25px;
-            }
-        }
-        .bottom{
-            padding-left: 15px;
-            padding-right: 15px;
-        }
+@media (max-width: 425px) {
+  .dogovor {
+    padding-top: 5px;
+    .top {
+      align-items: flex-start;
+      flex-direction: column-reverse;
+      align-items: center;
+      padding-top: 5px;
+      & > div {
+        align-self: flex-end;
+        margin-bottom: 25px;
+      }
     }
+    .bottom {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
 }
