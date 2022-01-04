@@ -3,33 +3,6 @@
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 20px;
-  .strelka {
-    margin-left: 14px;
-    margin-right: 14px;
-    margin-bottom: 0;
-    font-weight: 500;
-  }
-  .account-analaytics {
-    margin: 0;
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 26px;
-    color: #000000;
-  }
-  // .otdel {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   p {
-  //     margin-left: 14px;
-  //     margin-right: 14x;
-  //   }
-  //   h5 {
-  //     margin: 0;
-  //   }
-  // }
   h4 {
     margin: 0;
     font-family: Raleway;
@@ -61,7 +34,7 @@
 
     img {
       border-radius: 36px;
-      width: 40px;
+      width: 47px;
       margin-left: 14px;
       margin-right: 14px;
     }
@@ -118,6 +91,33 @@
       padding-right: 50px;
     }
   }
+  .cancel-btn {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    color: #00587f;
+    background: #f3f5f7;
+    border-radius: 10px;
+    width: 160px;
+    outline: none;
+    border: none;
+  }
+  .confirm-btns {
+    outline: none;
+    border: none;
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: #ffffff;
+    background: #00587f;
+    border-radius: 10px;
+    padding: 16px;
+  }
   button {
     background: none;
     outline: none;
@@ -137,15 +137,19 @@
 }
 .talaba_modal {
   height: 100%;
-  width: 30%;
+  width: 40%;
   margin: 10px 0;
   overflow-y: scroll;
+}
+::ng-deep.swal2-container {
+  z-index: 1000000 !important;
 }
 .class1 {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 50px;
+  // z-index: 10000 !important;
 
   overflow: hidden;
 }
@@ -177,38 +181,38 @@
 }
 
 @media (max-width: 425px) {
-  .asos {
-    .Up_navbar {
-      //   align-items: center;
-      //   flex-direction: column-reverse;
-      //   margin-bottom: 70px;
-      h4 {
-        font-size: 18px;
-        width: 60%;
-        // transform: translateX(-100px) translateY(25px);
-      }
-      h5 {
-        font-size: 16px;
-      }
-      p {
-        font-size: 16px;
-      }
-      div img {
-        width: 40px;
-        height: 40px;
-      }
-    }
-    .Up_navbar div {
-      align-items: center;
-    }
-    .Up_navbar div {
-      .nav-bugalter {
-        align-items: flex-start;
-        margin-left: 13px;
-        margin-top: 30px;
-      }
-    }
-  }
+  // .asos {
+  // .Up_navbar {
+  //   //   align-items: center;
+  //   //   flex-direction: column-reverse;
+  //   //   margin-bottom: 70px;
+  //   h4 {
+  //     // font-size: 18px;
+  //     // width: 60%;
+  //     // transform: translateX(-100px) translateY(25px);
+  //   }
+  //   h5 {
+  //     // font-size: 16px;
+  //   }
+  //   p {
+  //     // font-size: 16px;
+  //   }
+  //   div img {
+  //     width: 40px;
+  //     height: 40px;
+  //   }
+  // }
+  // .Up_navbar div {
+  //   align-items: center;
+  // }
+  // .Up_navbar div {
+  //   .nav-bugalter {
+  //     // align-items: flex-start;
+  //     // margin-left: 13px;
+  //     // margin-top: 30px;
+  //   }
+  // }
+  // }
   .talabalar table {
     width: 370% !important;
   }
@@ -242,4 +246,15 @@
   .sideGlavny .block_2 > div:nth-child(1) {
     margin-bottom: 20px !important;
   }
+}
+.spinner2 {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  width: 100%;
+  right: 0;
+  background: #00000047;
+}
+.MuiAutocomplete-root {
+  width: 52%;
 }
