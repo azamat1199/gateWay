@@ -1,0 +1,16 @@
+.type_file{
+    // background: #EAF5FA;
+    // border: 1.5px dashed #009FE5;
+    // border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 98%;
+    height: 50px;
+    img{
+        width: 100%;
+    }
+    input{
+        display: none;
+    }
+}

@@ -1,354 +1,527 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @mixin t-white-18-500 {
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    color: #FFFFFF;
-    border: none;
-    background: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #ffffff;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
 }
 
 @mixin t-black-18-500 {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+@mixin t-black-24-600 {
+  @include t-black-18-500();
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.staticImg {
+  background-image: url("../../assets/images/static.jpg");
+  height: 322px;
+  width: 102%;
+  object-fit: cover;
+  background-size: cover;
+  .editIcon {
+    display: flex;
+    justify-content: end;
+    img {
+      padding: 25px;
+      cursor: pointer;
+    }
+  }
+}
+
+.setting-select {
+  margin-left: 8px;
+  margin-top: 15px;
+  .priceFor {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 28px;
+    color: #000000;
+    margin-bottom: 16px;
+  }
+  h5 {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 28px;
+    color: #000000;
+  }
+  .staticSelect {
+    select {
+      background-color: white;
+      border: 1.5px solid #47606b;
+      box-sizing: border-box;
+      border-radius: 10px;
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      margin-right: 28px;
+      line-height: 25px;
+      padding: 13px 30px 13px 13px;
+      letter-spacing: 0.02em;
+      color: #5c7c8a;
+    }
+    input {
+      border: 1.5px solid #47606b;
+      box-sizing: border-box;
+      border-radius: 10px;
+      width: 120px;
+      padding-left: 25px;
+      height: 50px;
+      margin: 0 !important;
+    }
+  }
+}
+
+.plus-btn {
+  button {
+    margin-top: 15px;
+    background: #00587f;
+    border-radius: 10px;
+    outline: none;
+    width: 145px;
     font-family: Raleway;
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
-    color: #000000;
+    line-height: 23px;
+    color: #ffffff;
+    height: 45px;
     border: none;
-    background: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
-}
-@mixin t-black-24-600 {
-    @include t-black-18-500();
-    font-weight: 600;
-    font-size: 24px;
+    cursor: pointer;
+  }
 }
 
-.lichKabinet{
-    .top{
-        background-image: url("../../assets/images/back.png");
-        height: 327px;
-        background-size: cover;
+.staticPerson {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+  padding-top: 12px;
+  h4 {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 28px;
+    color: #ffffff;
+  }
+  h5 {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 19px;
+    letter-spacing: 0.01em;
+    color: #f2f2f2;
+  }
+}
+
+.lichKabinet {
+  .top {
+    background-image: url("../../assets/images/back.png");
+    // background-image: url("https://picsum.photos/1280");
+    height: 327px;
+    background-size: cover;
+    width: 100%;
+    .settings {
+      padding: 30px 30px 0 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      h6 {
+        @include t-white-18-500();
+        font-weight: bold;
+        font-size: 26px;
+      }
+      span {
+        svg {
+          margin-left: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+    .person {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 0 auto;
+      padding-top: 12px;
+      img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+      }
+      h4 {
+        @include t-white-18-500();
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 6px;
+        margin-bottom: 10px;
+      }
+      h3 {
+        @include t-white-18-500();
+      }
+    }
+  } // bottom
+  .bottom {
+    margin-top: 48px;
+    padding: 0 30px 70px 30px;
+    .progress {
+      padding: 22px 32px;
+      background: #ffffff;
+      box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
+        2px 4px 9px rgba(0, 0, 0, 0.1);
+      border-radius: 14px;
+      h1 {
+        @include t-black-24-600();
+        margin-bottom: 50px;
+      }
+      .progressTdiv {
         width: 100%;
-        .settings{
-            padding: 30px 30px 0 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            h6{
-                @include t-white-18-500();
-                font-weight: bold;
-                font-size: 26px;
-            }
-            span{
-                svg{
-                    margin-left: 20px;
-                    cursor: pointer;
-                }
-            }
+        background: #e5f7ff;
+        border-radius: 34.5px;
+        height: 69px;
+        display: flex;
+        justify-content: flex-start;
+        transition: all ease 0.7s;
+        .progressIdiv {
+          height: 100%;
+          background: linear-gradient(
+            5.35deg,
+            #00587f 8.92%,
+            rgba(0, 88, 127, 0) 320.51%
+          );
+          transition: all ease 0.7s;
+          border-radius: 34.5px 34.5px 34.5px 34.5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          h6 {
+            @include t-black-24-600();
+            color: #fff;
+          }
         }
-        .person{
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            margin:0 auto;
-            padding-top: 12px;
-            img{
-                width: 150px;
-                height: 150px;
-                border-radius: 50%
-            }
-            h4{
-                @include t-white-18-500();
-                font-size: 24px;
-                font-weight: 600;
-                margin-top: 6px;
-                margin-bottom: 10px;
-            }
-            h3{
-                @include t-white-18-500();
-            }
+      }
+      .progressTitle {
+        padding-top: 34px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-evenly;
+        & > p {
+          @include t-black-18-500();
+          text-align: center;
+          width: auto;
+          position: relative;
         }
-    } // bottom
-    .bottom{
+      } // bottom
+      .bottom {
         margin-top: 48px;
         padding: 0 30px 70px 30px;
-        .progress{
-            padding: 22px 32px;
-            background: #FFFFFF;
-            box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
-                        2px 4px 9px rgba(0, 0, 0, 0.1);
-            border-radius: 14px;
-            h1{
+        .progress {
+          padding: 22px 32px;
+          background: #ffffff;
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
+            2px 4px 9px rgba(0, 0, 0, 0.1);
+          border-radius: 14px;
+          h1 {
+            @include t-black-24-600();
+            margin-bottom: 50px;
+          }
+          .progressTdiv {
+            width: 100%;
+            background: #e5f7ff;
+            border-radius: 34.5px;
+            height: 69px;
+            display: flex;
+            justify-content: flex-start;
+            .progressIdiv {
+              height: 100%;
+              background: linear-gradient(
+                5.35deg,
+                #00587f 8.92%,
+                rgba(0, 88, 127, 0) 320.51%
+              );
+              border-radius: 34.5px;
+              transition: 0.7s;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              h6 {
                 @include t-black-24-600();
-                margin-bottom: 50px;
-            }
-            .progressTdiv{
-                width: 100%;
-                background: #E5F7FF;
-                border-radius: 34.5px;
-                height: 69px;
-                display: flex;
-                justify-content: flex-start;
-                .progressIdiv{
-                    height: 100%;
-                    background: linear-gradient(5.35deg, #00587F 8.92%,
-                              rgba(0, 88, 127, 0) 320.51%);
-                    border-radius: 34.5px 0px 0px 34.5px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    h6{
-                        @include t-black-24-600();
-                        color: #fff;
-                    }
-                }
-            }
-            .progressTitle{
-                padding-top: 34px;
-                display: flex;
-                align-items: flex-start;
-                justify-content: space-evenly;
-                & > p{
-                    @include t-black-18-500();
-                    text-align: center;
-                    width: 200px;
-                    position: relative;
-                }
-                & > p::before{
-                    content: "";
-                    position: absolute;
-                    background: #7595A3;
-                    height: 18px;
-                    width: 4px;
-                    top: -22px;
-                    left: 100px;
-                }
-            }
-        }
-        .danni{
-            margin-top: 44px;
-            background: #FFFFFF;
-            box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
-                        2px 4px 9px rgba(0, 0, 0, 0.1);
-            border-radius: 14px;
-            padding: 22px 0;
-            .izmenit{
-                margin-bottom: 22px;
-                padding: 0 32px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                h2{
-                    @include t-black-24-600();
-                }
-                button{
-                    @include t-black-24-600();
-                    color: #00587F;
-                    font-size: 16px;
-                    cursor: pointer;
-                }
-            } 
-            table{
-                width: 100%;
-                border-spacing: 0;
-                tr{
-                    height: 75px;
-                    td{
-                        font-size: 22px;
-                        font-weight: 600;
-                        padding: 0 32px;
-                    }
-                    th{
-                        @include t-black-24-600();
-                        text-align: start;
-                        padding-left: 30px;
-                        padding-right: 30px;
-                        img{
-                            width: 21px;
-                            height: 27px;
-                            cursor: pointer;
-                        }
-                    }
-                    th:nth-child(1){
-                        font-size: 22px;
-                        font-weight: 600;
-                        width: 200px;
-                    }
-                    th:nth-child(2){
-                        font-size: 20px;
-                        font-weight: 500;
-                    }
-                }
-                tr:nth-child(even){
-                    background: #F0FAFF;
-                }
-            }
-            button{
-                height: 64px;
-                width: 600px;
-                position: relative;
-                left: calc(50% - 300px);
-                top: 13px; 
                 color: #fff;
-                margin: auto;
-                cursor: pointer;
-                border: none;
-                font-size: 20px;
-                background:  #00587F;
-                border-radius: 10px;
-                transition: .4s;
-                font-weight: 500;
-                &:hover{
-                    border: 1px solid #00587F ;
-                    background: transparent;
-                    color: #00587F;
-                }
+              }
             }
+          }
+          .progressTitle {
+            padding-top: 34px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-evenly;
+            & > p {
+              @include t-black-18-500();
+              text-align: center;
+              width: 200px;
+              position: relative;
+            }
+            & > p::before {
+              content: "";
+              position: absolute;
+              background: #7595a3;
+              height: 18px;
+              width: 4px;
+              top: -22px;
+              left: 100px;
+            }
+          }
         }
+      }
     }
+    .danni {
+      margin-top: 44px;
+      background: #ffffff;
+      box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
+        2px 4px 9px rgba(0, 0, 0, 0.1);
+      border-radius: 14px;
+      padding: 22px 0;
+      .izmenit {
+        margin-bottom: 22px;
+        padding: 0 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        h2 {
+          @include t-black-24-600();
+        }
+        button {
+          @include t-black-24-600();
+          color: #00587f;
+          font-size: 16px;
+          cursor: pointer;
+        }
+      }
+      table {
+        width: 100%;
+        border-spacing: 0;
+        tr {
+          height: 75px;
+          td {
+            font-size: 22px;
+            font-weight: 600;
+            padding: 0 32px;
+          }
+          th {
+            @include t-black-24-600();
+            text-align: start;
+            padding-left: 30px;
+            padding-right: 30px;
+            img {
+              width: 21px;
+              height: 27px;
+              cursor: pointer;
+            }
+          }
+          th:nth-child(1) {
+            font-size: 22px;
+            font-weight: 600;
+            width: 200px;
+          }
+          th:nth-child(2) {
+            font-size: 20px;
+            font-weight: 500;
+          }
+        }
+        tr:nth-child(even) {
+          background: #f0faff;
+        }
+      }
+      button {
+        height: 64px;
+        width: 600px;
+        margin-top: 8px;
+        position: relative;
+        left: calc(50% - 300px);
+        top: 13px;
+        color: #fff;
+        margin: auto;
+        cursor: pointer;
+        border: none;
+        font-size: 20px;
+        background: #00587f;
+        border-radius: 10px;
+        transition: 0.4s;
+        font-weight: 500;
+        &:hover {
+          border: 1px solid #00587f;
+          background: transparent;
+          color: #00587f;
+        }
+      }
+    }
+  }
 }
-
 
 // 1280
-@media(max-width:1024px){
-    .lichKabinet .bottom .progress .progressTitle > p::before{
-        left: 65px;
-    }
-    .lichKabinet .bottom .progress .progressTitle > p{
-        width: 140px;
-        font-size: 16px;
-    }
+@media (max-width: 1024px) {
+  .lichKabinet .bottom .progress .progressTitle > p::before {
+    left: 65px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    // width: 140px;
+    font-size: 16px;
+  }
 }
 
-@media(max-width:768px){
-    .lichKabinet .top{
-        .settings{
-            padding-top: 75px;
-        }
-        .person{
-            img{
-            width: 100px;
-            height: 100px;
-            }
-            h4{
-                font-size: 22px;
-            }
-            h3{
-                font-size: 20px;
-            }
-        }
+@media (max-width: 768px) {
+  .lichKabinet .top {
+    .settings {
+      padding-top: 75px;
     }
-}
-
-@media(max-width:500px){
-    .lichKabinet .bottom .progress .progressTdiv .progressIdiv h6{
-        font-size: 16px;
-    }
-    .lichKabinet .bottom .progress .progressTdiv{
-        height  : 40px;
-    }
-    .lichKabinet .bottom .progress .progressTitle > p::before{
-        left: 40px;
-    }
-    .lichKabinet .bottom .progress .progressTitle > p{
-        width: 90px;
-        font-size: 15px;
-    }
-    .lichKabinet .bottom {
-        padding: 0 10px 50px 10px;
-        .danni{
-            .izmenit{
-                button{
-                    font-size: 15px;
-                }
-                h2{
-                    font-size: 20px;
-                }
-            }
-            table{
-                tr{
-                    height: auto;
-                    th{
-                       padding:  10px 15px;
-                    }
-                   
-                }
-            }
-        } 
-    }
-    .lichKabinet .bottom .danni table tr th:nth-child(1){
-        font-size: 18px;
-        padding-right: 5px !important;
-    }
-    .lichKabinet .bottom .danni table tr th:nth-child(2){
-        font-size: 17px;
-        padding-left: 0 !important;
-    }
-    .lichKabinet .bottom .danni table tr th img{
-        width: 17px;
-        height: 18px;
-    }
-    .lichKabinet .bottom .danni .izmenit{
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    .lichKabinet .top .settings h6{
+    .person {
+      img {
+        width: 100px;
+        height: 100px;
+      }
+      h4 {
         font-size: 22px;
+      }
+      h3 {
+        font-size: 20px;
+      }
     }
+  }
+  .lichKabinet .bottom .danni table {
+    padding-bottom: 20px;
+  }
+  .lichKabinet .bottom .danni .kabinetTableZapBtn {
+    width: 270px;
+    position: static;
+    margin: 0 auto;
+    display: block;
+  }
 }
 
-@media(max-width:425px){
-    .lichKabinet .top .settings{
-        padding: 60px 10px 0px 10px;
-        h6{
-            font-size: 21px;
+@media (max-width: 500px) {
+  .lichKabinet .bottom .progress .progressTdiv .progressIdiv h6 {
+    font-size: 16px;
+  }
+  .lichKabinet .bottom .progress .progressTdiv {
+    height: 40px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p::before {
+    left: 40px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    width: 90px;
+    font-size: 15px;
+  }
+  .lichKabinet .bottom {
+    padding: 0 10px 50px 10px;
+    .danni {
+      .izmenit {
+        button {
+          font-size: 15px;
         }
+        h2 {
+          font-size: 20px;
+        }
+      }
+      table {
+        tr {
+          // height: auto;
+          th {
+            padding: 10px 15px;
+          }
+        }
+      }
     }
-    .lichKabinet .bottom .progress .progressTitle > p{
-        width: 70px;
-        font-size: 12px;
-    }
-    .lichKabinet .bottom .progress .progressTitle > p::before{
-        left: 35px;
-        width: 3px;
-        height: 15px;
-    }
-    .lichKabinet .bottom .progress{
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-    .lichKabinet .bottom{
-        margin-top: 20px;
-    }
-    .lichKabinet .bottom .danni{
-        margin-top: 30px;
-    }
+  }
+  .lichKabinet .bottom .danni table tr th:nth-child(1) {
+    font-size: 18px;
+    padding-right: 5px !important;
+  }
+  .lichKabinet .bottom .danni table tr th:nth-child(2) {
+    font-size: 17px;
+    padding-left: 0 !important;
+  }
+  .lichKabinet .bottom .danni table tr th img {
+    width: 17px;
+    height: 18px;
+  }
+  .lichKabinet .bottom .danni .izmenit {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .lichKabinet .top .settings h6 {
+    font-size: 22px;
+  }
 }
 
-@media(max-width:375px){
-    .lichKabinet .top .settings{
-        padding: 60px 10px 0px 10px;
-        h6{
-            font-size: 21px;
-        }
+@media (max-width: 425px) {
+  .lichKabinet .top .settings {
+    padding: 60px 10px 0px 10px;
+    h6 {
+      font-size: 21px;
     }
-    .lichKabinet .bottom .progress .progressTitle > p{
-        font-size: 11px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    width: 70px;
+    font-size: 12px;
+  }
+  .lichKabinet .bottom .progress .progressTitle > p::before {
+    left: 35px;
+    width: 3px;
+    height: 15px;
+  }
+  .lichKabinet .bottom .progress {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .lichKabinet .bottom {
+    margin-top: 20px;
+  }
+  .lichKabinet .bottom .danni {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 375px) {
+  .lichKabinet .top .settings {
+    padding: 60px 10px 0px 10px;
+    h6 {
+      font-size: 21px;
     }
-    .lichKabinet .bottom .progress h1{
-        margin-bottom: 20px;
-    }
-    .lichKabinet .bottom .progress .progressTdiv{
-        height: 25px;
-    }
-    
+  }
+  .lichKabinet .bottom .progress .progressTitle > p {
+    font-size: 11px;
+  }
+  .lichKabinet .bottom .progress h1 {
+    margin-bottom: 20px;
+  }
+  .lichKabinet .bottom .progress .progressTdiv {
+    height: 25px;
+  }
 }

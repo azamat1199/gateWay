@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 .infoTopBlock {
   position: relative;
 }
@@ -9,6 +11,71 @@
   right: 0;
   top: 0;
   height: 370px;
+}
+
+.editDescription {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 50px 30px;
+  width: 450px;
+
+  .modalContainer {
+    background: rgb(255, 255, 255);
+
+    & > img {
+      width: 100%;
+    }
+
+    h1 {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      letter-spacing: 0.02em;
+      color: #00121a;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      border: 1.5px solid #47606b;
+      box-sizing: border-box;
+      border-radius: 10px;
+      font-family: "Raleway";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      outline: none;
+      padding: 10px;
+    }
+
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 40px;
+
+      button {
+        width: 45%;
+        border: none;
+        background: #f3f5f7;
+        border-radius: 10px;
+        padding: 18px;
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        color: #00587f;
+        cursor: pointer;
+      }
+
+      button:nth-child(2) {
+        background: #00587f;
+        color: #fff;
+      }
+    }
+  }
 }
 
 .info_h1 {
@@ -139,6 +206,17 @@
       letter-spacing: 0.02em;
       color: #00587f;
     }
+    button {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 19px;
+      letter-spacing: 0.02em;
+      color: #00587f;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
   }
   .info-2 {
     background: #ffffff;
@@ -186,7 +264,7 @@
       align-items: center;
       justify-content: center;
       width: 98%;
-      height: 98%;
+      height: 150px;
       img {
         width: 100%;
       }
@@ -207,6 +285,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 20px 30px 50px 30px;
     .MuiSlider-markLabel {
       top: 70px;
       color: #7595a3;
@@ -264,7 +343,6 @@
         }
       }
     }
-    margin: 20px 150px 50px 150px;
     .input_kvota {
       margin-bottom: 100px;
       margin-top: 50px;
@@ -301,9 +379,9 @@
   margin-bottom: 50px;
 }
 @media (max-width: 1440px) {
-  .img_big {
-    top: -80px;
-  }
+  // .img_big{
+  // top: -80px;
+  // }
 }
 @media (max-width: 1024px) {
   .img_big {
@@ -479,4 +557,12 @@
   }
   // .info_h1{
   // }
+}
+.spinner2 {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  width: 100%;
+  right: 0;
+  background: #00000047;
 }
