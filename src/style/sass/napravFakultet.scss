@@ -1,0 +1,214 @@
+.napravMoodal1 {
+  height: 90vh;
+}
+.napravFakultet {
+  .SidebarUniverstitet {
+    & > button {
+      margin-right: 20px;
+    }
+    .univerList table tr {
+      border: none;
+      padding: 10px 0;
+    }
+  }
+  .SidebarUniverstitet .univerList table thead::before {
+    top: 50px;
+  }
+  .Up_navbar1 {
+    padding-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    h4 {
+      margin: 0;
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 26px;
+      line-height: 31px;
+      color: #000000;
+    }
+    div {
+      display: flex;
+      justify-content: center;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+
+        h5 {
+          margin: 0;
+          margin-bottom: 4px;
+          font-family: Raleway;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          color: #000000;
+        }
+        p {
+          margin: 0;
+          font-family: Raleway;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          color: #5c7c8a;
+        }
+      }
+    }
+  }
+  .fakultet {
+    width: 100% !important;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    table {
+      width: 140% !important;
+      td {
+        padding-right: 50px;
+        padding-left: 10px;
+      }
+    }
+  }
+  .talabalar {
+    width: 100% !important;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    table {
+      width: 200% !important;
+      position: fixed;
+      overflow-x: scroll;
+      td {
+        padding-right: 50px;
+      }
+    }
+    button {
+      background: none;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  }
+  .back_btn {
+    background: none !important;
+    outline: none !important;
+    border: none !important;
+    color: #00587f !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .talaba_modal {
+    height: 100%;
+    width: 30%;
+    margin: 10px 0;
+    overflow-y: scroll;
+  }
+  .class1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+
+    overflow: hidden;
+  }
+  #scroll_bar::-webkit-scrollbar-track {
+    margin: 10px 0;
+    border-radius: 10px;
+  }
+  #scroll_bar::-webkit-scrollbar {
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+  }
+  #scroll_bar::-webkit-scrollbar-thumb {
+    margin: 10px 0;
+    border-radius: 10px;
+    background-color: #00587f;
+  }
+}
+
+@media (max-width: 1024px) {
+  .card_3tali {
+    flex-wrap: nowrap;
+    .card {
+      text-align: center;
+      h4 {
+        font-size: 20px !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .napravFakultet .SidebarUniverstitet > button {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+  }
+  // .Up_navbar{
+  // 	align-items: center;
+  // 	flex-direction: column-reverse;
+  // 	margin-bottom: 70px;
+  // 	margin-left: 0;
+  // 	// h4{
+  // 	// 	font-size: 20px;
+  // 	// 	width: 60%;
+  // 	// 	transform: translateX(-100px) translateY(25px);
+  // 	// }
+  // 	h5{
+  // 		// font-size: 16px;
+  // 	}
+  // 	p{
+  // 		// font-size: 16px;
+  // 	}
+  // 	div img{
+  // 		width: 40px;
+  // 		height: 40px;
+  // 	}
+  // }
+  // .Up_navbar div {
+  // 	align-items: center;
+  // }
+  // .Up_navbar div div {
+  // 	align-items: flex-start;
+  // }
+  .talabalar table {
+    width: 370% !important;
+  }
+  .fakultet {
+    table {
+      width: 250% !important;
+    }
+  }
+  .sideGlavny .block_1 {
+    margin-bottom: 10px;
+  }
+  .card_3tali {
+    flex-wrap: wrap;
+    .card {
+      h4 {
+        font-size: 18px !important;
+      }
+    }
+  }
+  .SidebarUniverstitet .fakultet table thead::before {
+    top: 60px !important;
+  }
+  .sideGlavny .block_2 > div:nth-child(1) {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+  .sideGlavny .block_1 .card h4 {
+    text-align: center;
+  }
+  .sideGlavny .block_2 > div:nth-child(1) {
+    margin-bottom: 20px !important;
+  }
+}
