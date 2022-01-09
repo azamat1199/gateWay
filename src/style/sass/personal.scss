@@ -1,195 +1,197 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @mixin t-black-18-500 {
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    color: #000000;
-    border: none;
-    background: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  border: none;
+  background: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
 }
 @mixin t-black-24-600 {
-    @include t-black-18-500();
-    font-weight: 600;
-    font-size: 24px;
+  @include t-black-18-500();
+  font-weight: 600;
+  font-size: 24px;
 }
 
-.Personal{
-    padding: 30px;
-    .top{
+.Personal {
+  padding: 30px;
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h1 {
+      @include t-black-24-600();
+      font-size: 26px;
+      font-weight: bold;
+    }
+    div {
+      display: flex;
+      align-items: center;
+      display: flex;
+      align-items: center;
+      width: 300px;
+      flex-direction: row-reverse;
+      justify-content: space-evenly;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+      h2 {
+        @include t-black-24-600();
+        margin-left: 12px;
+        font-size: 16px;
+        span {
+          @include t-black-18-500();
+          font-weight: 500;
+          display: block;
+        }
+      }
+    }
+  } // end top
+
+  .bottom {
+    margin-top: 48px;
+    background: #ffffff;
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    padding: 32px;
+    .inf {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      div:nth-child(1) {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        h1{
-            @include t-black-24-600();
-            font-size: 26px;
-            font-weight: bold;
+        img {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
         }
-        div{
-            display: flex;
-            align-items: center;
-            img{
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-            }
-            h2{
-                @include t-black-24-600();
-                margin-left: 12px;
-                font-size: 16px;
-                span{
-                    @include t-black-18-500();
-                    font-weight: 500;
-                    display: block;
-
-                }
-            }
+        h2 {
+          @include t-black-24-600();
+          margin-left: 16px;
+          font-size: 22px;
+          span {
+            font-weight: normal;
+            display: block;
+            margin-top: 12px;
+          }
         }
-    } // end top
-
-    .bottom{
-        margin-top: 48px;
-        background: #FFFFFF;
-        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
-                    2px 4px 9px rgba(0, 0, 0, 0.1);
-        border-radius: 14px;
-        padding: 32px;
-        .inf{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            div:nth-child(1){
-                display: flex;
-                align-items: center;
-                img{
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                }
-                h2{
-                    @include t-black-24-600();
-                    margin-left: 16px;
-                    font-size: 22px;
-                    span{
-                        font-weight: normal;
-                        display: block;
-                        margin-top: 12px;
-                    }
-                }
-            }
-            div:nth-child(2){
-                img{
-                    width: 32px;
-                    height: 32px;
-                    padding: 7px;
-                    cursor: pointer;
-                }
-            }
+      }
+      div:nth-child(2) {
+        img {
+          width: 32px;
+          height: 32px;
+          padding: 7px;
+          cursor: pointer;
         }
-        p{
-            @include t-black-24-600();
-            font-weight: 500;
-            letter-spacing: 0.015em;
-            margin-top: 28px;
-            margin-bottom: 34px;
-            line-height: 32px;
-            width: 92%;
-        }
-        h5{
-            @include t-black-24-600();
-            margin-bottom: 12px;
-            span{
-                font-weight: 500;
-                margin-left: 12px;
-            }
-        }
-        h6{
-            @include t-black-24-600();
-            span{
-                font-weight: 500;
-                margin-left: 12px;
-            }
-        }
+      }
     }
+    p {
+      @include t-black-24-600();
+      font-weight: 500;
+      letter-spacing: 0.015em;
+      margin-top: 28px;
+      margin-bottom: 34px;
+      line-height: 32px;
+      width: 92%;
+    }
+    h5 {
+      @include t-black-24-600();
+      margin-bottom: 12px;
+      span {
+        font-weight: 500;
+        margin-left: 12px;
+      }
+    }
+    h6 {
+      @include t-black-24-600();
+      span {
+        font-weight: 500;
+        margin-left: 12px;
+      }
+    }
+  }
 }
 
-@media (max-width:1024px) {
-    .Personal .bottom {
-        .inf div:nth-child(1){
-            img{
-                width: 100px;
-                height: 100px;
-            }
-            h2{
-                font-size: 20px;    
-            }
-        }
-        p{
-            font-size: 22px;
-        }
-        h5{
-            font-size: 22px;
-        }
-        h6{
-            font-size: 22px;
-        }
+@media (max-width: 1024px) {
+  .Personal .bottom {
+    .inf div:nth-child(1) {
+      img {
+        width: 100px;
+        height: 100px;
+      }
+      h2 {
+        font-size: 20px;
+      }
     }
+    p {
+      font-size: 22px;
+    }
+    h5 {
+      font-size: 22px;
+    }
+    h6 {
+      font-size: 22px;
+    }
+  }
 }
 
-@media (max-width:768px) {
-    .Personal{
-        padding-top: 60px;
-    }
+@media (max-width: 768px) {
+  .Personal {
+    padding-top: 60px;
+  }
 }
-@media (max-width:425px) {
-    .Personal{
-        padding: 5px 15px 15px 15px;
-        .bottom{
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-        .top{
-            align-items: flex-start;
-            flex-direction: column-reverse;
-            align-items: center;
-            padding-top: 5px;
-            & > div{
-                align-self: flex-end;
-                margin-bottom: 20px;
-            }
-            h1{
-                font-size: 24px;
-                margin-bottom: 10px;
-                margin-top: 10px;
-            }
-        }
+@media (max-width: 425px) {
+  .Personal {
+    padding: 5px 15px 15px 15px;
+    .bottom {
+      padding-left: 15px;
+      padding-right: 15px;
     }
-    .Personal .bottom .inf{
-        flex-direction: column;
+    .top {
+      align-items: flex-start;
+      flex-direction: column-reverse;
+      align-items: center;
+      padding-top: 5px;
+      & > div {
+        align-self: flex-end;
+        margin-bottom: 20px;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
     }
-    .Personal .bottom .inf div:nth-child(1){
-        flex-direction: column;
+  }
+  .Personal .bottom .inf {
+    flex-direction: column;
+  }
+  .Personal .bottom .inf div:nth-child(1) {
+    flex-direction: column;
+  }
+  .Personal .bottom .inf div:nth-child(1) h2 {
+    text-align: center;
+  }
+  .Personal .bottom {
+    h5 {
+      font-size: 16px;
+      span {
+        display: block;
+      }
     }
-    .Personal .bottom .inf div:nth-child(1) h2{
-        text-align: center;
+    h6 {
+      font-size: 16px;
+      span {
+        display: block;
+      }
     }
-    .Personal .bottom{
-        h5{
-            font-size: 16px;
-            span{
-                display: block;
-            }
-        }
-        h6{
-            font-size: 16px;
-            span{
-                display: block;
-            }
-        }
-    } 
+  }
 }

@@ -96,7 +96,6 @@
     table {
       border-spacing: 0;
       position: relative;
-      width: 100%;
 
       thead::before {
         content: "";
@@ -107,6 +106,7 @@
         top: 37px;
       }
 
+      width: 100%;
       tr {
         padding-bottom: 16px;
         border-bottom: 1.5px solid #00587f;
@@ -121,8 +121,8 @@
           color: #00121a;
         }
         td {
-          padding-top: 27px;
-          padding-bottom: 27px;
+          padding-top: 27px !important;
+          padding-bottom: 27px !important;
           font-family: Raleway;
           font-style: normal;
           font-weight: 600;
@@ -204,7 +204,7 @@
     .fixLeft {
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.35);
+      // background: rgba(0, 0, 0, 0.35);
     }
     .FilterUniver {
       background: #fff;
@@ -283,6 +283,13 @@
           border: none;
           outline: none;
         }
+      }
+      & > .ab_2_close {
+        padding: 0;
+        width: auto;
+        margin-top: 0;
+        background: none;
+        border-radius: none;
       }
       & > button {
         padding: 18px 0;
@@ -413,7 +420,7 @@
 
 .addNewUniverModalUniver {
   background: rgb(255, 255, 255);
-  height: auto;
+  height: 80vh;
   border-radius: 16px;
   position: relative;
   display: flex;
@@ -441,6 +448,7 @@
       color: #00121a;
       margin: 0 0 30px 0;
     }
+
     & > div {
       width: 100%;
       display: flex;
@@ -474,6 +482,7 @@
         color: #5c7c8a;
       }
     }
+
     .modalDataPick {
       position: relative;
 
@@ -485,6 +494,7 @@
         width: 100%;
       }
     }
+
     .modalDataPick::before {
       content: "";
       width: 24px;
@@ -495,6 +505,7 @@
       left: 14px;
       bottom: 34px;
     }
+
     .importFile {
       background: #eaf5fa;
       border: 1px dashed #009fe5;
@@ -523,6 +534,7 @@
         }
       }
     }
+
     & > button {
       width: 100%;
       margin-top: 40px;
@@ -539,6 +551,7 @@
       border: none;
       cursor: pointer;
     }
+
     .back_btn {
       background: none;
       outline: none;
@@ -549,6 +562,7 @@
       justify-content: center;
       margin-top: 20px;
       padding: 0;
+      padding-bottom: 20px;
     }
   } // end modalContainer
 }
@@ -570,7 +584,7 @@
       .searchUniv {
         padding: 0 20px 0 10px;
         input {
-          font-size: 16px;
+          font-size: 18px;
         }
         img {
           padding: 9px;
@@ -603,18 +617,18 @@
             font-size: 15px;
             padding: 17px 5px;
           }
-          //   .priDoc {
-          //   }
-          //   .priZak {
-          //   }
+          // .priDoc{
+          // }
+          // .priZak{
+          // }
           .firstTD {
             padding-left: 12px;
           }
         }
-        // .firstTD {
+        // .firstTD{
         // }
-        // tbody {
-        //     tr:nth-child(even) {
+        // tbody{
+        //     tr:nth-child(even){
         //     }
         // }
         thead {
@@ -626,9 +640,9 @@
     }
 
     .FilterFix {
-      grid-template-columns: 7fr 3fr;
-      //   .fixLeft {
-      //   }
+      grid-template-columns: 7fr 4fr;
+      // .fixLeft{
+      // }
       .FilterUniver {
         padding: 15px 15px 0 15px;
         & > h4 {
@@ -638,10 +652,10 @@
           font-size: 14px;
         }
         .datapickBlock {
-          //   & > div {
-          //   }
-          //   & > div::before {
-          //   }
+          // & > div{
+          // }
+          // & > div::before{
+          // }
           img {
             margin-right: 10px;
           }
@@ -681,7 +695,8 @@
         flex-direction: column;
         align-items: flex-start;
 
-        // label {
+        // label{
+
         // }
         input,
         select,
@@ -690,7 +705,7 @@
         }
       }
       .modalDataPick {
-        // & > div {
+        // & > div{
         // }
         input {
           padding-left: 44px;
@@ -705,11 +720,11 @@
         img {
           width: 22px;
         }
-        // p {
-        //   label {
-        //   }
-        //   #chFile {
-        //   }
+        // p{
+        //     label{
+        //     }
+        //     #chFile{
+        //     }
         // }
       }
       & > button {
@@ -751,7 +766,19 @@
   .SidebarUniverstitet .univerList table thead::before {
     top: 40px;
   }
+  // .SidebarUniverstitet .FilterFix{
+  //   // grid-template-columns: 1fr 1fr;
+  // }
+  .SidebarUniverstitet .FilterFix .FilterUniver {
+    width: 300px;
+  }
 }
+@media (max-width: 500px) {
+  // .SidebarUniverstitet .FilterFix{
+  //   // grid-template-columns: 1fr 3  fr;
+  // }
+}
+
 @media (max-width: 425px) {
   .SidebarAgentlar {
     .block_chart .diag {
@@ -770,7 +797,20 @@
       padding-left: 20px;
     }
   }
-  .SidebarUniverstitet .FilterFix {
-    grid-template-columns: 1fr 3fr;
-  }
+  // .SidebarUniverstitet .FilterFix {
+  //   // grid-template-columns: 1fr 3fr;
+  // }
+}
+
+@media (max-width: 424px) {
+  // .SidebarUniverstitet .FilterFix .FilterUniver{
+  //   // padding-top: 0px;
+  // }
+}
+
+.ui-autocomplete {
+  z-index: 3000 !important;
+}
+.MuiOutlinedInput-inputAdornedEnd {
+  border: none !important;
 }
