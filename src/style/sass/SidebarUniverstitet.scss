@@ -7,28 +7,45 @@
 .asos {
   display: flex;
   flex-direction: column;
-  padding: 30px 10px 0 30px;
+  padding: 33px 11px 0 13px;
   overflow: hidden;
   margin-bottom: 20px;
 }
 .SidebarUniverstitet {
   & > button {
-    padding: 18px 34px;
+    padding: 10px 34px;
     font-family: Raleway;
     font-style: normal;
     font-weight: 500;
-    font-size: 17px;
+    font-size: 16px;
     color: #ffffff;
     background: #00587f;
     border-radius: 10px;
     outline: none;
     border: none;
     cursor: pointer;
+    span {
+      display: flex;
+      .manager-download {
+        font-family: Raleway !important;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 17px;
+        line-height: 23px;
+        color: #ffffff;
+        background: none;
+        border: none;
+      }
+    }
+    .manager-excel {
+      align-items: center;
+      display: flex;
+    }
   }
 
   .settSearch {
-    margin-top: 23px;
-    height: 70px;
+    margin-top: 18px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -61,14 +78,15 @@
         width: 100%;
       }
       img {
-        padding: 15px;
+        width: 36px;
+        padding: 8px;
         margin-right: 10px;
         cursor: pointer;
       }
     }
     .settingsUniver {
       height: 100%;
-      width: 70px;
+      width: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -78,6 +96,9 @@
       border-radius: 10px;
       margin-left: 20px;
       cursor: pointer;
+      img {
+        width: 24px;
+      }
     }
   } // end settSearch
 
@@ -86,8 +107,14 @@
     box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
     border-radius: 14px;
     background: #fff;
-    padding: 22px 0px;
-
+    padding: 22px 0 0 0;
+    // width: auto;
+    // overflow-x: scroll;
+    width: 100%;
+    .list-doc {
+      margin-bottom: 20px;
+      margin-left: 20px;
+    }
     .infoTd {
       text-align: center;
       img {
@@ -97,6 +124,23 @@
     }
 
     table {
+      width: 300%;
+      text-align: left;
+      .accTickTableTr {
+        height: 50px;
+        td {
+          padding-right: 0;
+          padding: 20px 0;
+        }
+      }
+      .spinner2 {
+        position: fixed;
+        height: 100vh;
+        top: 0;
+        width: 100%;
+        right: 0;
+        background: #00000047;
+      }
       border-spacing: 0;
       position: relative;
 
@@ -112,30 +156,38 @@
       width: 100%;
       .table-line {
         border-bottom: 1.5px solid #00587f;
+        th {
+          text-align: inherit;
+          font-family: Raleway;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 18px;
+          letter-spacing: 0.02em;
+          color: #00121a;
+        }
       }
       tr {
         padding-bottom: 16px;
         // border-bottom: 1.5px solid #00587f;
 
-        th {
-          text-align: inherit;
-          font-family: Raleway;
-          font-style: normal;
-          font-weight: 600;
-          font-size: 16px;
-          letter-spacing: 0.02em;
-          color: #00121a;
-        }
         td {
-          padding-top: 27px;
-          padding-bottom: 27px;
           font-family: Raleway;
           font-style: normal;
           font-weight: 600;
           font-size: 20px;
           letter-spacing: 0.02em;
           color: #00121a;
-          padding-left: 10px;
+          padding-left: 20px;
+          // button {
+          // height: 40px;
+          // width: 197px;
+          // background: #5ec98b;
+          // border-radius: 4px;
+          // font-weight: 500;
+          // font-size: 15px;
+          // line-height: 18px;
+          // color: #ffffff;
+          // }
         }
         .priDoc {
           color: #219653;
@@ -147,23 +199,65 @@
         }
         .firstTD {
           margin-left: 10px;
+          padding: 15px !important;
         }
       }
-      .firstTD {
-        padding-left: 32px;
-      }
+      // .firstTD {
+      //   padding-left: 32px;
+      // }
       tbody {
         tr:nth-child(even) {
           background: #f0faff;
+        }
+        .invoice-row {
+          width: 600px;
         }
       }
       thead {
         th {
           padding-bottom: 12px;
-          padding-left: 10px;
+          text-align: start;
+          // padding-left: 20px;
         }
       }
     }
+  }
+
+  .search-td {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    .manager-search {
+      margin-right: 10px;
+    }
+    .table-manager {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 500;
+      background: #00587f !important;
+      border-radius: 4px;
+      font-size: 15px;
+      line-height: 18px;
+      padding: 11px;
+      display: flex;
+      margin: 20px 0 !important;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+    }
+  }
+  .poisk {
+    background: #ffffff;
+    border: 1px solid #00587f;
+    box-sizing: border-box;
+    // box-shadow: 0px -2px 8px rgb(0, 0, 0 / 9%), 2px 4px 9px rgb(0, 0, 0 / 10%);
+    border-radius: 4px;
+    padding: 7px;
   }
 
   .FilterFix {
@@ -176,31 +270,46 @@
     width: 100%;
 
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 4fr 1fr;
+    // grid-template-columns: 3fr 1fr;
 
     .fixLeft {
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.35);
     }
     .FilterUniver {
+      position: relative;
       background: #fff;
-      padding: 30px 46px 0 32px;
+      padding: 22px 46px 0 32px;
+      overflow-y: scroll;
+      width: 432px;
+      transition: 0.7s;
+      .ab_2_close {
+        position: absolute;
+        left: 15px;
+        height: 15px;
+        padding: 0;
+        width: auto;
+        margin-top: 0;
+        background: none;
+        border-radius: none;
+      }
       & > h4 {
+        padding-top: 25px;
         text-align: center;
         font-family: Raleway;
         font-style: normal;
         font-weight: bold;
-        font-size: 26px;
+        font-size: 22px;
         color: #000000;
         margin: 0 0 4px 0;
       }
       & > p {
-        margin: 24px 0 10px 0;
+        margin: 20px 0 5px 0;
         font-family: Raleway;
         font-style: normal;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 14px;
         letter-spacing: 0.02em;
 
         color: #000000;
@@ -215,9 +324,10 @@
         }
         & > div::before {
           content: "";
-          width: 24px;
-          height: 24px;
+          width: 22px;
+          height: 22px;
           background-image: url("../../assets/icon/data_icon.svg");
+          background-size: cover;
           position: absolute;
           z-index: 99999999;
           left: 10px;
@@ -234,9 +344,9 @@
           color: #7595a3;
           outline: none;
           background: none;
-          font-size: 18px;
+          font-size: 14px;
           width: 95%;
-          padding: 10px 18px;
+          padding: 11px 18px;
           border: 1px solid #00587f;
           border-radius: 8px;
           text-align: right;
@@ -249,12 +359,12 @@
         border-radius: 8px;
 
         select {
-          padding: 12px 0;
+          padding: 10px 0;
           width: 100%;
           font-family: Raleway;
           font-style: normal;
           font-weight: 500;
-          font-size: 16px;
+          font-size: 14px;
           letter-spacing: 0.02em;
           color: #00121a;
           border: none;
@@ -262,15 +372,15 @@
         }
       }
       & > button {
-        padding: 18px 0;
+        padding: 14px 0;
         width: 100%;
-        margin-top: 44px;
+        margin-top: 30px;
         background: #00587f;
         border-radius: 10px;
         font-family: Raleway;
         font-style: normal;
         font-weight: 500;
-        font-size: 20px;
+        font-size: 16px;
         line-height: 23px;
         color: #ffffff;
         cursor: pointer;
@@ -425,9 +535,8 @@
 }
 
 .vector {
-  margin-bottom: 4px;
   margin-right: 12px;
-  width: 23px;
+  width: 20px;
 }
 
 //@MEDIA
@@ -435,14 +544,6 @@
 @media (max-width: 1440px) {
   .asos {
     .Up_navbar {
-      p {
-        margin-right: 14px;
-        margin-left: 14px;
-        margin-bottom: 0;
-      }
-      // h5{
-
-      // }
       h4 {
         margin: 0;
         font-family: Raleway;
@@ -479,15 +580,15 @@
         }
       }
     }
-    .univerList {
-      table {
-        tbody {
-          td {
-            font-size: 14px;
-          }
-        }
-      }
-    }
+    // .univerList {
+    //   table {
+    //     tbody {
+    //       td {
+    //         font-size: 14px;
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
 
@@ -538,7 +639,7 @@
         padding: 40px 15px 0 15px;
       }
       .univerList {
-        overflow-x: scroll;
+        // overflow-x: scroll;
         table {
           width: 190% !important;
         }
@@ -696,4 +797,11 @@
 }
 .ReactModal__Overlay::-webkit-scrollbar {
   width: 10px;
+}
+
+@media (max-width: 425px) {
+  .asos {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
