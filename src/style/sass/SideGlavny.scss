@@ -1,506 +1,490 @@
-
 @mixin styleTitle {
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 26px;
-    letter-spacing: 0.02em;
-    color: #00121A;
-    margin: 0;
-    outline: none;
-    border: none;
-    background: none;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 26px;
+  letter-spacing: 0.02em;
+  color: #00121a;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: none;
 }
 @mixin shadowCard {
-    background: #FFFFFF;
-    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
-                2px 4px 9px rgba(0, 0, 0, 0.1);
-    border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
 }
 
-.sideGlavny{
+.sideGlavny {
+  display: flex;
+  flex-direction: column;
+  .block_1 {
+    margin-bottom: 30px;
     display: flex;
-    flex-direction: column;
-    .block_1{
-        margin-bottom: 60px;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    .card {
+      @include shadowCard();
+      width: 250px;
+      height: 158px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 10px;
+
+      h4 {
+        @include styleTitle();
+        margin: 16px 0 26px 0;
+      }
+      h3 {
+        @include styleTitle();
+        font-size: 35px;
+      }
+    }
+    .card::before {
+      position: absolute;
+      content: "";
+      height: 153px;
+      width: 7px;
+      left: 0;
+      top: 3px;
+      border-radius: 14px 0px 0px 14px;
+    }
+    .card_1::before {
+      background: #00587f;
+    }
+    .card_2::before {
+      background: #e96383;
+    }
+    .card_3::before {
+      background: #fcca58;
+    }
+    .card_4::before {
+      background: #10cc9b;
+    }
+  } // end block_1
+  .block_bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+    margin-top: 30px;
+  }
+
+  .scroll {
+    margin-top: 30px;
+  }
+  .block_2 {
+    padding: 22px 32px;
+    // height: 500px;
+    @include shadowCard();
+
+    & > div:nth-child(1) {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 44px;
+      h5 {
+        @include styleTitle();
+      }
+    }
+    h4 {
+      @include styleTitle();
+      margin-bottom: 24px;
+    }
+    .seeMoreAct {
+      width: 150px;
+
+      select {
+        @include styleTitle();
+        width: 100%;
+        font-weight: 500;
+        font-size: 18px;
+      }
+    }
+    .diag {
+      height: 300px;
+      .recharts-legend-item {
         display: flex;
         align-items: center;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        .card{  
-            @include shadowCard();
-            width: 250px;
-            height: 158px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            margin: 10px;
-
-            h4{
-                @include styleTitle();
-                margin: 16px 0 26px 0;
-
-            }
-            h3{
-                @include styleTitle();
-                font-size: 35px;
-                
-            }
+        .recharts-legend-item-text {
+          color: #00121a !important;
         }
-        .card::before{
-            position: absolute;
-            content: "";
-            height: 153px;
-            width: 7px;
-            left: 0;
-            top: 3px;
-            border-radius: 14px 0px 0px 14px; 
+      }
+      .recharts-responsive-container {
+        padding-top: 35px;
+      }
+      .yAxis {
+        .recharts-cartesian-axis-line {
+          display: none;
         }
-        .card_1::before{
-            background: #00587F;
+        span,
+        tspan {
+          color: #5c7c8a;
         }
-        .card_2::before{
-            background: #E96383; 
+      }
+      .xAxis {
+        span,
+        tspan {
+          color: #5c7c8a;
         }
-        .card_3::before{
-            background: #FCCA58;
-        }
-        	.card_4::before{
-            background: #10CC9B; 
-        	}
-    	} // end block_1
-    	.block_bar{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 30px;
-		  margin-top: 30px;
-    	}
+      }
+      span,
+      tspan,
+      p {
+        @include styleTitle();
+        font-weight: 500;
+        font-size: 18px;
+      }
+      .recharts-cartesian-axis-tick-line {
+        display: none;
+      }
 
-    .block_2{
-        padding: 22px 32px;
-        // height: 500px;
-        @include shadowCard();
-
-        & > div:nth-child(1){
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 44px;
-            h5{
-                @include styleTitle()
-            }
-            
+      .recharts-legend-wrapper {
+        ul {
+          transform: translateY(-320px);
+          li {
+            margin-right: 30px !important;
+          }
         }
-        h4{
-            @include styleTitle();
-            margin-bottom: 24px;
-        }
-        .seeMoreAct{
-            width: 150px;
-            
-            select{
-                @include styleTitle();
-                width: 100%;
-                font-weight: 500;
-                font-size: 18px;
-            }
-        }
-        .diag{
-            height: 300px;
-            .recharts-legend-item{
-                display:flex;
-                align-items: center;
-                .recharts-legend-item-text{
-                    color: #00121A !important;
-                }
-            } 
-            .recharts-responsive-container{
-                padding-top: 35px;
-            }
-            .yAxis{
-                .recharts-cartesian-axis-line{
-                display: none;
-                }
-                span, tspan{
-                    color: #5C7C8A;
-                }
-            }
-            .xAxis{
-                span, tspan{
-                    color: #5C7C8A;
-                }
-            }
-            span, tspan, p{
-                @include styleTitle();
-                font-weight: 500;
-                font-size: 18px;
-            }
-            .recharts-cartesian-axis-tick-line{
-                display: none;
-            }
-            
-            .recharts-legend-wrapper{
-                ul{
-                    transform: translateY(-320px);
-                    li{
-                        margin-right: 30px !important;
-                    }
-                }
-            }
-            
-        }
-    } // end block_2
-
-    .block_3{
-        margin-top: 44px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap:30px;
-
-        .block_3_1{
-            padding: 22px 32px;
-            @include shadowCard();
-            
-            h4{
-                @include styleTitle();
-            }
-
-            .pieChart{
-                display: flex;
-                justify-content: center;
-                margin-top: 40px;
-                display: flex;
-                align-items: center;
-                
-                & > div:nth-child(1){
-                    position: relative;
-                    & > span{
-                        @include styleTitle();
-                        position: absolute;
-                        top: 5px;
-                        left: 5px;
-                        width: 160px;
-                        height: 160px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        
-                    }
-                }
-                .PieChartSurf{
-                    margin-left: 30px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    transform: translateY(-15px);
-                    span{
-                        display: flex;
-                        align-items: center;
-                        margin: 7px 0;
-                        div{
-                            width: 22.7px;
-                            height: 22.7px;
-                            border-radius: 5.46812px;
-                        }
-                        h5{
-                            @include styleTitle();
-                            font-size: 16px;
-                            font-weight: 500;
-                            margin: 0 40px 0 8px;
-                        }
-                        h6{
-                            @include styleTitle();
-                            font-size: 16px;
-                        }
-                    }
-                }
-            }
-        } // end block_3_2
-
-        .block_3_3{
-            @include shadowCard();
-            padding: 22px 32px 0 32px;
-
-            & > h4{
-                @include styleTitle();
-                margin-bottom: 24px;
-            }
-            
-            & >div{
-                display: flex;
-                justify-content: center;
-
-                .recharts-legend-item{
-                    display:flex;
-                    align-items: center;
-                    .recharts-legend-item-text{
-                        color: #00121A !important;
-                    }
-                } 
-                .recharts-responsive-container{
-                    padding-top: 35px;
-                }
-                .yAxis{
-                    .recharts-cartesian-axis-line{
-                    display: none;
-                    }
-                    span, tspan{
-                        color: #5C7C8A;
-                    }
-                }
-                .xAxis{
-                    span, tspan{
-                        color: #5C7C8A;
-                    }
-                }
-                span, tspan, p{
-                    @include styleTitle();
-                    font-weight: 500;
-                    font-size: 16px;
-                }
-                .recharts-cartesian-axis-tick-line{
-                    display: none;
-                }
-                
-                .recharts-legend-wrapper{
-                    ul{
-                        transform: translateY(-320px);
-                        li{
-                            margin-right: 30px !important;
-                        }
-                    }
-                }
-            }
-        }
+      }
     }
+  } // end block_2
 
-    .block_4{
-        @include shadowCard();
-        // display: none;
-        margin-top: 44px;
-        padding: 22px 32px;
-        & > h4{
+  .block_3 {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+
+    .block_3_1 {
+      padding: 22px 32px;
+      @include shadowCard();
+
+      h4 {
+        @include styleTitle();
+      }
+
+      .pieChart {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+
+        & > div:nth-child(1) {
+          position: relative;
+          & > span {
             @include styleTitle();
-        }
-        & > h6{
-            @include styleTitle();
-            color: #00587F;
-        } 
-        div{
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 160px;
+            height: 160px;
             display: flex;
             align-items: center;
             justify-content: center;
-            img{
-                width: 900px;
-            }   
-            svg{
-                g{
-                    path:hover{
-                        fill: #00587F;
-                    }
-                    g{
-                        path:hover{
-                            fill:red;
-                        }
-                    }
-                }
-               
-            } 
+          }
         }
+        .PieChartSurf {
+          margin-left: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          transform: translateY(-15px);
+          span {
+            display: flex;
+            align-items: center;
+            margin: 7px 0;
+            div {
+              width: 22.7px;
+              height: 22.7px;
+              border-radius: 5.46812px;
+            }
+            h5 {
+              @include styleTitle();
+              font-size: 16px;
+              font-weight: 500;
+              margin: 0 40px 0 8px;
+            }
+            h6 {
+              @include styleTitle();
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    } // end block_3_2
+
+    .block_3_3 {
+      @include shadowCard();
+      padding: 22px 32px 0 32px;
+
+      & > h4 {
+        @include styleTitle();
+        margin-bottom: 24px;
+      }
+
+      & > div {
+        display: flex;
+        justify-content: center;
+
+        .recharts-legend-item {
+          display: flex;
+          align-items: center;
+          .recharts-legend-item-text {
+            color: #00121a !important;
+          }
+        }
+        .recharts-responsive-container {
+          padding-top: 35px;
+        }
+        .yAxis {
+          .recharts-cartesian-axis-line {
+            display: none;
+          }
+          span,
+          tspan {
+            color: #5c7c8a;
+          }
+        }
+        .xAxis {
+          span,
+          tspan {
+            color: #5c7c8a;
+          }
+        }
+        span,
+        tspan,
+        p {
+          @include styleTitle();
+          font-weight: 500;
+          font-size: 16px;
+        }
+        .recharts-cartesian-axis-tick-line {
+          display: none;
+        }
+
+        .recharts-legend-wrapper {
+          ul {
+            transform: translateY(-320px);
+            li {
+              margin-right: 30px !important;
+            }
+          }
+        }
+      }
     }
+  }
+
+  .block_4 {
+    @include shadowCard();
+    // display: none;
+    margin-top: 44px;
+    padding: 22px 32px;
+    & > h4 {
+      @include styleTitle();
+    }
+    & > h6 {
+      @include styleTitle();
+      color: #00587f;
+    }
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 900px;
+      }
+      svg {
+        g {
+          path:hover {
+            fill: #00587f;
+          }
+          g {
+            path:hover {
+              fill: red;
+            }
+          }
+        }
+      }
+    }
+  }
 } //end sideGlavny
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // @MEDIA
 // responsive 1080
-@media(max-width:1300px){
-    .sideGlavny{
-        .block_2{
-            .diag{
-                .yAxis{
-                    span, tspan{
-                        font-size: 14px;
-                    }
-                }
-                .xAxis{
-                    span, tspan{
-                        font-size: 12px;
-                    }
-                }
-                span, tspan, p{
-                    font-size: 14px;
-                }
-                
-            }
-        } // end block_2
-
-        .block_3{
-            // display: none !important;
-            margin-top: 44px;
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-gap:30px;
-
+@media (max-width: 1300px) {
+  .sideGlavny {
+    .block_2 {
+      .diag {
+        .yAxis {
+          span,
+          tspan {
+            font-size: 14px;
+          }
         }
-        .block_4{
-            div{
-                img{
-                    width: 600px;
-                }    
-            }
+        .xAxis {
+          span,
+          tspan {
+            font-size: 12px;
+          }
         }
-    } //end sideGlavny
+        span,
+        tspan,
+        p {
+          font-size: 14px;
+        }
+      }
+    } // end block_2
 
+    .block_3 {
+      // display: none !important;
+      margin-top: 44px;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 30px;
+    }
+    .block_4 {
+      div {
+        img {
+          width: 600px;
+        }
+      }
+    }
+  } //end sideGlavny
 }
 
-
-@media (max-width:425px) {
-    .sideGlavny .block_2 {
-        padding: 22px 15px;
-        .diag {
-            height: 300px;
-        }
+@media (max-width: 425px) {
+  .sideGlavny .block_2 {
+    padding: 22px 15px;
+    .diag {
+      height: 300px;
     }
-    .sideGlavny .block_4 div {
-        height: 300px;
+  }
+  .sideGlavny .block_4 div {
+    height: 300px;
+  }
+  .sideGlavny {
+    .scroll {
+      padding: 10px;
+      margin-left: -10px;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      .block_2 {
+        width: 600px;
+      }
     }
-    .sideGlavny{
-        .scroll {
-            padding: 10px;
-				margin-left: -10px;
-            overflow-x: scroll;
-            overflow-y: hidden;
-            .block_2{
-                width: 600px;
-            }
+    .block_bar {
+      grid-template-columns: 1fr;
+      // padding: 10px;
+      // overflow-x: scroll;
+      // overflow-y: hidden;
+    }
+    .block_1 {
+      .card {
+        width: 170px;
+        height: 110px;
+        h4 {
+          font-size: 18px;
+          margin: 14px 0 12px 0;
         }
-        .block_bar{
-            grid-template-columns: 1fr;
-            // padding: 10px;
-            // overflow-x: scroll;
-            // overflow-y: hidden;
+        h3 {
+          font-size: 28px;
         }
-        .block_1{
-            .card{
-                width: 170px;
-                height: 110px;
-                h4{
-                    font-size: 18px;
-                    margin: 14px 0 12px 0;
-                }
-                h3{
-                    font-size: 28px;
-                }
-            }
-            .card::before{
-                height: 105px;
-            }
+      }
+      .card::before {
+        height: 105px;
+      }
+    }
+    .block_3 {
+      grid-template-columns: 1fr;
+      margin-top: 20px;
+      .block_3_1 {
+        padding: 20px 10px;
+        width: 395px;
+        .pieChart .PieChartSurf {
+          margin-left: 10px;
         }
-		  .block_3{
-			grid-template-columns: 1fr;
-			margin-top: 20px;
-				.block_3_1 {
-				 padding: 20px 10px;
-				 width: 395px;
-				 .pieChart .PieChartSurf {
-					 margin-left: 10px;
-				 }
-			 }
-			 
-			}
-	}
+      }
+    }
+  }
 }
-
 
 // 400
-@media (max-width:400px) {
-    .sideGlavny .block_3 .block_3_1{
-        width: 365px;
-    }
-    .sideGlavny .block_3 .block_3_1 .pieChart .PieChartSurf span h5{
-        margin-right: 13px;
-    }
-    .sideGlavny .block_3 .block_3_1 .pieChart .PieChartSurf{
-        margin-left: 0;
-    }
+@media (max-width: 400px) {
+  .sideGlavny .block_3 .block_3_1 {
+    width: 365px;
+  }
+  .sideGlavny .block_3 .block_3_1 .pieChart .PieChartSurf span h5 {
+    margin-right: 13px;
+  }
+  .sideGlavny .block_3 .block_3_1 .pieChart .PieChartSurf {
+    margin-left: 0;
+  }
 }
 
-
-
-@media (max-width:375px) {
-    .sideGlavny .block_1 .card {
-        width: 150px;
+@media (max-width: 375px) {
+  .sideGlavny .block_1 .card {
+    width: 150px;
+  }
+  .sideGlavny {
+    .block_3 {
+      .block_3_1 {
+        width: 350px;
+        .pieChart .PieChartSurf {
+          margin-left: 0px;
+          span {
+            h5 {
+              margin: 0px 10px 0 5px;
+            }
+          }
+        }
+      }
     }
-	.sideGlavny{
-		.block_3{
-			.block_3_1 {
-				width: 350px;
-				.pieChart .PieChartSurf {
-					margin-left: 0px;
-					span{
-						h5{
-							margin: 0px 10px 0 5px;
-						}
-					}
-				}
-			}
-		}
-	}
+  }
 }
-@media (max-width:320px) {
-	.sideGlavny{
-		.block_3{
-			.block_3_1{
-				width: 290px;
-				.pieChart{
-					flex-direction: column;
-				}
-			}
-		}
-		.block_5 .block_5_up > div {
-			flex-direction: column;
-			align-items: flex-start;
-			.react-datepicker-wrapper{
-				margin-bottom: 10px;
-			}
-		}
-	}
-	.card_3tali .card h4 {
-		font-size: 14px !important;
-  	}
-	.sideGlavny .block_1 .card h4 {
-		font-size: 14px;
-	}
-	.sideGlavny .block_1 .card {
-		width: 125px;
-	}
-	.sideGlavny .block_4 div {
-			width: 275px;
-	}
-	.sideGlavny{
-			.block_2 h4, .block_3 .block_3_1 h4, .block_4 > h4 {
-				margin-bottom: 0;
-				font-size: 18px;
-			}
-	}
-	.sideGlavny .block_2 .diag .recharts-responsive-container {
-			padding-top: 20px;
-	}
+@media (max-width: 320px) {
+  .sideGlavny {
+    .block_3 {
+      .block_3_1 {
+        width: 290px;
+        .pieChart {
+          flex-direction: column;
+        }
+      }
+    }
+    .block_5 .block_5_up > div {
+      flex-direction: column;
+      align-items: flex-start;
+      .react-datepicker-wrapper {
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .card_3tali .card h4 {
+    font-size: 14px !important;
+  }
+  .sideGlavny .block_1 .card h4 {
+    font-size: 14px;
+  }
+  .sideGlavny .block_1 .card {
+    width: 125px;
+  }
+  .sideGlavny .block_4 div {
+    width: 275px;
+  }
+  .sideGlavny {
+    .block_2 h4,
+    .block_3 .block_3_1 h4,
+    .block_4 > h4 {
+      margin-bottom: 0;
+      font-size: 18px;
+    }
+  }
+  .sideGlavny .block_2 .diag .recharts-responsive-container {
+    padding-top: 20px;
+  }
 }
