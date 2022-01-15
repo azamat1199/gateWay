@@ -5,6 +5,15 @@
 	font-family: Raleway;
 	text-decoration: none;
 }
+.swal2-container > .swal2-popup > .swal2-timer-progress-bar-container {
+	height: 10px;
+	margin-bottom: 4px;
+}
+.swal2-container > .swal2-popup > .swal2-timer-progress-bar-container > .swal2-timer-progress-bar { 
+	height: 10px;
+	background: rgb(115 103 240) !important;
+}
+
 .container{
 	max-width: 1920px;
 	margin: 0 auto;
@@ -221,6 +230,23 @@
 			color: #000000;
 			padding-left: 10px;
 			padding-top: 10px;
+		}
+	}
+	.checkBox{
+		display: flex;
+		align-items: center;
+		max-width: 600px;
+		justify-content: flex-start;
+		padding: 0 15px;
+		margin: 10px 0;
+		input{
+			height: 20px;
+            width: 20px;
+		}
+		p{
+			font-size: 15px;
+            padding: 0 10px;
+			margin: 0;
 		}
 	}
 	.input_range{
@@ -449,9 +475,6 @@
 		.react-sweet-progress{
 			width: 131px;
 			height: 7px;
-			.react-sweet-progress-symbol{
-				// width: 100%;
-			}
 			.react-sweet-progress-line{
 				.react-sweet-progress-line-inner{
                    min-height: 7px !important;
@@ -693,6 +716,7 @@
 					font-weight: 500;
 					font-size: 18px;
 					line-height: 21px;
+					cursor: pointer;
 					color: #00587F;
 					background: none;
 					border: none;
@@ -789,6 +813,8 @@
 			margin: 50px 0 10px 0;
 		}
 		button{
+			border: none;
+			cursor: pointer;
 			width: 600px;
 			height: 64px;
 			background: #00587F;
@@ -909,9 +935,9 @@
 	.main_singup{
 		width: 700px;
 	}
-	.switchs{
-		margin-top: 70px;
-	}
+	// .switchs{
+	// 	// margin-top: 70px;
+	// }
 }
 
 
@@ -919,9 +945,9 @@
 @media (max-width:425px) {
 	.up_nav{
 		
-		h2{
-			display: none;
-		}
+		// h2{
+		// 	// display: none;
+		// }
 		svg{
 			display: none;
 		}
@@ -938,9 +964,9 @@
 			margin: 0 0 30px 0;
 		}
 	}
-	.switchs{
-		margin-top: 60px;
-	}
+	// .switchs{
+	// 	// margin-top: 60px;
+	// }
 	.main_singup{
 		width: 400px;
 		.line_dash{

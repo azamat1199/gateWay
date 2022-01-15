@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+.textDogovorBlock{
+    padding: 40px;
+    .textDogovor{
+        padding: 30px 50px;
+        background: #FFFFFF;
+        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+        & > h1{
+            padding: 20px 0;
+            font-family: Raleway;
+            font-weight: bold;
+            font-size: 30px;
+            color: #000000;
+            text-align: center;
+        }
+        .blocktextDogov{
+            & * {
+                font-family: Raleway;
+                font-weight: 500;
+                font-size: 24px;
+                letter-spacing: 0.015em;
+                color: #000000;
+                line-height: 30px;
+            }
+            & > h3{
+                padding: 15px 0;
+                span{
+                    margin-left: 250px;
+                }
+            }
+            .textD_Block1{
+                h1{
+                    text-align: center;
+                    padding: 20px 0;
+                }
+                ul{
+                    li{
+                        list-style: none;
+                        text-indent: 20px;
+                    }
+                }
+                .text_p2{
+                    padding-left: 40px;
+                }
+            }
+            .textD_bottom{
+                & * {
+                    line-height: 38px;
+                }
+                .textDspan1{
+                    margin-left: 100px;
+                }
+            }
+        }
+    }
+}
+
+@media(max-width:1024px) {
+    .textDogovorBlock{
+        .textDogovor > h1{
+            font-size: 22px;
+        } 
+    }
+    .textDogovorBlock .textDogovor .blocktextDogov *{
+        font-size: 20px;
+    }
+    .textDogovorBlock .textDogovor .blocktextDogov .textD_Block1 ul li{
+        font-size: 18px;
+    }
+}
+
+@media(max-width:768px) {
+    .textDogovorBlock{
+        padding: 20px;
+    }
+    .textDogovorBlock .textDogovor{
+        padding: 15px 30px;
+    }
+    .textDogovorBlock .textDogovor .blocktextDogov > h3{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        span{
+            margin: 0;
+        }
+    }
+    .textDogovorBlock .textDogovor .blocktextDogov *{
+        font-size: 18px;
+        line-height: 24px;
+    }
+    .textDogovorBlock .textDogovor .blocktextDogov .textD_Block1 ul li{
+        font-size: 16px;
+    }
+    .textDogovorBlock .textDogovor > h1{
+        font-size: 20px;
+    }
+}
+
+@media(max-width:425px) {
+   
+}

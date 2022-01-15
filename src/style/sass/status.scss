@@ -21,6 +21,82 @@
 
 .status{
     padding: 30px;
+    .myAccInvBottom{
+        margin-top: 40px;
+        padding: 20px;
+        background: #FFFFFF;
+        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+
+        & *{
+            font-family: Raleway;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 26px;
+            letter-spacing: 0.02em;
+            color: #00121A;
+        }
+        & > img{
+            display: block;
+            margin: 15px auto;
+            width: 90%;
+        }
+        .myAccInvBottom_Top{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .myAccInvTitle1{
+                width: 350px;
+            }
+        }
+        .myAccInvBottom_Center{
+            display: flex;
+            align-items: center;
+            .myAccInvTitle1:nth-child(2){
+                margin-left: 50px;
+            }
+        }
+        .myAccInvBottom_Bottom{
+            .myAccInvTitle1{
+                h1{
+                    span{
+                        margin-left: 50px;
+                    }
+                }
+            }
+        }
+        .myAccInvBottom_Btn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            button{
+                background: #00587F;
+                border-radius: 10px;
+                padding: 15px 20px;
+                cursor: pointer;
+                outline: none;
+                border: none;
+                color: #fff;
+            }
+            button:nth-child(1){
+                background: #F3F5F7;
+                color: #00587F;
+                margin-right: 20px;
+            }
+        }
+        .myAccInvTitle1{
+            h1{
+                font-family: Raleway;
+                font-weight: 600;
+                font-size: 22px;
+                line-height: 26px;
+                letter-spacing: 0.02em;
+                color: #00121A;
+                margin: 10px 0;
+            }
+        }
+    }
     .top{
         display: flex;
         align-items: center;
@@ -32,6 +108,9 @@
         }
         div{
             display: flex;
+            flex-direction: row-reverse;
+            width: 300px;
+            justify-content: space-around;
             align-items: center;
             img{
                 width: 50px;
@@ -80,6 +159,21 @@
     }
 }
 
+@media (max-width:1280px) {
+    .status .myAccInvBottom .myAccInvTitle1 h1{
+        font-size: 18px;
+    }
+    .status .myAccInvBottom .myAccInvBottom_Top .myAccInvTitle1{
+        width: 270px;
+    }
+    .status .myAccInvBottom .myAccInvBottom_Center .myAccInvTitle1:nth-child(2){
+        margin-left: 20px;
+    }
+    .status .myAccInvBottom .myAccInvBottom_Bottom .myAccInvTitle1 h1 span{
+        font-size: 18px;
+    }
+}
+
 @media (max-width:1024px) {
     .status .bottom{
         svg{
@@ -90,10 +184,19 @@
             font-size: 24px;
         }
     }
+    .status .myAccInvBottom .myAccInvTitle1 h1{
+        font-size: 16px;
+    }
+    .status .myAccInvBottom .myAccInvBottom_Top .myAccInvTitle1{
+        width: 240px;
+    }
+    .status .myAccInvBottom .myAccInvBottom_Bottom .myAccInvTitle1 h1 span{
+        font-size: 16px;
+    }
 }
 @media (max-width:768px) {
     .status{
-        padding:60px 10px 30px 10px;
+        padding:0px 10px 30px 10px;
         .top{
             align-items: flex-start;
             flex-direction: column;
