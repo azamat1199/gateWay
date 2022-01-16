@@ -1,5 +1,7 @@
 import React from "react";
 import TableAccountant from "../../Accountant/pages/TableAccountant";
+import AccountantGraph from "./AccountantGraph";
+
 
 export default function AccountantTicket() {
   return (
