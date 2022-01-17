@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import Loader from "react-js-loader";
-
+import TablePagination from "@material-ui/core/TablePagination";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -11,11 +11,6 @@ import userpic from "../../../assets/icon/userpic.svg";
 import search_icon from "../../../assets/icon/search.svg";
 import filterSvg from "../../../assets/icon/Filter.svg";
 import close_modal from "../../../assets/icon/close_modal.svg";
-import folder_icon from "../../../assets/icon/folder_icon.svg";
-import pencil from "../../../assets/icon/pencil.svg";
-import doc from "../../../assets/icon/doc.svg";
-import delet from "../../../assets/icon/delet1.svg";
-import arrow1 from "../../../assets/icon/arrow1.svg";
 import closeFilter from "../../../assets/icon/close.svg";
 // import css
 import styled from "styled-components";
@@ -24,30 +19,14 @@ import "../../../style/css/fakultet.css";
 import "react-datepicker/dist/react-datepicker.css";
 import Sidebar from "./SidebarConsult";
 import Axios from "../../../utils/axios";
-import Swal from "sweetalert2";
 import { useHistory } from "react-router";
-import { SET_DOC } from "../../../store/actionTypes";
-import { dispatch } from "../../../store";
-import { Pagination } from "@material-ui/lab";
-import { signUpAction } from "../../../store/actions/authActions";
+
+
 const Talabalar = () => {
   const selector = useSelector((state) => state.payload.payload.data);
   const [students, setStudents] = useState([]);
-  const [studentGetById, setStudentGetById] = useState({});
-  const [studentPostById, setStudentPostById] = useState({});
   const [chek, setChek] = useState(false);
-  const [univerData, setUniverData] = useState();
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [passport_number, setPassport_number] = useState("");
-  const [ref, setRef] = useState("");
-  const [phone, setPhone] = useState("");
-  const [universtitetName, setUniverstitetName] = useState("");
-  const [nameFaculties, setNameFaculties] = useState("");
-  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [select, setSelect] = useState([]);
   const [radio, setRadio] = useState(false);
@@ -55,7 +34,7 @@ const Talabalar = () => {
   const [file, setFile] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [count , setCount] = useState()
   const [endDate, setEndDate] = useState(null);
   const [data, setData] = useState(null);
   const [country, setContry] = useState();
@@ -64,7 +43,11 @@ const Talabalar = () => {
   const [faculty, setFaculty] = useState([]);
   const [type_education, setTypeEducation] = useState();
   const [founding_year, setFoundingYear] = useState();
+  const [managerList,setManager] = useState([])
   const [searchName,setSearchName] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
+  const [managerId,setManagerId] = useState('')
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setData((state) => ({ ...state, [name]: value }));
@@ -98,15 +81,44 @@ const Talabalar = () => {
   formData.append("password_2", data?.password_1);
 
   const fethcStudents = async () => {
+    setLoading(true)
     try {
-      const res = await Axios.get(`/applicant/list/`);
+      const res = await Axios.get(`/applicant/list/?limit=${rowsPerPage}`);
       const { status, data } = res;
-      const { results } = data;
+      const { results , count} = data;
       if (status === 200) {
         setStudents(results);
+        setCount(count)
       }
-    } catch (error) {}
+      setLoading(false)
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
+    }
   };
+  const handlePageChange = async(e, newPage) => {
+    setPage(newPage);
+    setLoading(true)
+     try {
+        const res = await Axios.get(`/applicant/list/?limit=${rowsPerPage}&offset=${newPage*rowsPerPage}`);
+        const { status, data } = res;
+        const { results } = data;
+        if (status == 200) {
+          setStudents(results);
+        }
+        console.log(res);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+        setLoading(false)
+      }
+  };
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+    }
   const handleSelect = (e) => {
     const { name, value } = e.target;
     setSelect((prev) => ({ ...prev, [name]: value }));
@@ -151,15 +163,33 @@ const Talabalar = () => {
   const handleClose_change = () => {
     setOpen_change(false);
   };
-
+  const handleManager = async (id) => {
+    try {
+      const res = await Axios.get(`/company/managers/list/`);
+      const { status, data } = res;
+      const { results } = data;
+      if (status === 200) {
+        setManager(results);
+      }
+    } catch (error) {}
+  };
   const setDataFilter = async () => {
     setLoading(true);
+    const sd = startDate?.getDate();
+    const sm = startDate?.getMonth() + 1;
+    const sy = startDate?.getFullYear();
+    const ed = endDate?.getDate();
+    const em = endDate?.getMonth() + 1;
+    const ey = endDate?.getFullYear();
     try {
       const res = await Axios.get(
         `/applicant/list/?has_univer=${
           radio.has_univer
-        }&date-from=${startDate.toLocaleDateString()}&date-to=${endDate.toLocaleDateString()}&university=${univerId}&faculty=${facultetId}&education_type=${type_education}`
-      );
+        }&date-from=${
+          startDate ? `${sd}.${sm}.${sy}` : ""
+        }&date-to=${endDate ? `${ed}.${em}.${ey}` : ""}&search=${
+          searchName ? searchName : ""
+        }?manager=${managerId}`  );
       const { status, data } = res;
       const { results } = data;
       if (status === 200) {
@@ -172,12 +202,15 @@ const Talabalar = () => {
     }
     setFix(false);
   };
-  useEffect(() => {
-    console.log(searchName)
-    setDataFilter()},[searchName])
+    useEffect(()=>{
+      fethcStudents()
+    },[rowsPerPage])
     useEffect(() => {
       fethcStudents();
+      handleManager()
     }, [])
+    useEffect(() => {
+      setDataFilter()},[searchName])
  
   // modal
   return (
@@ -202,7 +235,7 @@ const Talabalar = () => {
           </div>
 
           <div className="SidebarUniverstitet">
-            <button onClick={handleOpen}>Добавить студента</button>
+            {/* <button onClick={handleOpen}>Добавить студента</button> */}
             <div className="settSearch">
               <div className="searchUniv">
                 <img src={search_icon} alt="" />
@@ -229,14 +262,14 @@ const Talabalar = () => {
                     <th>Номер телефона</th>
                     <th>Номер контракта</th>
                     <th>Дата контракта</th>
-                    <th>Оплата за услуги</th>
+                    {/* <th>Оплата за услуги</th> */}
                     {(selector.role == "branch_director" && <span></span>) || (
                       <th>Филиал</th>
                     )}
                     <th>Реферал</th>
                     <th>Менеджер</th>
                     <th>Менеджер телефона</th>
-                    <th></th>
+                    <th>Статус</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -259,8 +292,11 @@ const Talabalar = () => {
                         university,
                         faculty,
                         university_date,
-                        flial,
+                        branch,
+                        contract,
+                        referral,
                         manager,
+                        step
                       } = item;
 
                       return (
@@ -272,28 +308,38 @@ const Talabalar = () => {
                           <td>{faculty}</td>
                           <td>{university}</td>
                           <td>{phone_number}</td>
-                          <td>2021/1637</td>
+                          <td>{contract}</td>
                           <td>{university_date?.slice(0, 10)} </td>
-                          <td>{"sorash kerak"}</td>
+                          {/* <td>{"sorash kerak"}</td> */}
                           <td>
                             {" "}
                             {(selector.role == "branch_director" && (
                               <span></span>
                             )) ||
-                              flial}
+                              branch}
                           </td>
-                          <td>1895</td>
+                          <td>{referral ? referral : 'Реферала нету'}</td>
 
                           <td>
                             {manager?.first_name} {manager?.last_name}
                           </td>
                           <td>{manager?.phone_number}</td>
+                          <td>{step === 'manager_checking' || step === 'notary' || step === 'university' || step=== 'completed'|| step === 'rejected' ? 'подтвержденный':'не подтверждено'}</td>
                         </tr>
                       );
                     })
                   )}
                 </tbody>
               </table>
+              <TablePagination
+                rowsPerPageOptions={[20,40,60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
             </div>
 
             {/* end univerList */}
@@ -356,7 +402,19 @@ const Talabalar = () => {
                       />
                     </div>
                   </div>
+                  <p>Выберите манажер</p>
                   <FormFilter>
+                  <div className="selectCountry">
+                      <select name="manager" onChange={(e)=>setManagerId(e.target.value) }>
+                        <option value='' selected>Выберите манажер</option>
+                        {managerList.map(item=>{
+                          const {id,first_name,last_name} = item
+                          return(
+                            <option value={id}>{first_name} {last_name}</option>
+                          )
+                        })}
+                      </select>
+                    </div>
                     <InputDiv>
                       <input
                         value="false"
@@ -367,6 +425,7 @@ const Talabalar = () => {
                       />
                       <label htmlFor="registered">Registered</label>
                     </InputDiv>
+                    
                     <InputDiv>
                       <input
                         value="true"
@@ -419,7 +478,8 @@ const Talabalar = () => {
                           >
                             <option value="full_time">очное</option>
                             <option value="distance">дистанционный</option>
-                            <option value="part_time">пол ставка</option>
+                            <option value="part_time">Заочное обучение</option>
+                            <option value="night_time">Вечернее обучение</option>
                           </select>
                         </div>
                       </div>

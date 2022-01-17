@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import { scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
-import TablePagination from "@material-ui/core/TablePagination";
+import TablePagination from "@material-ui/core/TablePagination"
 import {
   ResponsiveContainer,
   Tooltip,
@@ -60,13 +60,13 @@ const SidebarAgentlar = () => {
   const [count, setCount] = useState(0); // modal
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
-  const phoneRef = useRef();
+  const phoneRef = useRef()
   const [isAct, setIsAct] = useState(false);
   const [value, setValue] = useState("all");
   const [searchName, setSearchName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [counts, setCounts] = useState();
+  const [counts,setCounts] = useState()
   const [price, setPrice] = useState();
   const getManagerRayting = async () => {
     try {
@@ -78,42 +78,34 @@ const SidebarAgentlar = () => {
     } catch (error) {}
   };
   const getAgent = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const res = await Axios.get(
-        `/company/company-user/?search=${
-          searchName ? searchName : " "
-        }&limit=${rowsPerPage}`
-      );
+      const res = await Axios.get(`/company/company-user/?search=${searchName ? searchName : " "}&limit=${rowsPerPage}`);
       const results = res?.data?.results;
-      const numbers = res?.data?.count;
-      setCounts(numbers);
+      const numbers = res?.data?.count
+      setCounts(numbers)
       setAgents(results);
-      setLoading(false);
+      setLoading(false)
     } catch (error) {
-      setLoading(false);
+      setLoading(false)
     }
   };
-  const handlePageChange = async (e, newPage) => {
+  const handlePageChange = async(e, newPage) => {
     setPage(newPage);
-    setLoading(true);
-    try {
-      const res = await Axios.get(
-        `/company/company-user/?limit=${rowsPerPage}&offset=${
-          newPage * rowsPerPage
-        }`
-      );
-      const { status, data } = res;
-      const { results } = data;
-      if (status == 200) {
-        setAgents(results);
+    setLoading(true)
+     try {
+        const res = await Axios.get(`/company/company-user/?limit=${rowsPerPage}&offset=${newPage*rowsPerPage}`);
+        const { status, data } = res;
+        const { results } = data;
+        if (status == 200) {
+          setAgents(results);
+        }
+        console.log(res);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+        setLoading(false)
       }
-      console.log(res);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
   };
 
   const handleChangeRowsPerPage = async (event) => {
@@ -121,7 +113,7 @@ const SidebarAgentlar = () => {
     console.log(event.target.value);
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+    }
 
   const getManager = async () => {
     setLoading(true);
@@ -145,6 +137,9 @@ const SidebarAgentlar = () => {
   const handleOpen = () => {
     setOpen(true);
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -152,14 +147,11 @@ const SidebarAgentlar = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setData((state) => ({ ...state, [name]: value }));
-    if (name !== "phone_number") return;
-    setData({ ...data, phone_number: `+${phoneRef?.current?.value}` });
-  };
-  console.log(data);
+    if(name !== 'phone_number') return 
+     setData({...data,phone_number:`+${phoneRef?.current?.value}`})
+  };console.log(data);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   const errorPassword = () => {
     Swal.fire({
       icon: "error",
@@ -181,27 +173,28 @@ const SidebarAgentlar = () => {
   formData.append("role", data?.role);
   formData.append("password_2", data?.password_2);
   const setAgent = async () => {
-    if (data?.password_1 == data?.password_2) setOpen(false);
-    setLoading(true);
-    try {
-      const res = await Axios.post("/company/company-user/", formData);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
+    if (data?.password_1 == data?.password_2)
+    setOpen(false)
+       setLoading(true)
+      try {
+        const res = await Axios.post("/company/company-user/", formData);
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+      }
     setPriceDoc();
     getAgent();
     handleClose();
   };
   const setManager = async () => {
     if (data?.password_1 == data?.password_2) {
-      setLoading(true);
+      setLoading(true)
       try {
         const res = await Axios.post(`company/branch-agent/`, formData);
-        setLoading(false);
+        setLoading(false)
       } catch (error) {
         errorMassage(error);
-        setLoading(false);
+        setLoading(false)
       }
       getManager();
       handleClose();
@@ -224,21 +217,21 @@ const SidebarAgentlar = () => {
   };
 
   useEffect(() => {
-    if (selector.role == "director") {
-      getAgent();
-    } else {
-      getManager();
-    }
+    
+      if(selector.role == "director") {
+        getAgent()  
+      } 
+      else{ getManager();}
+    
   }, [searchName]);
-  console.log(phoneRef?.current?.value);
+console.log(phoneRef?.current?.value);
   useEffect(() => {
     getManagerRayting();
     console.log(selector.role);
-    if (selector.role == "director") {
-      getAgent();
-    } else {
-      getManager();
-    }
+    if(selector.role == "director") {
+      getAgent()  
+    } 
+    else{ getManager();}
   }, []);
   return (
     <div className="consultAgennts">
@@ -247,21 +240,20 @@ const SidebarAgentlar = () => {
           <div className="Up_navbar">
             <h4>Агенты</h4>
             <div className="user_info">
-              {loading ? (
-                <Loader
-                  type="spinner-circle"
-                  bgColor={"#FFFFFF"}
-                  color={"#FFFFFF"}
-                  size={80}
-                />
-              ) : (
-                <img src={userpic} alt="" />
-              )}
+            {loading ? (
+                    <Loader
+                      type="spinner-circle"
+                      bgColor={"#FFFFFF"}
+                      color={"#FFFFFF"}
+                      size={80}
+                    />):
+              <img src={userpic} alt="" />
+            }
               <div>
                 <p>
                   {selector?.first_name} {selector?.last_name}
                 </p>
-                <h5>
+                  <h5>
                   {(selector?.role == "branch_director" &&
                     "директор филиала") ||
                     selector?.role}
@@ -296,9 +288,9 @@ const SidebarAgentlar = () => {
                     {(selector?.role == `director` && <span></span>) || (
                       <th>Число клие...</th>
                     )}
-
+                    
                     {(selector?.role == `director` && <span></span>) || (
-                      <th>статус</th>
+                  <th>статус</th>
                     )}
                   </tr>
                 </thead>
@@ -325,7 +317,7 @@ const SidebarAgentlar = () => {
                       return (
                         <tr>
                           <td className="firstTD">
-                            {last_name} - {first_name} - {middle_name}
+                          {last_name} - {first_name} - {middle_name} 
                           </td>
                           <td
                             style={{
@@ -404,7 +396,7 @@ const SidebarAgentlar = () => {
                           <td>{phone_number}</td>
                           <td className="priDoc">{applicant_count}</td>
                           {(selector?.role == `director` && <span></span>) || (
-                            <td className="c">
+                            <td className='c'>
                               <button
                                 style={{
                                   backgroundColor: is_active
@@ -430,14 +422,14 @@ const SidebarAgentlar = () => {
                 </tbody>
               </table>
               <TablePagination
-                rowsPerPageOptions={[20, 40, 60]}
-                component="table"
-                count={counts}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
+              rowsPerPageOptions={[20,40,60]}
+              component="table"
+              count={counts}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
             </div>
             <div className="raytingAgentBlock block_chart vertical_charts">
               <div className="raytingAgentTitle">
@@ -472,7 +464,7 @@ const SidebarAgentlar = () => {
 
             {/* end univerList */}
             {/* Filter */}
-
+            
             {(selector.role == "branch_director" && (
               <Modal
                 aria-labelledby="transition-modal-title"
@@ -519,6 +511,7 @@ const SidebarAgentlar = () => {
                         <label>Номер телефона</label>
                         <input
                           type="text"
+                        
                           name="phone_number"
                           onChange={(e) => handleInputChange(e)}
                         />
@@ -593,6 +586,7 @@ const SidebarAgentlar = () => {
                           onChange={(e) => handleInputChange(e)}
                           name="role"
                         >
+                          <option value="" selected disabled hidden>выбрать роль</option>
                           <option value="director">Директор</option>
                           <option value="manager">менеджер </option>
                           <option value="notary"> нотариус</option>
@@ -690,23 +684,19 @@ const SidebarAgentlar = () => {
                       )) ||
                         ""}
 
-                      <div style={{ position: "relative" }}>
+                      <div style={{position:'relative'}}>
                         <label>Номер телефона</label>
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "46px",
-                            left: "15px",
-                            fontSize: "22px",
-                          }}
-                        >
-                          +
-                        </span>
+                        <span style={{position: 'absolute',
+                            top: '46px',
+                            left: '15px',
+                            fontSize: '22px'}}>
+                              +
+                              </span>
                         <input
                           type="text"
-                          defaultValue="998"
+                          defaultValue='998'
                           ref={phoneRef}
-                          style={{ fontSize: "20px" }}
+                          style={{fontSize:'20px'}}
                           name="phone_number"
                           onChange={(e) => handleInputChange(e)}
                         />

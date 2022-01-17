@@ -47,7 +47,7 @@ const SidebarManager = () => {
   const [dataComposeds, setDataComposeds] = useState();
   const [data_doxod, setDataDoxod] = useState();
   const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState();
+  const [count,setCount] = useState()
   const [second, setSecond] = useState([]);
   const [secondBlock, setSecondBlock] = useState([]);
   const [firstBlock, setFirstBlock] = useState([]);
@@ -181,38 +181,36 @@ const SidebarManager = () => {
         }
       }
     );
-    Axios.get(
-      `company/director/statistics/manager/second_block/?limit=${rowsPerPage}`
-    ).then((res) => {
-      console.log(res);
-      if (mounted) {
-        setLoading(false);
-        setSecondBlock(res.data);
+    Axios.get(`company/director/statistics/manager/second_block/?limit=${rowsPerPage}`).then(
+      (res) => {
+        console.log(res);
+        if (mounted) {
+          setLoading(false);
+          setSecondBlock(res.data);
+        }
       }
-    });
+    );
     return () => {
       mounted = false;
     };
   }, []);
 
-  const handlePageChange = async (e, newPage) => {
+  const handlePageChange = async(e, newPage) => {
     setPage(newPage);
-    setLoading(true);
-    try {
-      const res = await Axios.get(
-        `/applicant/list/?limit=${rowsPerPage}&offset=${newPage * rowsPerPage}`
-      );
-      const { status, data, count } = res;
-      const { results } = data;
-      if (status == 200) {
-        setSecondBlock(data);
+    setLoading(true)
+     try {
+        const res = await Axios.get(`/applicant/list/?limit=${rowsPerPage}&offset=${newPage*rowsPerPage}`);
+        const { status, data ,count } = res;
+        const { results } = data;
+        if (status == 200) {
+          setSecondBlock(data);
+        }
+        console.log(res);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+        setLoading(false)
       }
-      console.log(res);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
   };
 
   const handleChangeRowsPerPage = async (event) => {
@@ -220,7 +218,7 @@ const SidebarManager = () => {
     console.log(event.target.value);
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+    }
   return (
     <React.Fragment>
       <Sidebar>
@@ -349,14 +347,14 @@ const SidebarManager = () => {
                   </tbody>
                 </table>
                 <TablePagination
-                  rowsPerPageOptions={[20, 40, 60]}
+                  rowsPerPageOptions={[20,40,60]}
                   component="table"
                   count={count}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+               />
               </div>
             </div>
           </div>

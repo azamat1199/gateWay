@@ -69,10 +69,10 @@ const SideGlavny = () => {
       студенты: "",
     },
   ];
-  for (let i = 0; i < secondBlock.length; i++) {
-    popularUniver[i].студенты = secondBlock[i].students_count;
-    popularUniver[i].name = secondBlock[i].name;
-  }
+  // for (let i = 0; i < secondBlock.length; i++) {
+  //   popularUniver[i]?.студенты = secondBlock[i]?.students_count;
+  //   popularUniver[i]?.name = secondBlock[i]?.name;
+  // }
 
   //popular country filter
   let popularCountry = [];
@@ -291,12 +291,10 @@ const SideGlavny = () => {
               {loading ? <SkeletonLoader /> : <h3>{firstBlock?.notary}</h3>}
             </div>
             <div className="card">
-              <h4>Проверка перевода</h4>
-              {loading ? (
                 <SkeletonLoader />
               ) : (
                 <h3>{firstBlock?.manager_checking_translates}</h3>
-              )}
+              )
             </div>
             <div className="card">
               <h4>У университета</h4>
