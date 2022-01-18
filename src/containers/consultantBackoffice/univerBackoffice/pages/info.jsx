@@ -4,7 +4,7 @@ import Slider from "@material-ui/core/Slider";
 import NumberFormat from "react-number-format";
 import GoogleMapReact from "google-map-react";
 import Swal from "sweetalert2";
-
+import styled from 'styled-components'
 //import img
 import userpic from "../../../../assets/icon/userpic.svg";
 import image from "../../../../assets/icon/image.jpg";
@@ -116,20 +116,17 @@ const Info = () => {
   const reload = () => {
     window.location.reload();
   };
-
   const select = useSelector((state) => state.payload.payload.data);
   const [univerImg, setUniverImg] = useState(null);
   const [foiz, setFoiz] = useState();
   const [openDescript, setOpenDescript] = React.useState(false);
-
   const [city, setCity] = useState();
   const [danniInp, setDanniInp] = useState(false);
-
   const [nameU, setNameU] = useState();
   const [year, setYear] = useState();
   const [country, setCountry] = useState();
   const [moto, setMoto] = useState();
-  const [cityId, setCityId] = useState();
+  const [cityId, setCityId] = useState(0);
   const [bacalavir, setBacalavir] = useState();
   const [magistr, setMagistr] = useState();
   const [livingPrice, setLivingPrice] = useState();
@@ -140,11 +137,17 @@ const Info = () => {
   const [preview, setPreview] = useState();
   const [description, setDescription] = useState();
   const [input, setInput] = useState();
+  const [bachelor,setBachelor] = useState('')
+  const [masters,setMaster] = useState('')
+  const [living,setLiving] = useState('')
+  const [currency,setCurrency] = useState([])
+
 
   const handleClose = () => {
     setOpenDescript(false);
     setOpenImgUniver(false);
   };
+ 
 
   const selector = useSelector((state) => state);
   const [univerData, setUniverData] = useState({});
@@ -175,7 +178,7 @@ const Info = () => {
 
   const getCity = async () => {
     try {
-      const res = await Axios.get("/common/city/");
+      const res = await Axios.get("/company/city/");
       setCity(res.data.results);
     } catch (error) {}
   };
@@ -189,9 +192,11 @@ const Info = () => {
       if (data.status === 200) {
         reload();
       }
-    } catch (err) {}
+    } catch (err) {
+      
+    }
   };
-
+  console.log(bachelor,masters,living);
   const univerID = async () => {
     try {
       const data = await Axios.get(`/university/${select.id}/`);
@@ -223,22 +228,29 @@ const Info = () => {
 
         setUniID(uni);
       }
-    } catch (err) {}
+    } catch (err) {
+      
+    }
   };
 
   const setDataUniver = async () => {
+    console.log('clicked');
     try {
+      console.log('clicked');
       const res = await Axios.patch(`/university/${select.id}/`, {
         name: nameU,
         year_of_creation: year,
         motto: moto,
-        bachelor_degree_fee_per_annum: bacalavir,
-        masters_degree_fee_per_annum: magistr,
-        living_price_per_annum: livingPrice,
+        bachelor_degree_fee_per_annum: `${bacalavir + ' ' + bachelor}` ,
+        masters_degree_fee_per_annum: `${magistr + ' ' + masters}` ,
+        living_price_per_annum: `${livingPrice + ' ' + living}` ,
         starting_salary: startSalary,
-        city_id: cityId,
+        city_id: `${cityId ? cityId : UniID.city.id}` ,
       });
-    } catch (error) {}
+      console.log('clicked');
+    } catch (error) {
+
+    }
     setDanniInp(false);
     univerID();
   };
@@ -263,11 +275,26 @@ const Info = () => {
     try {
       const dataImg = await Axios.post(`/university/image/`, formData);
       reload();
-    } catch (err) {}
+    } catch (err) {
+      
+    }
     handleClose();
   };
-
+  const getCurrency = async() =>{
+    try {
+      const res = await Axios.get('/common/currency/')
+      const {status,data} = res;
+      if(status === 200){
+        const {results} = data
+        setCurrency(results)
+      }     
+    } catch (error) {
+      console.log(error);
+    }
+  }
+console.log(typeof(livingPrice),livingPrice);
   useEffect(() => {
+    getCurrency()
     if (!selectedFile) {
       setPreview(undefined);
       return;
@@ -421,6 +448,7 @@ const Info = () => {
                       type="text"
                       name="city"
                     >
+                      <option selected hidden value={UniID.city.id}>{UniID.city.name}</option>
                       {city?.map((v) => {
                         return <option value={v.id}>{v.name}</option>;
                       })}
@@ -454,16 +482,29 @@ const Info = () => {
                 </div>
                 <div>
                   {danniInp ? (
+                    <>
                     <input
                       className="danniInpEdit"
                       type="text"
                       name="bachelor_degree_fee_per_annum"
-                      value={bacalavir}
+                      value={bacalavir?.split(' ')[0]}
                       onChange={(e) => setBacalavir(e.target.value)}
                     />
+                    <SelectStyle>
+                      <select  onChange={(e)=> setBachelor(e.target.value)} name="bachelor" id="">
+                      <option selected hidden >{bacalavir.split(' ') ? bacalavir.split(' ')[1] :'Валюта' }</option>
+                      {currency.map(type => {
+                        return (
+                          <option value={type.name}>{type.name}</option>
+                        )
+                      })}
+                     </select>
+                    </SelectStyle>
+                  </>
                   ) : (
                     <p>{UniID.bachelor_degree_fee_per_annum}</p>
                   )}
+                
                 </div>
               </div>
               <div className="info_1">
@@ -472,16 +513,29 @@ const Info = () => {
                 </div>
                 <div>
                   {danniInp ? (
+                    <>
                     <input
                       className="danniInpEdit"
                       type="text"
                       name="masters_degree_fee_per_annum"
-                      value={magistr}
+                      value={magistr?.split(' ')[0]}
                       onChange={(e) => setMagistr(e.target.value)}
                     />
+                    <SelectStyle>
+                      <select onChange={(e)=> setMaster(e.target.value)} name="masters" id="">
+                      <option selected hidden >{magistr.split(' ')? magistr.split(' ')[1] :'Валюта' }</option>
+                      {currency.map(type => {
+                        return (
+                          <option value={type.name}>{type.name}</option>
+                        )
+                      })}
+                    </select>
+                    </SelectStyle>
+                  </>
                   ) : (
-                    <p>{UniID.bachelor_degree_fee_per_annum}</p>
+                    <p>{UniID.masters_degree_fee_per_annum}</p>
                   )}
+                   
                 </div>
               </div>
               <div className="info_1">
@@ -490,16 +544,30 @@ const Info = () => {
                 </div>
                 <div>
                   {danniInp ? (
+                    <>
                     <input
                       className="danniInpEdit"
                       type="text"
                       name="living_price_per_annum"
-                      value={livingPrice}
+                      value={livingPrice.split(' ')[0]}
                       onChange={(e) => setLivingPrice(e.target.value)}
                     />
+                    <SelectStyle>
+                      <select onChange={(e)=>setLiving(e.target.value)} name="living" id="">
+                      <option selected hidden >{livingPrice.split(' ') ? livingPrice.split(' ')[1] :'Валюта' }</option>
+                      {currency.map(type => {
+                        return (
+                          <option value={type.name}>{type.name}</option>
+                        )
+                      })}
+
+                    </select>
+                    </SelectStyle>
+                  </>
                   ) : (
-                    <p>{UniID.bachelor_degree_fee_per_annum}</p>
+                    <p>{UniID.living_price_per_annum}</p>
                   )}
+                   
                 </div>
               </div>
               <div className="info_1">
@@ -516,7 +584,7 @@ const Info = () => {
                       onChange={(e) => setStartSalary(e.target.value)}
                     />
                   ) : (
-                    <p>{UniID.starting_salary}</p>
+                    <p>{UniID.starting_salary}$</p>
                   )}
                 </div>
               </div>
@@ -555,7 +623,7 @@ const Info = () => {
                           backgroundColor: "#00587F",
                           borderRadius: "8px",
                         }}
-                        onClick={setDataUniver}
+                        onClick={() => setDataUniver()}
                       >
                         сохранять
                       </button>
@@ -599,7 +667,7 @@ const Info = () => {
             </div>
           </div>
 
-          <div className="info-4">
+          {/* <div className="info-4">
             <div className="single_h1">
               <h1>Локация на карте</h1>
             </div>
@@ -618,7 +686,7 @@ const Info = () => {
                 />
               </GoogleMapReact>
             </div>
-          </div>
+          </div> */}
         </div>
         {/*  */}
         {/*  */}
@@ -643,9 +711,7 @@ const Info = () => {
                   rows="7"
                   cols="40"
                   value={description}
-                >
-                  {description}
-                </textarea>
+                >{description}</textarea>
                 <div>
                   <button onClick={() => handleClose()}>Отмена</button>
                   <button onClick={(e) => descriptPatch(e)}>Изменить</button>
@@ -691,3 +757,22 @@ const Info = () => {
 };
 
 export default Info;
+
+
+const SelectStyle = styled.div`
+  select{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: #00121A;
+    outline: none;
+    padding: 3px 10px;
+    border: 1px solid #00587F;
+    border-radius: 8px;
+    color: #00121A;
+    background: none;
+    margin-left: 15px;
+  }
+ 
+`

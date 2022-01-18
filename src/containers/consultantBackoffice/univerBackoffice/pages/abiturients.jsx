@@ -31,7 +31,7 @@ import "../../../../style/css/abiturient.css";
 import UniversitetBackoffice from "../universitetBackoffice";
 import Axios from "../../../../utils/axios";
 import { useSelector } from "react-redux";
-
+import styled from 'styled-components';
 // const data_table = require("../json/data_table.json");
 const Abiturient = () => {
   const selector = useSelector((state) => state?.payload?.payload?.data);
@@ -56,25 +56,30 @@ const Abiturient = () => {
   const [addDescription, setAddDescription] = useState("");
   const [key, setkey] = React.useState("");
   const [users, setUsers] = useState();
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page, setPage] = useState(0);
-  const [degreeAll, setDegreeAll] = useState();
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
+  const [degreeAll, setDegreeAll] = useState([]);
   const [facultyAll, setFacultyAll] = useState([]);
   const [degree, setDegree] = useState();
-  const [faculty, setFaculty] = useState([]);
-  const [typeEdu, setTypeEdu] = useState();
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const [faculty, setFaculty] = useState(0);
+  const [typeEdu, setTypeEdu] = useState(0);
+  const [open3, setOpen3] = useState(false);
+  const [selected3, setSelected3] = useState("");
+  const [openy, setOpeny] = React.useState(false);
+  const [openx, setOpenx] = React.useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [selected1, setSelected1] = useState("");
+  const [open2, setOpen2] = useState(false);
+  const [selected2, setSelected2] = useState("");
   function handleChange(event) {
     setkey(event.target.value);
   }
-  const [openy, setOpeny] = React.useState(false);
+
   const handleOpeny = () => {
     setOpeny(true);
   };
@@ -82,22 +87,74 @@ const Abiturient = () => {
     setOpeny(false);
   };
 
-  const [openx, setOpenx] = React.useState(false);
-  const handleOpenx = () => {
-    setOpenx(true);
-  };
-
-  const handleClosex = () => {
-    setOpenx(false);
-  };
-
-  const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState("");
   const inputClick1 = () => {
     setOpen1(true);
     setOpen2(false);
     setOpen3(false);
   };
+
+  const inputClick2 = () => {
+    setOpen1(false);
+    setOpen2(true);
+    setOpen3(false);
+  };
+  const handleOpenx = () => {
+    setOpenx(true);
+  };
+
+  const inputClick3 = () => {
+    setOpen1(false);
+    setOpen2(false);
+    setOpen3(true);
+  };
+  const itemClick3 = (e) => {
+    setSelected3(e.target.textContent);
+    setOpen3(false);
+  };
+
+  const handleClosex = () => {
+    setOpenx(false);
+  };
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/applicant/list/?limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setUsers(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  const getUser = async () => {
+    setLoading(true);
+    try {
+      const res = await Axios.get(`/applicant/list/?limit=${rowsPerPage}`);
+      setUsers(res.data.results);
+      setLoading(false);
+      setCount(res.data.count);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
 
   const itemClick1 = (e) => {
     setSelected1(e.target.textContent);
@@ -120,13 +177,6 @@ const Abiturient = () => {
     } catch (error) {}
   };
 
-  const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState("");
-  const inputClick2 = () => {
-    setOpen1(false);
-    setOpen2(true);
-    setOpen3(false);
-  };
   const itemClick2 = (e) => {
     setSelected2(e.target.textContent);
     setOpen2(false);
@@ -135,28 +185,6 @@ const Abiturient = () => {
     setFacultyAll([]);
     getFaculty();
   }, [degree]);
-  const [open3, setOpen3] = useState(false);
-  const [selected3, setSelected3] = useState("");
-  const inputClick3 = () => {
-    setOpen1(false);
-    setOpen2(false);
-    setOpen3(true);
-  };
-  const itemClick3 = (e) => {
-    setSelected3(e.target.textContent);
-    setOpen3(false);
-  };
-
-  const getUser = async () => {
-    setLoading(true);
-    try {
-      const res = await Axios.get("/applicant/list/");
-      setUsers(res.data.results);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -208,13 +236,15 @@ const Abiturient = () => {
   useEffect(() => {
     filterApplicants();
   }, [searchName]);
-
+  useEffect(() => {
+    getUser();
+  }, [rowsPerPage]);
   return (
     <UniversitetBackoffice>
       <div className="abiturient">
         <div className="up_nav">
           <div>
-            <h1 className="link_h1">Абитуриенты</h1>
+            <h1 className="link_h1">Абитуриентыaaaa</h1>
           </div>
           <div className="user_info">
             <img src={userpic} alt="" />
@@ -227,6 +257,7 @@ const Abiturient = () => {
           </div>
         </div>
         <div className="abiturients">
+          <Responsive>
           <div className="ab_1">
             <div className="excel">
               <ReactHTMLTableToExcel
@@ -301,9 +332,14 @@ const Abiturient = () => {
                               <th>{data?.degree}</th>
                               {/* <th>{data?.manager}</th> */}
                               <th>
-                                {(`${data?.type_education}` == "full_time" &&
-                                  "Очный") ||
-                                  "Заочный"}
+                                {(data?.education_type == "full_time" &&"Очный") 
+                                ||
+                                  data?.education_type === "part_time" && "Заочный"
+                                ||  
+                                data?.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                data?.education_type === "night_time" &&  "Вечернее обучение"
+                                  }
                               </th>
                               <th>{`${data?.education_fee} $`}</th>
                               <th>
@@ -311,15 +347,6 @@ const Abiturient = () => {
                                 {data.manager?.last_name}
                               </th>
                               <th>{data.manager?.phone_number}</th>
-
-                              {/* <th>
-                            <button onClick={handleOpeny}>
-                              <img src={yes} alt="" />
-                            </button>
-                            <button onClick={handleOpenx}>
-                              <img src={no} alt="" />
-                            </button>
-                          </th> */}
                             </tr>
                           );
                         })
@@ -327,9 +354,9 @@ const Abiturient = () => {
                   </tbody>
                 </table>
                 <TablePagination
-                  rowsPerPageOptions={[5, 10, 15, 20, 30]}
+                  rowsPerPageOptions={[20, 40, 60]}
                   component="table"
-                  count={users?.length}
+                  count={count}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handlePageChange}
@@ -338,6 +365,8 @@ const Abiturient = () => {
               </div>
             </div>
           </div>
+          </Responsive>
+        
           {/* // ! */}
           <div
             className="abitFilBox"
@@ -408,6 +437,7 @@ const Abiturient = () => {
               <div className="form_ab">
                 <h2>Факультет</h2>
                 <select onChange={(e) => setFaculty(e.target.value)}>
+                  <option value="">Все Факультет</option>
                   {facultyAll?.map((i) => {
                     return <option value={i?.id}>{i?.name}</option>;
                   })}
@@ -512,3 +542,46 @@ const Abiturient = () => {
 };
 
 export default Abiturient;
+const Responsive=styled.div`  
+@media (max-width: 768px) {
+  overflow-x: hidden;
+  .ab_1{
+    width:90%;
+    .search{
+      width:100%
+    }
+    .table {
+      font-size: 12px;
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  
+  }}
+  @media (max-width: 425px) {
+    .ab_1 {
+      width:90%;
+      .search{
+        width:135%
+      }
+       .table {
+         font-size: 12px;
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+    }
+  }
+  @media (max-width: 320px) {
+   .ab_1 {
+     width:90%;
+     .search{
+       width:135%
+     }
+      .table {
+        font-size: 12px;
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  `

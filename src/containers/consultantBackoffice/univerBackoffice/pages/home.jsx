@@ -77,11 +77,12 @@ function Home() {
     faculties: [],
     images: [],
   });
+
   const fetchByDay = async () => {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/university/statistics/third_block/?day=true`
+        `/university/statistics/?day=true`
       );
       const { status, data } = res;
       if (status === 200) {
@@ -97,7 +98,7 @@ function Home() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/university/statistics/third_block/?week=true`
+        `/university/statistics/?week=true`
       );
       const { status, data } = res;
       if (status === 200) {
@@ -113,7 +114,7 @@ function Home() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/university/statistics/third_block/?month=true`
+        `/university/statistics/?month=true`
       );
       const { status, data } = res;
       if (status === 200) {
@@ -129,7 +130,7 @@ function Home() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/university/statistics/third_block/?year=true`
+        `/university/statistics/?year=true`
       );
       const { status, data } = res;
       if (status === 200) {
@@ -145,7 +146,7 @@ function Home() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/university/statistics/third_block/?date-from=${startDate.toLocaleDateString()}&date-to=${endDate.toLocaleDateString()}`
+        `/university/statistics/?date-from=${startDate.toLocaleDateString()}&date-to=${endDate.toLocaleDateString()}`
       );
       const { status, data } = res;
       if (status === 200) {
@@ -201,7 +202,7 @@ function Home() {
   ];
   const univerID = async () => {
     try {
-      const data = await Axios.get(`/university/${1}`);
+      const data = await Axios.get(`/university/${selector?.id}`);
       const uni = data.data;
       if (data.status === 200) {
         setUniID(uni);
