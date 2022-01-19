@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-
-import Checkbox from "@material-ui/core/Checkbox";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Switch from "@material-ui/core/Switch";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import check from "../../../../assets/icon/check1.svg";
+import InvoisModal from "./invoisModal";
 //import css
 import "react-datepicker/dist/react-datepicker.css";
 import { Pagination } from "@material-ui/lab";
 import TablePagination from "@material-ui/core/TablePagination";
 //import img
+import Message from "../../../../assets/icon/sendFile.png";
 import filterImg from "../../../../assets/icon/Filter.svg";
 import excel from "../../../../assets/icon/excel.svg";
 import search from "../../../../assets/icon/Search2.svg";
@@ -25,6 +20,7 @@ import UniversitetBackoffice from "../universitetBackoffice";
 import { useSelector } from "react-redux";
 import Axios from "../../../../utils/axios";
 import Loader from "react-js-loader";
+import styled from "styled-components";
 const data_table = require("../json/data_table.json");
 
 const InvoiceReceive = () => {
@@ -35,86 +31,22 @@ const InvoiceReceive = () => {
 
   const [loading, setLoading] = useState();
   const [students, setStudents] = useState([]);
-  const [count, setCount] = useState();
-
   const [filters, setfilters] = useState(false);
-
+  const [isShow, setIsShow] = useState(false);
   const [key, setkey] = React.useState("");
   const [invoiceAlert, setInvoiceAlert] = useState(() => new Set());
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page, setPage] = useState(0);
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  function handleChange(event) {
-    setkey(event.target.value);
-  }
-
-  const addItem = (item) => {
-    setInvoiceAlert((prev) => new Set(prev).add(item));
-  };
-
-  const selector = useSelector((state) => state.payload.payload.data);
-
-  const handleClickSave = (id) => {
-    Swal.fire({
-      icon: "warning",
-      title: "Вы уверены что хотите потвердить?",
-      showCancelButton: true,
-      reverseButtons: true,
-      cancelButtonColor: "#E96464",
-      cancelButtonText: "Отменить",
-      confirmButtonColor: "#00587F",
-      confirmButtonText: "Потвердить",
-      preConfirm: function (result) {
-        return new Promise(function (resolve, reject) {
-          if (result) {
-            Axios.patch(`applicant/university-check-documents/${id}/`, {
-              university_invoice_confirmed: true,
-            });
-            Swal.fire("Saved!", "", "success")
-              .then(function (response) {
-                resolve();
-              })
-              .catch(function (error) {
-                error("Error ");
-                console.log(error);
-                reject();
-              });
-          }
-        });
-        fetchInvoice();
-      },
-    }).then(function (cancelButtonText) {
-      return new Promise(function (resolve, reject) {
-        if (cancelButtonText) {
-          Axios.patch(`applicant/university-check-documents/${id}/`, {
-            university_invoice_confirmed: false,
-          });
-          Swal.fire("Canceled", "", "success")
-
-            .then(function (response) {
-              resolve();
-            })
-            .catch(function (error) {
-              error("Error ");
-              console.log(error);
-              reject();
-            });
-        }
-      });
-    });
-  };
-
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
   const fetchInvoice = async () => {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `applicant/list/confirmed/?invoice_status=true`
+        `applicant/list/confirmed/?invoice_status=true&limit=${rowsPerPage}`
       );
       const { status, data } = res;
       const { results, count } = data;
@@ -128,11 +60,52 @@ const InvoiceReceive = () => {
     }
   };
 
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `applicant/list/confirmed/?invoice_status=true&limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setStudents(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  function handleChange(event) {
+    setkey(event.target.value);
+  }
+
+  const addItem = (item) => {
+    setInvoiceAlert((prev) => new Set(prev).add(item));
+  };
+
+  const selector = useSelector((state) => state.payload.payload.data);
+
+  const handleClickSave = (event) => {};
+
   const filterApplicants = async () => {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/applicant/list/confirmed/?date-from=${
+        `/applicant/list/confirmed/?invoice_status=true&date-from=${
           startDate ? startDate.toLocaleDateString() : ""
         }&date-to=${
           endDate ? endDate.toLocaleDateString() : ""
@@ -147,11 +120,22 @@ const InvoiceReceive = () => {
       }
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };
-
+  const pnChange = (e) => {
+    const { name } = e.target;
+    setIsShow((state) => ({ ...state, [name]: true }));
+  };
+  const handleClock = async (id) => {
+    try {
+      const res = Axios.patch(`applicant/university-check-documents/${id}/`, {
+        university_invoice_confirmed: true,
+      });
+      fetchInvoice();
+      filterApplicants();
+    } catch (error) {}
+  };
   useEffect(() => {
     fetchInvoice();
   }, []);
@@ -159,24 +143,27 @@ const InvoiceReceive = () => {
   useEffect(() => {
     filterApplicants();
   }, [searchName]);
-
+  useEffect(() => {
+    fetchInvoice();
+  }, [rowsPerPage]);
   return (
     <UniversitetBackoffice>
       <div className="up_nav">
         <div>
-          <h1 className="link_h1">Инвойсы {`>`} Принятые</h1>
+          <h4 className="link_h1">Инвойсы {`>`} Принятые</h4>
         </div>
         <div className="user_info">
           <img src={userpic} alt="" />
           <div>
-            <h1>{selector?.name} </h1>
-            <h2>
-              {selector?.city?.name}, {selector?.city?.country.name}
-            </h2>
+            <h5>{selector.name}</h5>
+            <p>
+              {selector.city.name}, {selector.city.country.name}
+            </p>
           </div>
         </div>
       </div>
       <div className="invoys">
+        <Responsive>
         <div className="ab_1">
           <div className="excel">
             <ReactHTMLTableToExcel
@@ -214,15 +201,7 @@ const InvoiceReceive = () => {
               <div>
                 <h1>Список ученик</h1>
               </div>
-              {/* <div>
-                <select name="" id="">
-                  <option value="">Показать все</option>
-                  <option value="">lorem 1</option>
-                  <option value="">lorem 2</option>
-                </select>
-              </div> */}
             </div>
-
             <div>
               <table className="" id="table_excel">
                 <thead>
@@ -235,6 +214,8 @@ const InvoiceReceive = () => {
                   <th>Менеджер </th>
                   <th>Телефон менеджера</th>
                   <th>Инвойс</th>
+                  <th></th>
+                  <th></th>
                   <th></th>
                 </thead>
                 <tbody>
@@ -252,6 +233,7 @@ const InvoiceReceive = () => {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((data, i) => {
+                        console.log(data);
                         if (filters) {
                           return (
                             <tr>
@@ -261,9 +243,14 @@ const InvoiceReceive = () => {
                               <th>{data?.degree}</th>
                               {/* <th>{data?.manager}</th> */}
                               <th>
-                                {(`${data?.type_education}` == "full_time" &&
-                                  "Очный") ||
-                                  "Заочный"}
+                                {(data?.education_type == "full_time" && "Очный") 
+                                ||
+                                 data?.education_type === "part_time" && "Заочный"
+                                ||
+                                data?.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                data?.education_type === "night_time" && "Вечернее обучение"
+                                 }
                               </th>
                               <th>$ {data?.education_fee}</th>
                               <th>$ {data?.applicant_invoice_upload}</th>
@@ -289,9 +276,14 @@ const InvoiceReceive = () => {
                               <th>{data?.degree}</th>
                               {/* <th>{data?.manager}</th> */}
                               <th>
-                                {(`${data?.type_education}` == "full_time" &&
-                                  "Очный") ||
-                                  "Заочный"}
+                               {(data?.education_type == "full_time" && "Очный") 
+                                ||
+                                 data?.education_type === "part_time" && "Заочный"
+                                ||
+                                data?.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                data?.education_type === "night_time" && "Вечернее обучение"
+                                 }
                               </th>
                               <th>$ {data?.education_fee}</th>
                               <th>
@@ -309,9 +301,21 @@ const InvoiceReceive = () => {
                                   <img src={ticketDownload} alt="" />
                                 </a>
                               </th>
-
                               <th>
                                 {data?.university_invoice_confirmed ? (
+                                  <ConfirmedButton disabled>
+                                    Платеж потвержден
+                                  </ConfirmedButton>
+                                ) : (
+                                  <ConfirmButton
+                                    onClick={() => handleClock(data?.id)}
+                                  >
+                                    Потвердить платеж
+                                  </ConfirmButton>
+                                )}
+                              </th>
+                              {data?.university_cert ? (
+                                <th>
                                   <img
                                     src={check}
                                     alt=""
@@ -319,15 +323,26 @@ const InvoiceReceive = () => {
                                       width: "25px",
                                     }}
                                   />
-                                ) : (
-                                  <button
-                                    className="invoice-save"
-                                    onClick={() => handleClickSave(data?.id)}
-                                  >
-                                    Save
-                                  </button>
-                                )}
-                              </th>
+                                </th>
+                              ) : (
+                                <th>
+                                  <img
+                                    src={Message}
+                                    name={`name${data?.id}`}
+                                    onClick={(e) => pnChange(e)}
+                                    style={{ width: "25px" }}
+                                    alt=""
+                                  />
+                                  {isShow[`name${data?.id}`] ? (
+                                    <InvoisModal
+                                      onClose={() => setIsShow(false)}
+                                      id={data?.id}
+                                      where={"university_cert"}
+                                      show={isShow}
+                                    />
+                                  ) : null}
+                                </th>
+                              )}
                             </tr>
                           );
                         }
@@ -338,9 +353,9 @@ const InvoiceReceive = () => {
             </div>
 
             <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 20, 30]}
+              rowsPerPageOptions={[20, 40, 60]}
               component="table"
-              count={students?.length}
+              count={count}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handlePageChange}
@@ -348,6 +363,8 @@ const InvoiceReceive = () => {
             />
           </div>
         </div>
+        </Responsive>
+        
         {/* // ! */}
         <div
           className="abitFilBox"
@@ -399,47 +416,6 @@ const InvoiceReceive = () => {
                 />
               </div>
             </div>
-            {/* <div className="form_ab">
-              <h2>Выберите семестр</h2>
-              <div className="form_div">
-                <select name="" id="">
-                  <option value="">Весенний</option>
-                  <option value="">Летний</option>
-                  <option value="">Осенний</option>
-                  <option value="">Зимний</option>
-                </select>
-              </div>
-            </div> */}
-            {/* <div className="form_ab">
-              <FormControl component="fieldset">
-                <FormGroup aria-label="position" className="ab_check" row>
-                  <FormControlLabel
-                    value="Поступившие"
-                    control={<Checkbox color="primary" />}
-                    label="Поступившие"
-                    labelPlacement="end"
-                  />
-                  <FormControlLabel
-                    value="Непоступившие"
-                    control={<Checkbox color="primary" />}
-                    label="Непоступившие"
-                    labelPlacement="end"
-                  />
-                </FormGroup>
-              </FormControl>
-            </div>
-            <div className="form_ab">
-              <FormControl component="fieldset" className="ab_switch">
-                <FormGroup aria-label="position" row>
-                  <FormControlLabel
-                    value="show"
-                    control={<Switch color="primary" />}
-                    label="Показать консультанта"
-                    labelPlacement="start"
-                  />
-                </FormGroup>
-              </FormControl>
-            </div> */}
             <div className="form_ab">
               <button className="form_button" onClick={filterApplicants}>
                 Применить
@@ -454,3 +430,66 @@ const InvoiceReceive = () => {
 };
 
 export default InvoiceReceive;
+
+const ConfirmButton = styled.button`
+  height: 40px;
+  border: none;
+  width: 197px;
+  background: #5ec98b !important;
+  color: white !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+`;
+const ConfirmedButton = styled.button`
+  color: #219653;
+  border: none;
+  border-radius: 4px !important;
+  font-size: 15px !important;
+  height: 40px !important;
+  width: 197px;
+  cursor: no-drop !important;
+  background: rgba(94, 201, 139, 0.25) !important;
+`;
+const Responsive=styled.div`  
+@media (max-width: 768px) {
+  overflow-x: hidden;
+  .ab_1{
+    width:90%;
+    .search{
+      width:100%
+    }
+    .table {
+      font-size: 12px;
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  
+  }}
+  @media (max-width: 425px) {
+    .ab_1 {
+      width:90%;
+      .search{
+        width:135%
+      }
+       .table {
+         font-size: 12px;
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+    }
+  }
+  @media (max-width: 320px) {
+   .ab_1 {
+     width:90%;
+     .search{
+       width:135%
+     }
+      .table {
+        font-size: 12px;
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  `
