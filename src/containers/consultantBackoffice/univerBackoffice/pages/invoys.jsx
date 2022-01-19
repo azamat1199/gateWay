@@ -30,6 +30,7 @@ import { useSelector } from "react-redux";
 import InvoisModal from "./invoisModal";
 import { Pagination } from "@material-ui/lab";
 import TablePagination from "@material-ui/core/TablePagination";
+import styled from "styled-components";
 const data_table = require("../json/data_table.json");
 
 const Invoys = () => {
@@ -50,14 +51,50 @@ const Invoys = () => {
   const [userDataList, setUserDataList] = useState([]);
   const [icon, setIcon] = useState(false);
   const [isShow, setIsShow] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page, setPage] = useState(0);
-
-  const handlePageChange = (e, newPage) => {
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
+  const getUserInfo = async () => {
+    setLoading(true);
+    try {
+      const res = await Axios.get("applicant/list/confirmed/?limit=1000");
+      const { status, data } = res;
+      const { results } = data;
+      if (status === 200) {
+        setUserDataList(results);
+        setCount(data.count);
+      }
+    } catch (error) {}
+  };
+  const handlePageChange = async (e, newPage) => {
     setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `applicant/list/confirmed/?limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setUserDataList(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -69,18 +106,6 @@ const Invoys = () => {
   const handleFilter = (e) => {
     const { name, value } = e.target;
     setRadioFilter({ [name]: value });
-  };
-
-  const getUserInfo = async () => {
-    setLoading(true);
-    try {
-      const res = await Axios.get("applicant/list/confirmed/");
-      const { status, data } = res;
-      const { results } = data;
-      if (status === 200) {
-        setUserDataList(results);
-      }
-    } catch (error) {}
   };
 
   const filterApplicants = async () => {
@@ -105,6 +130,11 @@ const Invoys = () => {
     }
   };
 
+  const selector = useSelector((state) => state?.payload?.payload.data);
+  const pnChange = (e) => {
+    const { name } = e.target;
+    setIsShow((state) => ({ ...state, [name]: true }));
+  };
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -112,13 +142,9 @@ const Invoys = () => {
   useEffect(() => {
     filterApplicants();
   }, [searchName]);
-
-  const selector = useSelector((state) => state?.payload?.payload.data);
-  const pnChange = (e) => {
-    const { name } = e.target;
-    setIsShow((state) => ({ ...state, [name]: true }));
-  };
-
+  useEffect(() => {
+    getUserInfo();
+  }, [rowsPerPage]);
   return (
     <UniversitetBackoffice>
       <div className="up_nav">
@@ -136,6 +162,7 @@ const Invoys = () => {
         </div>
       </div>
       <div className="invoys">
+        <Responsive>
         <div className="ab_1">
           <div className="excel table_excel_btn">
             <ReactHTMLTableToExcel
@@ -209,14 +236,20 @@ const Invoys = () => {
                           <th>{data?.faculty}</th>
                           <th>{data?.degree}</th>
                           {/* <th>{data?.manager}</th> */}
+
+                          <th>
+                                {(data?.education_type == "full_time" &&"Очный") 
+                                ||
+                                  data?.education_type === "part_time" && "Заочный"
+                                ||  
+                                data?.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                data?.education_type === "night_time" &&  "Вечернее обучение"
+                                  }
+                          </th>
                           <th>
                             {data?.manager?.first_name}
                             {data?.manager?.last_name}
-                          </th>
-                          <th>
-                            {(`${data?.type_education}` == "full_time" &&
-                              "Очный") ||
-                              "Заочный"}
                           </th>
                           <th>{data?.manager?.phone_number}</th>
 
@@ -243,6 +276,7 @@ const Invoys = () => {
                                   onClose={() => setIsShow(false)}
                                   id={data?.id}
                                   show={isShow}
+                                  where={"university_invoice_upload"}
                                 />
                               ) : null}
                             </th>
@@ -264,9 +298,9 @@ const Invoys = () => {
               </tbody>
             </table>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 20, 30]}
+              rowsPerPageOptions={[20, 40, 60]}
               component="table"
-              count={userDataList?.length}
+              count={count}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handlePageChange}
@@ -274,6 +308,8 @@ const Invoys = () => {
             />
           </div>
         </div>
+        </Responsive>
+      
         {/* // ! */}
         <div
           className="abitFilBox"
@@ -326,77 +362,6 @@ const Invoys = () => {
                 />
               </div>
               <div className="radio-true">
-                {/* <FormControl component="fieldset">
-                    <FormLabel component="legend">Status</FormLabel>
-
-                    <RadioGroup
-                      aria-label="gender"
-                      name="gender1"
-                      value={value}
-                      onChange={(e) => handleFilter(e)}
-                      // onChange={handleChange}
-                    >
-                      <FormControlLabel
-                        value="true"
-                        control={<Radio color="primary" />}
-                        label="Инвойс отправлен"
-                      />
-                      <FormControlLabel
-                        value="false"
-                        control={<Radio color="primary" />}
-                        label="Инвойс не отправлен"
-                      />
-                    </RadioGroup>
-                  </FormControl> */}
-                {/* <div className="form_ab">
-                    <FormControl component="fieldset">
-                      <FormLabel component="legend">Status</FormLabel>
-                      <RadioGroup
-                        aria-label="gender"
-                        name="gender1"
-                        value={radioFilter}
-                        // onChange={handleChange}
-                        onChange={(e) => handleFilter(e)}
-                      >
-                        <FormControlLabel
-                          value="register"
-                          control={<Radio color="primary" />}
-                          label="Register"
-                        />
-                        <FormControlLabel
-                          value="profile"
-                          control={<Radio color="primary" />}
-                          label="Profile"
-                        />
-                        <FormControlLabel
-                          value="invois"
-                          control={<Radio color="primary" />}
-                          label="Invois"
-                        />
-                        <FormControlLabel
-                          value="bugalter"
-                          control={<Radio color="primary" />}
-                          label="Bugalter"
-                        />
-                        <FormControlLabel
-                          value="Manager"
-                          control={<Radio color="primary" />}
-                          label="Manager"
-                        />
-                        <FormControlLabel
-                          value="notoray"
-                          control={<Radio color="primary" />}
-                          label="Notary"
-                        />
-                        <FormControlLabel
-                          value="university"
-                          control={<Radio color="primary" />}
-                          label="University"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </div> */}
-
                 <input
                   onChange={(e) => handleFilter(e)}
                   type="radio"
@@ -421,47 +386,7 @@ const Invoys = () => {
                 </label>
               </div>
             </div>
-            {/* <div className="form_ab">
-              <h2>Выберите семестр</h2>
-              <div className="form_div">
-                <select name="" id="">
-                  <option value="">Весенний</option>
-                  <option value="">Летний</option>
-                  <option value="">Осенний</option>
-                  <option value="">Зимний</option>
-                </select>
-              </div>
-            </div> */}
-            {/* <div className="form_ab">
-              <FormControl component="fieldset">
-                <FormGroup aria-label="position" className="ab_check" row>
-                  <FormControlLabel
-                    value="Поступившие"
-                    control={<Checkbox color="primary" />}
-                    label="Поступившие"
-                    labelPlacement="end"
-                  />
-                  <FormControlLabel
-                    value="Непоступившие"
-                    control={<Checkbox color="primary" />}
-                    label="Непоступившие"
-                    labelPlacement="end"
-                  />
-                </FormGroup>
-              </FormControl>
-            </div> */}
-            {/* <div className="form_ab">
-              <FormControl component="fieldset" className="ab_switch">
-                <FormGroup aria-label="position" row>
-                  <FormControlLabel
-                    value="show"
-                    control={<Switch color="primary" />}
-                    label="Показать консультанта"
-                    labelPlacement="start"
-                  />
-                </FormGroup>
-              </FormControl>
-            </div> */}
+
             <div className="form_ab">
               <button className="form_button" onClick={filterApplicants}>
                 Применить
@@ -476,3 +401,46 @@ const Invoys = () => {
 };
 
 export default Invoys;
+const Responsive=styled.div`  
+@media (max-width: 768px) {
+  overflow-x: hidden;
+  .ab_1{
+    width:90%;
+    .search{
+      width:100%
+    }
+    .table {
+      font-size: 12px;
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  
+  }}
+  @media (max-width: 425px) {
+    .ab_1 {
+      width:90%;
+      .search{
+        width:135%
+      }
+       .table {
+         font-size: 12px;
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+    }
+  }
+  @media (max-width: 320px) {
+   .ab_1 {
+     width:90%;
+     .search{
+       width:135%
+     }
+      .table {
+        font-size: 12px;
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  `
