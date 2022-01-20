@@ -11,7 +11,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 
 //import img
-import img from "../../../../assets/icon/img.svg";
+import img from "../../../../assets/icon/userpic1.svg";
 import download from "../../../../assets/icon/download.svg";
 import yes from "../../../../assets/icon/yes.svg";
 import down_doc from "../../../../assets/icons/down_doc.svg";
@@ -167,7 +167,15 @@ function Singlepage() {
                 <h1>Отчество</h1>
               </div>
               <div>
-                <p>{userInfo?.middle_name}</p>
+              <p>{userInfo?.major_name}</p>
+              </div>
+            </div>
+            <div className="info_1">
+              <div style={{ marginRight: "150px" }}>
+                <h1>факультет</h1>
+              </div>
+              <div>
+                <p>{userInfo?.faculty_name}</p>
               </div>
             </div>
             <div className="info_1">
