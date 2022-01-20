@@ -1,4 +1,5 @@
 import React, { Component ,useState} from 'react';
+import { Link } from 'react-router-dom';
 import { BrowserRouter, NavLink, Route, Switch,useHistory } from 'react-router-dom';
 
 //import img
@@ -42,10 +43,10 @@ function UniversitetBackoffice(props) {
 			<>
 						<div className="asos_1">
 							<div className="navfixed" id={menu ? "left0" : ""}>
-								<div className="logo">
-									<img src={logo} alt="" />
-									<h1>Education Gateway</h1>
-								</div>
+							<Link style={{cursor:'pointer'}} className="logo" onClick={()=>history.push('/')}>
+           						<img src={logo} alt="" />
+								<h1>Education Gateway</h1>
+							</Link>
 								<div className="links">
 									<NavLink onClick={handlemenu} activeClassName="active_unve" to="/univer-backoffice-page"><img src={home} alt="" />Главное</NavLink>
 									<NavLink onClick={handlemenu} activeClassName="active_unve" to="/studentsss"><img src={user} alt="" />Абитуриенты</NavLink>
