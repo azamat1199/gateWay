@@ -45,21 +45,18 @@ const NapravFakultet = () => {
   const [degree, setDegree] = useState();
   const [dataFaculty, setDataFaculty] = useState();
   const [change, setChange] = useState(1);
-  const [datas, setDatas] = useState();
+  const [datas, setDatas] = useState({
+    education_type:'full_time',
+    faculty:"1",
+    name:''
+  });
   const [major, setMajor] = useState();
   // modal
   const [open, setOpen] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page, setPage] = useState(0);
-
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+const [count,setCount] = useState(0);
+ 
 
   const handleOpen = () => {
     setOpen(true);
@@ -94,13 +91,18 @@ const NapravFakultet = () => {
   const getMajor = async () => {
     setLoading(true);
     try {
-      const res = await Axios.get("/university/own-major/");
+      const res = await Axios.get(`/university/own-major/?limit=${rowsPerPage}`);
       const { status, data } = res;
       const { results } = data;
       if (status === 200) {
+        setLoading(false);
         setMajor(res.data.results);
+        setCount(res.data.count);
       }
-    } catch (error) {}
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   const filterApplicants = async () => {
@@ -134,6 +136,30 @@ const NapravFakultet = () => {
     } catch (error) {}
   };
 
+  const handlePageChange = async(e, newPage) => {
+    setPage(newPage);
+    setLoading(true)
+     try {
+        const res = await Axios.get(`/university/own-major/?limit=${rowsPerPage}&offset=${newPage*rowsPerPage}`);
+        const { status, data } = res;
+        const { results } = data;
+        if (status == 200) {
+          setMajor(results);
+        }
+        console.log(res);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+        setLoading(false)
+      }
+  };
+  
+   const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+    }
   useEffect(() => {
     getMajor();
     getFaculty();
@@ -142,13 +168,15 @@ const NapravFakultet = () => {
   useEffect(() => {
     getMajor();
   }, [change]);
-
+  useEffect(()=>{
+    getMajor()
+},[rowsPerPage])
   const selector = useSelector((state) => state?.payload?.payload.data);
   return (
     <UniversitetBackoffice>
       <div className="napravFakultet">
         <div className="Up_navbar1">
-          <h4>Направления</h4>
+          <h4>Направления </h4>
           <div className="user_info">
             <img src={userpic} alt="" />
             <div>
@@ -210,7 +238,10 @@ const NapravFakultet = () => {
                           <td className="firstTD">{v?.faculty_name}</td>
                           <td>
                             {(v?.education_type == "full_time" && "Очный") ||
-                              "Заочный"}
+                              v?.education_type === "distance" && "Дистанционное" || 
+                              v?.education_type === "part_time" && "Заочное" ||
+                              v?.education_type === "night_time" &&  "Вечернее"
+                              }
                           </td>
                         </tr>
                       );
@@ -219,14 +250,14 @@ const NapravFakultet = () => {
               </tbody>
             </table>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 15, 20, 30]}
-              component="table"
-              count={major?.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+                rowsPerPageOptions={[20,40,60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
           </div>
           {/* end univerList */}
           {/* Filter */}
@@ -327,18 +358,20 @@ const NapravFakultet = () => {
               <div className="addNewUniverModalUniver talaba_modal napravMoodal1">
                 <img onClick={handleClose} src={close_modal} alt="" />
                 <div className="modalContainer">
-                  <h5>Добавить новый степень</h5>
+                  <h5>Добавить новый направления</h5>
 
                   <div>
                     <label>Название факультет</label>
                     <select onChange={(e) => inputChange(e)} name="faculty">
+                    <option ></option>
                       {dataFaculty?.map((v) => {
-                        return <option value={`${v.id}`}>{v.name}</option>;
+                        return <>  
+                        <option value={`${v.id}`}>{v.name}</option></>
                       })}
                     </select>
                   </div>
                   <div>
-                    <label>Название степень</label>
+                    <label>Название направления</label>
                     <input
                       name="name"
                       type="text"
@@ -351,9 +384,11 @@ const NapravFakultet = () => {
                     <select
                       onChange={(e) => inputChange(e)}
                       name="education_type"
-                    >
-                      <option value="full_time">Очный</option>
-                      <option value="distance">Заочный</option>
+                    ><option ></option>
+                      <option value="full_time">Очное обучение </option>
+                      <option value="part_time">Заочное обучение </option>
+                      <option value="distance">Дистанционное обучение</option>
+                      <option value="night_time">Вечернее обучение </option>
                     </select>
                   </div>
 
