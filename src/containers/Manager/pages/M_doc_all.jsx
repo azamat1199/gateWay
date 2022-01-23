@@ -6,7 +6,7 @@ import Axios from "../../../utils/axios";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { Pagination } from "@material-ui/lab";
 import TablePagination from "@material-ui/core/TablePagination";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import filter from "../../../assets/icon/Filter.svg";
 import search from "../../../assets/icon/Search2.svg";
 import close from "../../../assets/icon/close.svg";
@@ -18,6 +18,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import DatePicker from "react-datepicker";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 const M_doc_all = () => {
   const history = useHistory();
   const selector = useSelector((state) => state.payload.payload.data);
@@ -32,18 +33,15 @@ const M_doc_all = () => {
   const [key, setkey] = React.useState("");
   const [loading, setLoading] = useState(true);
   const [searchName, setSearchName] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page, setPage] = useState(0);
-
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
-  };
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
   const handleChange = (event) => {
     setValue(event.target.value);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   const handelFilter = () => {
@@ -88,12 +86,16 @@ const M_doc_all = () => {
           searchName ? searchName : " "
         }`
       );
-      setLoading(false);
+
       if (data.status === 200) {
         setUsers(data.data.results);
+        setCount(data.data.count);
+        setLoading(false);
       }
+      setLoading(false);
     } catch (error) {}
     setfilters(false);
+    setLoading(false);
   };
   useEffect(() => {
     userList();
@@ -109,7 +111,29 @@ const M_doc_all = () => {
       );
     } catch (error) {}
   };
-
+  const handlePageChange = async(e, newPage) => {
+    setPage(newPage);
+    setLoading(true)
+     try {
+        const res = await Axios.get(`applicant/list/?status=managernotary&limit=${rowsPerPage}&offset=${newPage*rowsPerPage}`);
+        const { status, data } = res;
+        const { results } = data;
+        if (status == 200) {
+          setUsers(results);
+        }
+        console.log(res);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+        setLoading(false)
+      }
+  };
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+    }
   const handler = (userId) => {
     setFavourite(userId).then(() => history.push(`/university/${userId}`));
   };
@@ -117,6 +141,9 @@ const M_doc_all = () => {
   useEffect(() => {
     userList();
   }, []);
+  useEffect(()=>{
+    userList()
+},[rowsPerPage])
 
   return (
     <React.Fragment>
@@ -137,6 +164,7 @@ const M_doc_all = () => {
           </div>
         </div>
         <div className="invoys n_documents m_doc_all">
+          <Table>
           <div className="ab_1">
             <div className="excel table_excel_btn">
               <ReactHTMLTableToExcel
@@ -221,14 +249,19 @@ const M_doc_all = () => {
                               </Link>
                             </th>
                             <th>{v.phone_number}</th>
-                            <th>{v.university}</th>
+                            <th>{v?.major?.faculty?.university?.name}</th>
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
                             {/* <th>{data?.manager}</th> */}
                             <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
+                              { (v?.education_type == "full_time" &&"Очный") 
+                                ||
+                                  v?.education_type === "part_time" && "Заочный"
+                                ||  
+                                v?.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                v?.education_type === "night_time" &&  "Вечернее обучение"
+                              }
                             </th>
                             <th>{v?.major?.name}</th>
                             <th>{v?.original}</th>
@@ -250,9 +283,9 @@ const M_doc_all = () => {
                 )}
               </table>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20, 30]}
+                rowsPerPageOptions={[20, 40, 60]}
                 component="table"
-                count={users?.length}
+                count={count}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handlePageChange}
@@ -260,7 +293,7 @@ const M_doc_all = () => {
               />
             </div>
           </div>
-
+          </Table>
           <div
             className="abitFilBox"
             style={
@@ -350,3 +383,41 @@ const M_doc_all = () => {
 };
 
 export default M_doc_all;
+const Table = styled.div`
+@media (max-width: 768px) {
+  overflow-x: hidden;
+  .ab_1{
+    width:90%;
+    .search{
+      width:100%
+    }
+    .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  
+  }
+  @media (max-width: 425px) {
+    .ab_1 {
+      width:90%;
+      .search{
+        width:136%
+      }
+       .table {
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+  @media (max-width: 320px) {
+   .ab_1 {
+     width:90%;
+     .search{
+       width:156%
+     }
+      .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  }`;
