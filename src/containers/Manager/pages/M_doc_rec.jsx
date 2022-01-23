@@ -405,4 +405,61 @@ const M_doc_rec = () => {
   );
 };
 
+
+
 export default M_doc_rec;
+
+const Table = styled.div`
+width:100%;
+overflow-x: hidden;
+.Up_navbar {
+  padding-top: 70px;
+}
+@media (max-width: 768px) {
+ 
+  overflow-x: hidden;
+  .ab_1{
+    width:60%;
+    .search{
+      width:100%
+    }
+    .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  
+  }
+  @media (max-width: 425px) {
+    font-size: 12px;
+    .Up_navbar {
+      margin-left: 0; 
+      padding-top: 50px;
+     }
+    .ab_1 {
+      width:90%;
+      .search{
+        width:136%
+      }
+       .table {
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+  @media (max-width: 320px) {
+    font-size: 12px;
+    .Up_navbar {
+      margin-left: 0; 
+      padding-top: 50px;
+     }
+   .ab_1 {
+     width:68%;
+     .search{
+       width:100%
+     }
+      .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  }`;
