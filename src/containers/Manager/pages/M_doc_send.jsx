@@ -7,12 +7,13 @@ import Axios from "../../../utils/axios";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { Pagination } from "@material-ui/lab";
 import TablePagination from "@material-ui/core/TablePagination";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import filter from "../../../assets/icon/Filter.svg";
 import search from "../../../assets/icon/Search2.svg";
 import close from "../../../assets/icon/close.svg";
 import { useSelector } from "react-redux";
 import Loader from "react-js-loader";
+import styled from "styled-components";
 const M_doc_send = () => {
   const history = useHistory();
   const selector = useSelector((state) => state?.payload?.payload.data);
@@ -29,11 +30,16 @@ const M_doc_send = () => {
   const [typeEdu, setTypeEdu] = useState("");
   const [key, setkey] = React.useState("");
   const [facultys, setFacultys] = useState();
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState();
   const [managers, setManager] = useState([]);
   const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
   function handleChange(event) {
     setkey(event.target.value);
   }
@@ -41,16 +47,6 @@ const M_doc_send = () => {
   const handelFilter = () => {
     setfilters(!filters);
   };
-
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
   const filterUserList = async () => {
     setLoading(true);
     const sd = startDate?.getDate();
@@ -65,14 +61,43 @@ const M_doc_send = () => {
           startDate ? `${sd}.${sm}.${sy}` : ""
         }&date-to=${endDate ? `${ed}.${em}.${ey}` : ""}&search=${
           searchName ? searchName : " "
-        }`
+        }&limit=1000`
       );
       setDocument(data.data.results);
       if (data.status == 200) {
         setLoading(false);
       }
-    } catch (error) {}
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
     setfilters(false);
+  };
+
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/university/?limit=${rowsPerPage}&offset=${newPage * rowsPerPage}`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setDocument(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   const userList = async () => {
@@ -83,9 +108,13 @@ const M_doc_send = () => {
       );
       if (data.status == 200) {
         setDocument(data.data.results);
+        setCount(data.data.count);
         setLoading(false);
       }
-    } catch (error) {}
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   const getUniver = async () => {
@@ -147,7 +176,8 @@ const M_doc_send = () => {
           </div>
         </div>
         <div className="invoys n_documents M_doc_send">
-          <div className="ab_1">
+      <Table>
+      <div className="ab_1">
             <div className="excel table_excel_btn">
               <ReactHTMLTableToExcel
                 id="test-table-xls-button"
@@ -224,9 +254,14 @@ const M_doc_send = () => {
                             <th>{v?.degree}</th>
                             {/* <th>{data?.manager}</th> */}
                             <th>
-                              {(`${v.type_education}` === "full_time" &&
-                                "Заочный") ||
-                                "Очный"}
+                                {(v?.education_type == "full_time" &&"Очный") 
+                                ||
+                                  v?.education_type === "part_time" && "Заочный"
+                                ||  
+                                v?.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                v?.education_type === "night_time" &&  "Вечернее обучение"
+                                  }
                             </th>
                             <th>{v?.major?.name}</th>
                             <th>{v?.need_translated_count}</th>
@@ -264,9 +299,9 @@ const M_doc_send = () => {
                 </tbody>
               </table>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20, 30]}
+                rowsPerPageOptions={[20, 40, 60]}
                 component="table"
-                count={document?.length}
+                count={count}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handlePageChange}
@@ -274,6 +309,8 @@ const M_doc_send = () => {
               />
             </div>
           </div>
+      </Table>
+       
 
           {(selector.role != "supermanager" && (
             <div
@@ -361,6 +398,7 @@ const M_doc_send = () => {
                     <option value="full_time">Очный</option>
                     <option value={"part_time"}>Заочный</option>;
                     <option value={"distance"}>Дистанционно</option>;
+                    <option value={"night_time"}>Вечернее</option>;
                   </select>
                 </div>
                 <div className="form_ab">
@@ -448,6 +486,7 @@ const M_doc_send = () => {
                     onChange={(e) => setUnverId(e.target.value)}
                     id=""
                   >
+                    <option>Университет</option>
                     {universities.map((m) => {
                       return <option value={m.id}>{m.name}</option>;
                     })}
@@ -473,6 +512,7 @@ const M_doc_send = () => {
                     <option value="full_time">Очный</option>
                     <option value={"part_time"}>Очный</option>;
                     <option value={"distance"}>Дистанционно</option>;
+                    <option value={"night_time"}>Вечернее</option>;
                   </select>
                 </div>
                 <div className="form_ab">
@@ -490,3 +530,42 @@ const M_doc_send = () => {
 };
 
 export default M_doc_send;
+const Table = styled.div`
+width:100%;
+@media (max-width: 768px) {
+  overflow-x: hidden;
+  .ab_1{
+    width:90%;
+    .search{
+      width:100%
+    }
+    .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  
+  }
+  @media (max-width: 425px) {
+    .ab_1 {
+      width:90%;
+      .search{
+        width:136%
+      }
+       .table {
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+  @media (max-width: 320px) {
+   .ab_1 {
+     width:90%;
+     .search{
+       width:156%
+     }
+      .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  }`;
