@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import Axios from "../../../utils/axios";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import Loader from "react-js-loader";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import filter from "../../../assets/icon/Filter.svg";
 import search from "../../../assets/icon/Search2.svg";
 import close from "../../../assets/icon/close.svg";
@@ -18,6 +18,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import DatePicker from "react-datepicker";
+import styled from "styled-components";
 const M_doc_rec = () => {
   const selector = useSelector((state) => state.payload.payload.data);
   const history = useHistory();
@@ -26,29 +27,19 @@ const M_doc_rec = () => {
   const [document, setDocument] = useState([]);
   const [filters, setfilters] = useState(false);
   const [key, setkey] = React.useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [next, setNext] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page, setPage] = useState(0);
+  const [count, setCount] = useState();
+  const [amount, setAmount] = useState("");
+  const [pageChange, setPageChange] = useState();
+  const [prev, setPrev] = useState("");
   const [loading, setLoading] = useState();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [searchName, setSearchName] = useState();
   const [current, setCurrent] = useState("");
   const [managers, setManager] = useState([]);
-  const handlePageChange = (e, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  function handleChange(event) {
-    setkey(event.target.value);
-  }
-
-  const handelFilter = () => {
-    setfilters(!filters);
-  };
-  const [users, setUsers] = useState([]);
 
   const userList = async () => {
     setLoading(true);
@@ -64,18 +55,56 @@ const M_doc_rec = () => {
           startDate ? `${sd}.${sm}.${sy}` : ""
         }&date-to=${endDate ? `${ed}.${em}.${ey}` : ""}&search=${
           searchName ? searchName : " "
-        }`
+        }&limit=1000`
       );
-      setUsers(data.data.results);
+
       if (data.status === 200) {
+        setLoading(false);
+        setUsers(data.data.results);
+        setCount(data.data.count);
       }
       setLoading(false);
-
-    } catch (error) {}
-
-   
+    } catch (error) {
+      setLoading(false);
+    }
     setfilters(false);
   };
+  const handlePageChange = async (e, newPage) => {
+    setPage(newPage);
+    setLoading(true);
+    try {
+      const res = await Axios.get(
+        `/applicant/list/?status=manager_checking_notary?limit=${rowsPerPage}&offset=${
+          newPage * rowsPerPage
+        }`
+      );
+      const { status, data } = res;
+      const { results } = data;
+      if (status == 200) {
+        setUsers(results);
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  const handleChangeRowsPerPage = async (event) => {
+    console.log(rowsPerPage);
+    console.log(event.target.value);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  function handleChange(event) {
+    setkey(event.target.value);
+  }
+
+  const handelFilter = () => {
+    setfilters(!filters);
+  };
+  const [users, setUsers] = useState([]);
+
   const handleSubmit = async () => {
     setLoading(true);
     const sd = startDate?.getDate();
@@ -88,11 +117,9 @@ const M_doc_rec = () => {
       const res = await Axios.get(
         `/applicant/list/?manager-attached=true&status=manager_checking_notary&date-from=${
           startDate ? `${sd}.${sm}.${sy}` : ""
-
         }&date-to=${
           endDate ? `${ed}.${em}.${ey}` : ""
         }&manager=${current}&search=${searchName ? searchName : " "}`
-
       );
       const { status, data } = res;
       if (status === 200) {
@@ -102,7 +129,6 @@ const M_doc_rec = () => {
       setfilters(false);
       setLoading(false);
     } catch (error) {
-
       setLoading(false);
     }
   };
@@ -123,8 +149,10 @@ const M_doc_rec = () => {
     {
       selector.role == "supermanager" && getManager();
     }
-
   }, []);
+  useEffect(() => {
+    userList();
+  }, [rowsPerPage]);
   return (
     <React.Fragment>
       <ManegerSidebar />
@@ -144,120 +172,124 @@ const M_doc_rec = () => {
           </div>
         </div>
         <div className="invoys n_documents M_doc_rec">
-          <div className="ab_1">
-            <div className="excel table_excel_btn">
-              <ReactHTMLTableToExcel
-                id="test-table-xls-button"
-                className="download-table-xls-button"
-                table="table_excel"
-                filename="tablexls"
-                sheet="tablexls"
-                buttonText="Excel"
-              />
-            </div>
-            <div className="search">
-              <div className="input">
-                <button>
-                  <img src={search} alt="" />
-                </button>
-                <input
-                  type="text"
-                  onChange={(e) => setSearchName(e.target.value)}
+          <Table>
+            <div className="ab_1">
+              <div className="excel table_excel_btn">
+                <ReactHTMLTableToExcel
+                  id="test-table-xls-button"
+                  className="download-table-xls-button"
+                  table="table_excel"
+                  filename="tablexls"
+                  sheet="tablexls"
+                  buttonText="Excel"
                 />
               </div>
-              <div className="filtr_btn">
-                <button onClick={handelFilter}>
-                  <img src={filter} alt="" />
-                </button>
-              </div>
-            </div>
-            <div className="table">
-              <div className="table_up">
-                <div>
-                  <h1>Список документов</h1>
+              <div className="search">
+                <div className="input">
+                  <button>
+                    <img src={search} alt="" />
+                  </button>
+                  <input
+                    type="text"
+                    onChange={(e) => setSearchName(e.target.value)}
+                  />
                 </div>
-                <div></div>
+                <div className="filtr_btn">
+                  <button onClick={handelFilter}>
+                    <img src={filter} alt="" />
+                  </button>
+                </div>
               </div>
-              <table id="table_excel">
-                <thead>
-                  <th>ФИО</th>
-                  <th>Телефон</th>
-                  <th>Факультет</th>
-                  <th>Степень</th>
-                  <th>Тип обученияе </th>
-                  <th> Направления</th>
-                  <th>Число</th>
-                  <th>От кого</th>
-                  <th>Когда</th>
-                  {(selector.role == "supermanager" && <th>Менеджер</th>) || ""}
-                  {(selector.role == "supermanager" && (
-                    <th>Телефон менеджера</th>
-                  )) ||
-                    ""}
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <Loader
-                      type="spinner-circle"
-                      bgColor={"#FFFFFF"}
-                      color={"#FFFFFF"}
-                      size={80}
-                    />
-                  ) : (
-                    users
-                      ?.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((v) => {
-                        return (
-                          <tr>
-                            <th>
-                              <Link to={`/m-docs_rec/${v.id}`}>
-                                {v.first_name} {v.last_name}
-                              </Link>
-                            </th>
-                            <th>{v.phone_number}</th>
-                            <th>{v?.faculty}</th>
-                            <th>{v?.degree}</th>
-                            {/* <th>{data?.manager}</th> */}
-                            <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
-                            </th>
-                            <th>{v?.major?.name}</th>
-                            <th>{v?.need_translated_count}</th>
-                            <th>Нотариус</th>
-                            <th>{v?.notary_sent_manager?.slice(0, 10)}</th>
-                            {(selector.role == "supermanager" && (
+              <div className="table">
+                <div className="table_up">
+                  <div>
+                    <h1>Список документов</h1>
+                  </div>
+                  <div></div>
+                </div>
+                <table id="table_excel">
+                  <thead>
+                    <th>ФИО</th>
+                    <th>Телефон</th>
+                    <th>Факультет</th>
+                    <th>Степень</th>
+                    <th>Тип обученияе </th>
+                    <th> Направления</th>
+                    <th>Число</th>
+                    <th>От кого</th>
+                    <th>Когда</th>
+                    {(selector.role == "supermanager" && <th>Менеджер</th>) ||
+                      ""}
+                    {(selector.role == "supermanager" && (
+                      <th>Телефон менеджера</th>
+                    )) ||
+                      ""}
+                  </thead>
+                  <tbody>
+                    {loading ? (
+                      <Loader
+                        type="spinner-circle"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={80}
+                      />
+                    ) : (
+                      users?.map((v) => {
+                          return (
+                            <tr>
                               <th>
-                                {v?.manager.first_name}
-                                {v?.manager.last_name}
+                                <Link to={`/m-docs_rec/${v.id}`}>
+                                  {v.first_name} {v.last_name}
+                                </Link>
                               </th>
-                            )) ||
-                              ""}
-                            {(selector.role == "supermanager" && (
-                              <th>{v?.manager.phone_number}</th>
-                            )) ||
-                              ""}
-                          </tr>
-                        );
-                      })
-                  )}
-                </tbody>
-              </table>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20, 30]}
-                component="table"
-                count={users?.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
+                              <th>{v.phone_number}</th>
+                              <th>{v?.faculty}</th>
+                              <th>{v?.degree}</th>
+                              {/* <th>{data?.manager}</th> */}
+                              <th>
+                                {(v?.education_type == "full_time" &&
+                                  "Очный") ||
+                                  (v?.education_type === "part_time" &&
+                                    "Заочный") ||
+                                  (v?.education_type === "distance" &&
+                                    "Дистанционное обучение") ||
+                                  (v?.education_type === "night_time" &&
+                                    "Вечернее обучение")}
+                              </th>
+                              <th>{v?.major?.name}</th>
+                              <th>{v?.need_translated_count}</th>
+                              <th>Нотариус</th>
+                              <th>{v?.notary_sent_manager?.slice(0, 10)}</th>
+                              {(selector.role == "supermanager" && (
+                                <th>
+                                  {v?.manager.first_name}
+                                  {v?.manager.last_name}
+                                </th>
+                              )) ||
+                                ""}
+                              {(selector.role == "supermanager" && (
+                                <th>{v?.manager.phone_number}</th>
+                              )) ||
+                                ""}
+                            </tr>
+                          );
+                        })
+                    )}
+                  </tbody>
+                </table>
+                <TablePagination
+                  rowsPerPageOptions={[20, 40, 60]}
+                  component="table"
+                  count={count}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </div>
             </div>
-          </div>
+          </Table>
+
           {(selector.role == "supermanager" && (
             <div
               className="abitFilBox"
@@ -405,10 +437,7 @@ const M_doc_rec = () => {
   );
 };
 
-
-
 export default M_doc_rec;
-
 const Table = styled.div`
 width:100%;
 overflow-x: hidden;
