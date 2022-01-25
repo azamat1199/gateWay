@@ -559,3 +559,28 @@ const M_glavny_table = () => {
 };
 
 export default M_glavny_table;
+const Table = styled.div`
+overflow-x: hidden;
+width:100%;
+.Up_navbar {
+  padding-top: 70px;
+}
+@media (max-width: 768px) {
+ 
+  overflow-x: hidden;
+  .ab_1{
+    width:68%;
+    .search{
+      width:100%
+    }
+    .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  
+  }
+
+    
+ 
+  `;

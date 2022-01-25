@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import ManegerSidebar from "../ManagerSidebar";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/Avatar.svg";
 import download from "../../../assets/icon/download.svg";
 import img from "../../../assets/icon/img.svg";
 import Axios from "../../../utils/axios";
@@ -16,12 +16,13 @@ const M_glavny_id = () => {
   const userList = async () => {
     try {
       const data = await Axios.get("applicant/list/");
-      //   const { results } = data.data;
-      setLoading((loading) => !loading);
+      setLoading(true);
       if (data.status === 200) {
         setUsers(data.data.results);
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -48,23 +49,23 @@ const M_glavny_id = () => {
           <div className="user_info">
             <img src={userpic} alt="" />
             <div>
-              <h1>{selector.first_name} {selector.last_name}</h1>
-              <h2>{selector.role}</h2>
+              <h1>{selector?.first_name} {selector?.last_name}</h1>
+              <h2>{selector?.role}</h2>
             </div>
           </div>
         </div>
         <div className="singlepage">
           <div className="single_up">
             {users?.map((v, i) => {
-              if (params.id == v.id) {
+              if (params?.id == v?.id) {
                 return (
                   <div>
                     <div className="single_1">
-                      <img src={img} alt="" />
+                    <img src={userpic} alt="" />
                     </div>
                     <div className="single_2">
                       <h1>{v?.first_name}</h1>
-                      <h2>{yearNow-v.birthday.slice(0,4)} лет, {v.city}, {v.citizenship}</h2>
+                      <h2> {v?.city}, {v?.citizenship}</h2>
                     </div>
                   </div>
                 );
@@ -90,9 +91,9 @@ const M_glavny_id = () => {
             </div>
           </div>
           {users?.map((v, i) => {
-            if (params.id == v.id) {
+            if (params?.id == v?.id) {
               console.log(v, "userId");
-              getFacultetId(v.major.faculty);
+              getFacultetId(v?.major?.faculty);
               return (
                 loading ? (
                   <Loader
@@ -110,7 +111,7 @@ const M_glavny_id = () => {
                         <h1>Имя</h1>
                       </div>
                       <div>
-                        <p>{v.first_name}</p>
+                        <p>{v?.first_name}</p>
                       </div>
                     </div>
                     <div className="info_1">
@@ -126,7 +127,7 @@ const M_glavny_id = () => {
                         <h1>Отчество</h1>
                       </div>
                       <div>
-                        <p>{v.middle_name}</p>
+                        <p>{v?.middle_name}</p>
                       </div>
                     </div>
                     <div className="info_1">
@@ -134,7 +135,7 @@ const M_glavny_id = () => {
                         <h1>Университет</h1>
                       </div>
                       <div>
-                        <p>{v.university}</p>
+                        <p>{v?.major?.faculty?.university?.name}</p>
                       </div>
                     </div>
                     <div className="info_1">
@@ -142,7 +143,7 @@ const M_glavny_id = () => {
                         <h1>Факультет</h1>
                       </div>
                       <div>
-                        <p>{v.faculty}</p>
+                        <p>{v?.faculty}</p>
                       </div>
                     </div>
                     <div className="info_1">
@@ -150,7 +151,7 @@ const M_glavny_id = () => {
                         <h1>Специальность</h1>
                       </div>
                       <div>
-                        <p>{v?.sport_achievements}</p>
+                        <p>{v?.major?.name}</p>
                       </div>
                     </div>
                     {/* <div className="info_1">
