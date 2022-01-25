@@ -581,6 +581,22 @@ width:100%;
   
   }
 
-    
- 
+  @media (max-width: 425px) {
+    font-size: 12px;
+    .Up_navbar {
+      margin-left: 0; 
+      padding-top: 50px;
+     }
+    .ab_1 {
+      width:90%;
+      .search{
+        width:136%
+      }
+       .table {
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+    }
+  }
   `;
