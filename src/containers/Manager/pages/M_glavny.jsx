@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import ManegerSidebar from "../ManagerSidebar";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import M_glavny_table from "./M_glavny_table";
 import Axios from "../../../utils/axios";
 import { useSelector } from "react-redux";
@@ -85,7 +85,7 @@ const M_glavny = () => {
   return (
     <React.Fragment>
       <ManegerSidebar />
-      <div>
+      <div style={{ width: "100%" }}>
         <div className="up_nav n_up">
           <div>
             <h1 className="link_h1">Клиентский ввод</h1>
