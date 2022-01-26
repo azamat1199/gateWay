@@ -14,7 +14,7 @@ import filter from "../../../assets/icon/Filter.svg";
 import search from "../../../assets/icon/Search2.svg";
 import close from "../../../assets/icon/close.svg";
 import Loader from "react-js-loader";
-
+import styled from "styled-components";
 const M_glavny_table = () => {
   const history = useHistory();
   const [startDate, setStartDate] = useState(null);
@@ -123,51 +123,49 @@ const M_glavny_table = () => {
   return (
     <React.Fragment>
       <div className="invoys n_documents">
-        <div className="ab_1">
-          <div className="search">
-            <div className="input">
-              <button>
-                <img src={search} alt="" />
-              </button>
-              <input
-                type="text"
-                onChange={(e) => setSearchName(e.target.value)}
-              />
-            </div>
-            <div className="filtr_btn">
-              <button onClick={handelFilter}>
-                <img src={filter} alt="" />
-              </button>
-            </div>
-          </div>
-          <div className="table">
-            <div className="table_up"></div>
-            <table>
-              <thead>
-                <th>ФИО</th>
-                <th>Телефон</th>
-                <th>Факультет</th>
-                <th>Степень</th>
-                <th>Тип обученияе </th>
-                <th> Направления</th>
-                <th>Статус клиента</th>
-              </thead>
-              {loading ? (
-                <Loader
-                  className="spinner2"
-                  type="spinner-circle"
-                  bgColor={"#FFFFFF"}
-                  color={"#FFFFFF"}
-                  size={80}
+        <Table>
+          <div className="ab_1">
+            <div className="search">
+              <div className="input">
+                <button>
+                  <img src={search} alt="" />
+                </button>
+                <input
+                  type="text"
+                  onChange={(e) => setSearchName(e.target.value)}
                 />
-              ) : (
-                <tbody>
-                  {users
-                    ?.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                    .map((v, i) => {
+              </div>
+              <div className="filtr_btn">
+                <button onClick={handelFilter}>
+                  <img src={filter} alt="" />
+                </button>
+              </div>
+            </div>
+            <div className="table">
+              <div className="table_up"></div>
+
+              <table>
+                <thead>
+                  <th>ФИО</th>
+                  <th>Телефон</th>
+                  <th>Факультет</th>
+                  <th>Степень</th>
+                  <th>Тип обученияе </th>
+                  <th> Направления</th>
+                  <th>Статус клиента</th>
+                </thead>
+                {loading ? (
+                  <Loader
+                    className="spinner2"
+                    type="spinner-circle"
+                    bgColor={"#FFFFFF"}
+                    color={"#FFFFFF"}
+                    size={80}
+                  />
+                ) : (
+                  <tbody>
+                    {users.map((v, i) => {
+                      console.log(v);
                       if (v.step == "registered")
                         return (
                           <tr>
@@ -180,9 +178,13 @@ const M_glavny_table = () => {
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
                             <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
+                              {(v?.education_type == "full_time" && "Очный") ||
+                                (v?.education_type === "part_time" &&
+                                  "Заочный") ||
+                                (v?.education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (v?.education_type === "night_time" &&
+                                  "Вечернее обучение")}
                             </th>
                             <th>{v?.major?.name}</th>
 
@@ -228,9 +230,13 @@ const M_glavny_table = () => {
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
                             <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
+                              {(v?.education_type == "full_time" && "Очный") ||
+                                (v?.education_type === "part_time" &&
+                                  "Заочный") ||
+                                (v?.education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (v?.education_type === "night_time" &&
+                                  "Вечернее обучение")}
                             </th>
                             <th>{v?.major?.name}</th>
 
@@ -274,9 +280,13 @@ const M_glavny_table = () => {
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
                             <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
+                              {(v?.education_type == "full_time" && "Очный") ||
+                                (v?.education_type === "part_time" &&
+                                  "Заочный") ||
+                                (v?.education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (v?.education_type === "night_time" &&
+                                  "Вечернее обучение")}
                             </th>
                             <th>{v?.major?.name}</th>
                             <th className="steps">
@@ -320,9 +330,13 @@ const M_glavny_table = () => {
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
                             <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
+                              {(v?.education_type == "full_time" && "Очный") ||
+                                (v?.education_type === "part_time" &&
+                                  "Заочный") ||
+                                (v?.education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (v?.education_type === "night_time" &&
+                                  "Вечернее обучение")}
                             </th>
                             <th>{v?.major?.name}</th>
                             <th className="steps">
@@ -350,7 +364,6 @@ const M_glavny_table = () => {
                             </th>
                           </tr>
                         );
-
                       if (
                         v.step == "notary" ||
                         v.step == "manager_reject_notary"
@@ -366,9 +379,13 @@ const M_glavny_table = () => {
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
                             <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
+                              {(v?.education_type == "full_time" && "Очный") ||
+                                (v?.education_type === "part_time" &&
+                                  "Заочный") ||
+                                (v?.education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (v?.education_type === "night_time" &&
+                                  "Вечернее обучение")}
                             </th>
                             <th>{v?.major?.name}</th>
 
@@ -397,7 +414,6 @@ const M_glavny_table = () => {
                             </th>
                           </tr>
                         );
-
                       if (v.step == "manager_checking_notary")
                         return (
                           <tr>
@@ -410,9 +426,13 @@ const M_glavny_table = () => {
                             <th>{v?.faculty}</th>
                             <th>{v?.degree}</th>
                             <th>
-                              {(`${v?.type_education}` == "full_time" &&
-                                "Очный") ||
-                                "Заочный"}
+                              {(v?.education_type == "full_time" && "Очный") ||
+                                (v?.education_type === "part_time" &&
+                                  "Заочный") ||
+                                (v?.education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (v?.education_type === "night_time" &&
+                                  "Вечернее обучение")}
                             </th>
                             <th>{v?.major?.name}</th>
                             <th className="steps">
@@ -439,21 +459,22 @@ const M_glavny_table = () => {
                           </tr>
                         );
                     })}
-                </tbody>
-              )}
-            </table>
-            <TablePagination
-              rowsPerPageOptions={[20, 40, 60]}
-              component="table"
-              count={count}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </div>
-        </div>
+                  </tbody>
+                )}
+              </table>
 
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </div>
+          </div>
+        </Table>
         <div
           className="abitFilBox"
           style={
@@ -580,7 +601,6 @@ width:100%;
     }
   
   }
-
   @media (max-width: 425px) {
     font-size: 12px;
     .Up_navbar {
@@ -597,6 +617,20 @@ width:100%;
        overflow: hidden;
        overflow-x: scroll;
      }
+  @media (max-width: 320px) {
+    font-size: 12px;
+    .Up_navbar {
+      margin-left: 0; 
+      padding-top: 50px;
+     }
+   .ab_1 {
+     width:68%;
+     .search{
+       width:100%
+     }
+      .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
     }
-  }
-  `;
+  }`;
