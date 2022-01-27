@@ -3,7 +3,7 @@ import ManegerSidebar from "../ManagerSidebar";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import Axios from "../../../utils/axios";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import filter from "../../../assets/icon/Filter.svg";
 import search from "../../../assets/icon/Search2.svg";
 import close from "../../../assets/icon/close.svg";
@@ -12,6 +12,7 @@ import Loader from "react-js-loader";
 import { Pagination } from "@material-ui/lab";
 import TablePagination from "@material-ui/core/TablePagination";
 import DatePicker from "react-datepicker";
+import styled from "styled-components";
 const M_prayslist = () => {
   const history = useHistory();
   const selector = useSelector((state) => state.payload.payload.data);
@@ -130,73 +131,76 @@ const M_prayslist = () => {
           </div>
         </div>
         <div className="invoys n_documents m_prayslist">
-          <div className="ab_1">
-            <div className="search">
-              <div className="input">
-                <button>
-                  <img src={search} alt="" />
-                </button>
-                <input
-                  type="text"
-                  onChange={(e) => setSearchName(e.target.value)}
+          <Table>
+            <div className="ab_1">
+              <div className="search">
+                <div className="input">
+                  <button>
+                    <img src={search} alt="" />
+                  </button>
+                  <input
+                    type="text"
+                    onChange={(e) => setSearchName(e.target.value)}
+                  />
+                </div>
+                <div className="filtr_btn">
+                  <button onClick={handelFilter}>
+                    <img src={filter} alt="" />
+                  </button>
+                </div>
+              </div>
+              <div className="table">
+                <table>
+                  <thead>
+                    <th style={{ textAlign: "left" }}>Университет</th>
+                    <th style={{ textAlign: "left" }}>Степень</th>
+                    <th style={{ textAlign: "left" }}>Факультет</th>
+                    <th style={{ textAlign: "left" }}>Цена за услуги</th>
+                  </thead>
+                  <tbody>
+                    {loading ? (
+                      <Loader
+                        type="spinner-circle"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={80}
+                      />
+                    ) : (
+                      datas
+                        ?.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                        .map((v, i) => {
+                          return (
+                            <tr>
+                              <th style={{ textAlign: "left" }}>
+                                {v?.university.name}
+                              </th>
+                              <th style={{ textAlign: "left" }}>{v?.degree}</th>
+                              <th style={{ textAlign: "left" }}>{v?.name}</th>
+                              <th style={{ textAlign: "left" }}>
+                                {v?.service_price}
+                              </th>
+                            </tr>
+                          );
+                        })
+                    )}
+                  </tbody>
+                </table>
+                <TablePagination
+                  rowsPerPageOptions={[20, 40, 60]}
+                  component="table"
+                  count={count}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
                 />
               </div>
-              <div className="filtr_btn">
-                <button onClick={handelFilter}>
-                  <img src={filter} alt="" />
-                </button>
-              </div>
             </div>
-            <div className="table">
-              <table>
-                <thead>
-                  <th style={{ textAlign: "left" }}>Университет</th>
-                  <th style={{ textAlign: "left" }}>Степень</th>
-                  <th style={{ textAlign: "left" }}>Факультет</th>
-                  <th style={{ textAlign: "left" }}>Цена за услуги</th>
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <Loader
-                      type="spinner-circle"
-                      bgColor={"#FFFFFF"}
-                      color={"#FFFFFF"}
-                      size={80}
-                    />
-                  ) : (
-                    datas
-                      ?.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((v, i) => {
-                        return (
-                          <tr>
-                            <th style={{ textAlign: "left" }}>
-                              {v?.university.name}
-                            </th>
-                            <th style={{ textAlign: "left" }}>{v?.degree}</th>
-                            <th style={{ textAlign: "left" }}>{v?.name}</th>
-                            <th style={{ textAlign: "left" }}>
-                              {v?.service_price}
-                            </th>
-                          </tr>
-                        );
-                      })
-                  )}
-                </tbody>
-              </table>
-              <TablePagination
-                rowsPerPageOptions={[20, 40, 60]}
-                component="table"
-                count={count}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </div>
-          </div>
+          </Table>
+
           <div
             className="abitFilBox"
             style={
@@ -265,3 +269,40 @@ const M_prayslist = () => {
 };
 
 export default M_prayslist;
+const Table = styled.div`
+width:100%;
+@media (max-width: 768px) {
+  .ab_1{
+    width:98%;
+    .search{
+      width:100%
+    }
+    .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  }
+  @media (max-width: 425px) {
+    .ab_1 {
+      width:90%;
+      .search{
+        width:130%
+      }
+       .table {
+       width: 100%;
+       overflow: hidden;
+       overflow-x: scroll;
+     }
+  @media (max-width: 320px) {
+   .ab_1 {
+     width:90%;
+     .search{
+       width:130%
+     }
+      .table {
+      width: 100%;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  }`;
