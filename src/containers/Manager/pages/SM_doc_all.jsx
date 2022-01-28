@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import Axios from "../../../utils/axios";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import DatePicker from "react-datepicker";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import filter from "../../../assets/icon/Filter.svg";
 import "../../../style/css/fakultet.css";
 import search from "../../../assets/icon/Search2.svg";
@@ -15,6 +15,8 @@ import close from "../../../assets/icon/close.svg";
 import Loader from "react-js-loader";
 import { useSelector } from "react-redux";
 import TablePagination from "@material-ui/core/TablePagination";
+import styled from "styled-components";
+
 const M_doc_all = () => {
   const history = useHistory();
 
@@ -164,110 +166,116 @@ const M_doc_all = () => {
                 buttonText="Excel"
               />
             </div>
-            <div className="search">
-              <div className="input">
-                <button>
-                  <img src={search} alt="" />
-                </button>
-                <input
-                  type="text"
-                  onChange={(e) => setSearchName(e.target.value)}
+            <Table>
+              <div className="search">
+                <div className="input">
+                  <button>
+                    <img src={search} alt="" />
+                  </button>
+                  <input
+                    type="text"
+                    onChange={(e) => setSearchName(e.target.value)}
+                  />
+                </div>
+                <div className="filtr_btn">
+                  <button onClick={handelFilter}>
+                    <img src={filter} alt="" />
+                  </button>
+                </div>
+              </div>
+              <div className="table">
+                <div className="table_up">
+                  <div>
+                    <h1>Список документов</h1>
+                  </div>
+                  <div></div>
+                </div>
+                <table id="table_excel">
+                  <thead>
+                    <th>ФИО</th>
+                    <th>Телефон</th>
+                    <th>Факультет</th>
+                    <th>Степень</th>
+                    <th>Тип обученияе</th>
+                    <th> Направления</th>
+                    <th>Загруженные документы</th>
+                    <th>Статус</th>
+                    <th>Менеджер</th>
+                    <th>Телефон менеджера</th>
+                    <th>Дата</th>
+                  </thead>{" "}
+                  {loading ? (
+                    <Loader
+                      className="spinner2"
+                      type="spinner-circle"
+                      bgColor={"#FFFFFF"}
+                      color={"#FFFFFF"}
+                      size={80}
+                    />
+                  ) : (
+                    <tbody>
+                      {users.map((v, i) => {
+                        return (
+                          <tr>
+                            {" "}
+                            <th>
+                              <th
+                              // to={`${
+                              //   (selector.role == "manager" &&
+                              //     "/m-docs_all/") ||
+                              //   "/superManager-docs_all/"
+                              // }${v.id}`}
+                              >
+                                {v?.first_name} {v?.last_name}
+                              </th>
+                            </th>
+                            <th>{v.phone_number}</th>
+                            <th>{v?.faculty}</th>
+                            <th>{v?.degree}</th>
+                            {/* <th>{data?.manager}</th> */}
+                            <th>
+                              {(v?.education_type == "full_time" && "Очный") ||
+                                (v?.education_type === "part_time" &&
+                                  "Заочный") ||
+                                (v?.education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (v?.education_type === "night_time" &&
+                                  "Вечернее обучение")}
+                            </th>
+                            <th>{v?.major?.name}</th>
+                            <th>8</th>
+                            <th
+                              style={{
+                                color: `${
+                                  (v.step == "notary" && "green") || "red"
+                                }`,
+                              }}
+                            >
+                              {(v.step == "notary" && "Потверждён") ||
+                                "Не потверждён"}
+                            </th>
+                            <th>
+                              {v.manager.first_name} {v.manager.last_name}
+                            </th>
+                            <th>{v.manager.phone_number}</th>
+                            <th>{v?.manager_set_date?.slice(0, 10)}</th>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  )}
+                </table>
+                <TablePagination
+                  rowsPerPageOptions={[20, 40, 60]}
+                  component="table"
+                  count={count}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
                 />
               </div>
-              <div className="filtr_btn">
-                <button onClick={handelFilter}>
-                  <img src={filter} alt="" />
-                </button>
-              </div>
-            </div>
-            <div className="table">
-              <div className="table_up">
-                <div>
-                  <h1>Список документов</h1>
-                </div>
-                <div></div>
-              </div>
-              <table id="table_excel">
-                <thead>
-                  <th>ФИО</th>
-                  <th>Телефон</th>
-                  <th>Факультет</th>
-                  <th>Степень</th>
-                  <th>Тип обученияе</th>
-                  <th> Направления</th>
-                  <th>Загруженные документы</th>
-                  <th>Статус</th>
-                  <th>Менеджер</th>
-                  <th>Телефон менеджера</th>
-                  <th>Дата</th>
-                </thead>{" "}
-                {loading ? (
-                  <Loader
-                    className="spinner2"
-                    type="spinner-circle"
-                    bgColor={"#FFFFFF"}
-                    color={"#FFFFFF"}
-                    size={80}
-                  />
-                ) : (
-                  <tbody>
-                    {users.map((v, i) => {
-                      return (
-                        <tr>
-                          {" "}
-                          <th>
-                            <th
-                            // to={`${
-                            //   (selector.role == "manager" &&
-                            //     "/m-docs_all/") ||
-                            //   "/superManager-docs_all/"
-                            // }${v.id}`}
-                            >
-                              {v?.first_name} {v?.last_name}
-                            </th>
-                          </th>
-                          <th>{v.phone_number}</th>
-                          <th>{v?.faculty}</th>
-                          <th>{v?.degree}</th>
-                          {/* <th>{data?.manager}</th> */}
-                          <th>
-                            {(`${v?.type_education}` == "full_time" &&
-                              "Очный") ||
-                              "Заочный"}
-                          </th>
-                          <th>{v?.major?.name}</th>
-                          <th>8</th>
-                          <th
-                            style={{
-                              color: `${
-                                (v.step == "notary" && "green") || "red"
-                              }`,
-                            }}
-                          >
-                            {(v.step == "notary" && "Потверждён") ||
-                              "Не потверждён"}
-                          </th>
-                          <th>
-                            {v.manager.first_name} {v.manager.last_name}
-                          </th>
-                          <th>{v.manager.phone_number}</th>
-                          <th>{v?.manager_set_date?.slice(0, 10)}</th>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                )}
-              </table>
-              <TablePagination
-                rowsPerPageOptions={[20, 40, 60]}
-                component="table"
-                count={count}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </div>
+            </Table>
           </div>
 
           <div
@@ -354,3 +362,45 @@ const M_doc_all = () => {
 };
 
 export default M_doc_all;
+const Table = styled.div`
+  @media (max-width: 768px) {
+    overflow-x: hidden;
+    .ab_1 {
+      width: 90%;
+      .search {
+        width: 133%;
+      }
+      .table {
+        width: 100%;
+        overflow: hidden;
+        overflow-x: scroll;
+      }
+    }
+  }
+  @media (max-width: 425px) {
+    .ab_1 {
+      width: 90%;
+      .search {
+        width: 136%;
+      }
+      .table {
+        width: 100%;
+        overflow: hidden;
+        overflow-x: scroll;
+      }
+    }
+  }
+  @media (max-width: 320px) {
+    .ab_1 {
+      width: 90%;
+      .search {
+        width: 156%;
+      }
+      .table {
+        width: 100%;
+        overflow: hidden;
+        overflow-x: scroll;
+      }
+    }
+  }
+`;
