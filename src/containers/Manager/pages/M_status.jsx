@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import Axios from "../../../utils/axios";
 import TablePagination from "@material-ui/core/TablePagination";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import filter from "../../../assets/icon/Filter.svg";
 import search from "../../../assets/icon/Search2.svg";
 import close from "../../../assets/icon/close.svg";
@@ -71,35 +71,31 @@ const M_status = () => {
       }
     } catch (error) {}
   };
-
-  const handlePageChange = async (e, newPage) => {
+ 
+  const handlePageChange = async(e, newPage) => {
     setPage(newPage);
-    setLoading(true);
-    try {
-      const res = await Axios.get(
-        `applicant/list/?status=all&limit=${rowsPerPage}&offset=${
-          newPage * rowsPerPage
-        }`
-      );
-      const { status, data } = res;
-      const { results } = data;
-      if (status == 200) {
-        setDocument(results);
+    setLoading(true)
+     try {
+        const res = await Axios.get(`applicant/list/?status=all&limit=${rowsPerPage}&offset=${newPage*rowsPerPage}`);
+        const { status, data } = res;
+        const { results } = data;
+        if (status == 200) {
+          setDocument(results);
+        }
+        console.log(res);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+        setLoading(false)
       }
-      console.log(res);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
   };
-
-  const handleChangeRowsPerPage = async (event) => {
+  
+   const handleChangeRowsPerPage = async (event) => {
     console.log(rowsPerPage);
     console.log(event.target.value);
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
+    }
   const setFavourite = async (univerId) => {
     try {
       const data = await Axios.post(
@@ -119,9 +115,9 @@ const M_status = () => {
     univerCountry();
     userList();
   }, []);
-  useEffect(() => {
-    userList();
-  }, [rowsPerPage]);
+   useEffect(()=>{
+    userList()
+},[rowsPerPage])
   const selector = useSelector((state) => state.payload.payload.data);
 
   return (
