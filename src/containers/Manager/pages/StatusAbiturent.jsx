@@ -677,4 +677,28 @@ const InputDiv = styled.div`
     font-weight: 600;
     cursor: pointer;
   }
+
+
+  
 `;
+const FormFilter = styled.div`
+`
+const InputDiv = styled.div`
+  margin: 18px 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  input {
+    height: 18px;
+    width: 18px;
+  }
+  label {
+    margin-left: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+`;
+const Table = styled.div`
+.SidebarUniverstitet .univerList table tr th{
+  padding: 0 10px !important;
+}
