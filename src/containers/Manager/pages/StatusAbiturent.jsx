@@ -701,4 +701,4 @@ const InputDiv = styled.div`
 const Table = styled.div`
 .SidebarUniverstitet .univerList table tr th{
   padding: 0 10px !important;
-}
+}`:
