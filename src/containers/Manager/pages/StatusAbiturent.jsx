@@ -16,7 +16,7 @@ import styled from "styled-components";
 import "../../../style/css/SidebarUniverstitet.css";
 import "../../../style/css/fakultet.css";
 import "react-datepicker/dist/react-datepicker.css";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import Axios from "../../../utils/axios";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
@@ -201,7 +201,7 @@ export default function SuperManager() {
     const { name, value } = e.target;
     setSelect((prev) => ({ ...prev, [name]: value }));
   };
-  zzz;
+  
 
   const setManagers = async (id) => {
     const dataUser = { manager: nameIdM, applicant: id };
@@ -288,8 +288,9 @@ export default function SuperManager() {
   return (
     <>
       <ManegerSidebar />
+  <Table>
       <div className="asos" id="top">
-        <div className="Up_navbar">
+        <div className="Up_navbar" >
           <div>
             <div className="nav-bugalter">
               <h4>Клиентский ввод</h4>
@@ -339,7 +340,7 @@ export default function SuperManager() {
                 placeholder="Поиск Студенты"
               />
             </div>
-            <button
+            <button 
               onClick={() => {
                 setFix(!fixEnd);
               }}
@@ -349,7 +350,96 @@ export default function SuperManager() {
             </button>
           </div>
           <div className="univerList talabalar" id="scroll_bar">
-            <table id="table_excel">
+          <table id="table_excel">
+                <thead>
+                  <th>ФИО</th>
+                  <th>Телефон</th>
+                  <th>Факультет</th>
+                  <th>Степень</th>
+                  <th>Тип обученияе </th>
+                  <th> Направления</th>
+                  <th>Статус принятия</th>
+                  <th>Статус оплаты контракта</th>
+                  <th>Когда</th>
+                  {(selector.role == "supermanager" && <th>Менеджер</th>) || ""}
+                  {(selector.role == "supermanager" && (
+                    <th>Телефон менеджера</th>
+                  )) ||
+                    ""}
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <Loader
+                      type="spinner-circle"
+                      bgColor={"#FFFFFF"}
+                      color={"#FFFFFF"}
+                      size={80}
+                    />
+                  ) : (
+                    students.map((v) => {
+                        return (
+                          <tr>
+                            <th>
+                                {v.first_name} {v.last_name}
+                            </th>
+                            <th>{v.phone_number}</th>
+                            <th>{v?.faculty}</th>
+                            <th>{v?.degree}</th>
+                            {/* <th>{data?.manager}</th> */}
+                            <td>
+                          {(v.education_type == "full_time" &&"Очный") 
+                                ||
+                                  v.education_type === "part_time" && "Заочный"
+                                ||  
+                                v.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                v.education_type === "night_time" &&  "Вечернее обучение"
+                                  }
+                          </td>
+                            <th>{v?.major?.name}</th>
+                            {v?.step == "university" ? (
+                              <th style={{ color: "yellow" }}>Ожидание</th>
+                            ) : (
+                              <th
+                                style={{
+                                  color: (v?.completed && "green") || "red",
+                                }}
+                              >
+                                {(v?.completed && "Принят") || "Отказ"}
+                              </th>
+                            )}
+
+                        
+                            <th
+                              style={{
+                                color:
+                                  (v?.university_invoice_confirmed &&
+                                    "green") ||
+                                  "red",
+                              }}
+                            >
+                              {(v?.university_invoice_confirmed && "Оплачен") ||
+                                "Не оплачен"}
+                            </th>
+                            <th>{v?.notary_sent_manager?.slice(0, 10)}</th>
+                            {(selector.role == "supermanager" && (
+                              <th>
+                                {v?.manager.first_name}
+                                {v?.manager.last_name}
+                              </th>
+                            )) ||
+                              ""}
+                            {(selector.role == "supermanager" && (
+                              <th>{v?.manager.phone_number}</th>
+                            )) ||
+                              ""}
+                          </tr>
+                        );
+                      })
+                  )}
+                </tbody>
+              </table>
+            {/* <table  id="table_excel">
               <thead>
                 <tr className="table-line">
                   <th>ФИО</th>
@@ -358,7 +448,6 @@ export default function SuperManager() {
                   <th>Факультет</th>
                   <th>Телефон</th>
                   <th>Реферальный</th>
-                  <th>Менеджер</th>
                 </tr>
               </thead>
               <tbody>
@@ -388,92 +477,40 @@ export default function SuperManager() {
                         manager,
                         contract,
                         invoice_confirmed,
+                        major,
                         faculty,
                         education_type,
                         referral,
                       } = item;
                       return (
                         <tr key={id}>
-                          <td>
-                            <td
-                              onClick={() => history.push(`/m-glavny/${id}`)}
-                              style={{ cursor: "pointer" }}
+                            <td 
+                              // onClick={() => history.push(`/m-glavny/${id}`)}
+                              style={{ cursor: "pointer",padding: "20px 0px" }}
                             >
                               {first_name} {last_name}
                             </td>
-                          </td>
-                          <td>{university}</td>
+                          <td>{major?.faculty?.university?.name}</td>
                           <td>
-                            {(education_type == "full_time" && "Очный") ||
-                              "Заочный"}
+                          {(education_type == "full_time" &&"Очный") 
+                                ||
+                                  education_type === "part_time" && "Заочный"
+                                ||  
+                                education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                education_type === "night_time" &&  "Вечернее обучение"
+                                  }
                           </td>
-                          <td> {faculty} </td>
+                          <td className="search-td"> {faculty} </td>
                           <td>{phone_number}</td>
                           <td>{referral}</td>
-                          <td className="search-td">
-                            {IdUser.has(id) ? (
-                              <Autocomplete
-                                disabled={
-                                  (confirms[`confirms_${id}`] && true) || false
-                                }
-                                onChange={(e) => onChange(e, id)}
-                                className="manager-search w-50"
-                                name={`confirm_${id}`}
-                                options={managersFrom}
-                                id="combo-box-demo"
-                                getOptionLabel={(option) =>
-                                  option ? option.first_name : " "
-                                }
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    label=""
-                                    variant="outlined"
-                                  />
-                                )}
-                              />
-                            ) : (
-                              <button
-                                className="table-manager"
-                                onClick={() => addItem(id)}
-                              >
-                                Выбрать менеджера
-                              </button>
-                            )}
-                            {IdUser.has(id) ? (
-                              <button
-                                style={{
-                                  display: confirms[`confirms_${id}`]
-                                    ? "none"
-                                    : "flex",
-                                }}
-                                className="table-manager"
-                                onClick={() => setManagers(id)}
-                              >
-                                сохранять
-                              </button>
-                            ) : (
-                              ""
-                            )}
-                            <img
-                              width="20px"
-                              src={check}
-                              alt=""
-                              style={{
-                                width: "25px",
-                                marginLeft: "10px",
-                                display: confirms[`confirms_${id}`]
-                                  ? "flex"
-                                  : "none",
-                              }}
-                            />
-                          </td>
+                       
                         </tr>
                       );
                     })
                 )}
               </tbody>
-            </table>
+            </table> */}
             <TablePagination
               rowsPerPageOptions={[20, 40, 60]}
               component="table"
@@ -641,7 +678,8 @@ export default function SuperManager() {
                         >
                           <option value="full_time">очное</option>
                           <option value="distance">дистанционный</option>
-                          <option value="part_time">пол ставка</option>
+                          <option value="part_time"> Заочное обучение </option>
+                          <option value="night_time">Вечернее обучение</option>
                         </select>
                       </div>
                     </div>
@@ -658,29 +696,11 @@ export default function SuperManager() {
           <img src={blueStroke} alt="back to top" />
         </a>
       </div>
+      </Table>
     </>
   );
 }
 
-const FormFilter = styled.div``;
-const InputDiv = styled.div`
-  margin: 18px 0;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  input {
-    height: 18px;
-    width: 18px;
-  }
-  label {
-    margin-left: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-
-  
-`;
 const FormFilter = styled.div`
 `
 const InputDiv = styled.div`
@@ -702,3 +722,5 @@ const Table = styled.div`
 .SidebarUniverstitet .univerList table tr th{
   padding: 0 10px !important;
 }
+
+`;
