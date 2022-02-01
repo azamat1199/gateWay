@@ -201,7 +201,6 @@ export default function SuperManager() {
     const { name, value } = e.target;
     setSelect((prev) => ({ ...prev, [name]: value }));
   };
-  
 
   const setManagers = async (id) => {
     const dataUser = { manager: nameIdM, applicant: id };
@@ -288,27 +287,27 @@ export default function SuperManager() {
   return (
     <>
       <ManegerSidebar />
-  <Table>
-      <div className="asos" id="top">
-        <div className="Up_navbar" >
-          <div>
-            <div className="nav-bugalter">
-              <h4>Клиентский ввод</h4>
-            </div>
-          </div>
-          <div className="user_info">
-            <img src={userpic} alt="" />
+      <Table>
+        <div className="asos" id="top">
+          <div className="Up_navbar">
             <div>
-              <p>
-                {selector.first_name} {selector.last_name}
-              </p>
-              <p>{selector.role}</p>
+              <div className="nav-bugalter">
+                <h4>Клиентский ввод</h4>
+              </div>
+            </div>
+            <div className="user_info">
+              <img src={userpic} alt="" />
+              <div>
+                <p>
+                  {selector.first_name} {selector.last_name}
+                </p>
+                <p>{selector.role}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="SidebarUniverstitet">
-          <button onClick={handleOpen}>
-            {/* <div className="excel table_excel_btn manager-excel ">
+          <div className="SidebarUniverstitet">
+            <button onClick={handleOpen}>
+              {/* <div className="excel table_excel_btn manager-excel ">
               <ReactHTMLTableToExcel
                 id="test-table-xls-button"
                 className="download-table-xls-button"
@@ -318,39 +317,39 @@ export default function SuperManager() {
                 buttonText="Excel"
               />{" "}
             </div> */}
-            <span>
-              <img src={Vector} className="vector" alt="Vector img" />
-              <ReactHTMLTableToExcel
-                id="test-table-xls-button"
-                className="download-table-xls-button manager-download"
-                table="table_excel"
-                filename="tablexls"
-                sheet="tablexls"
-                buttonText="Excel"
-              />
-            </span>
-          </button>
-
-          <div className="settSearch">
-            <div className="searchUniv">
-              <img src={search_icon} alt="" />
-              <input
-                type="text"
-                onChange={(e) => handleSearch(e)}
-                placeholder="Поиск Студенты"
-              />
-            </div>
-            <button 
-              onClick={() => {
-                setFix(!fixEnd);
-              }}
-              className="settingsUniver"
-            >
-              <img src={filterImg} className="" alt="" />
+              <span>
+                <img src={Vector} className="vector" alt="Vector img" />
+                <ReactHTMLTableToExcel
+                  id="test-table-xls-button"
+                  className="download-table-xls-button manager-download"
+                  table="table_excel"
+                  filename="tablexls"
+                  sheet="tablexls"
+                  buttonText="Excel"
+                />
+              </span>
             </button>
-          </div>
-          <div className="univerList talabalar" id="scroll_bar">
-          <table id="table_excel">
+
+            <div className="settSearch">
+              <div className="searchUniv">
+                <img src={search_icon} alt="" />
+                <input
+                  type="text"
+                  onChange={(e) => handleSearch(e)}
+                  placeholder="Поиск Студенты"
+                />
+              </div>
+              <button
+                onClick={() => {
+                  setFix(!fixEnd);
+                }}
+                className="settingsUniver"
+              >
+                <img src={filterImg} className="" alt="" />
+              </button>
+            </div>
+            <div className="univerList talabalar" id="scroll_bar">
+              <table id="table_excel">
                 <thead>
                   <th>ФИО</th>
                   <th>Телефон</th>
@@ -377,69 +376,65 @@ export default function SuperManager() {
                     />
                   ) : (
                     students.map((v) => {
-                        return (
-                          <tr>
-                            <th>
-                                {v.first_name} {v.last_name}
-                            </th>
-                            <th>{v.phone_number}</th>
-                            <th>{v?.faculty}</th>
-                            <th>{v?.degree}</th>
-                            {/* <th>{data?.manager}</th> */}
-                            <td>
-                          {(v.education_type == "full_time" &&"Очный") 
-                                ||
-                                  v.education_type === "part_time" && "Заочный"
-                                ||  
-                                v.education_type === "distance" && "Дистанционное обучение"
-                                ||
-                                v.education_type === "night_time" &&  "Вечернее обучение"
-                                  }
+                      return (
+                        <tr>
+                          <th>
+                            {v.first_name} {v.last_name}
+                          </th>
+                          <th>{v.phone_number}</th>
+                          <th>{v?.faculty}</th>
+                          <th>{v?.degree}</th>
+                          {/* <th>{data?.manager}</th> */}
+                          <td>
+                            {(v.education_type == "full_time" && "Очный") ||
+                              (v.education_type === "part_time" && "Заочный") ||
+                              (v.education_type === "distance" &&
+                                "Дистанционное обучение") ||
+                              (v.education_type === "night_time" &&
+                                "Вечернее обучение")}
                           </td>
-                            <th>{v?.major?.name}</th>
-                            {v?.step == "university" ? (
-                              <th style={{ color: "yellow" }}>Ожидание</th>
-                            ) : (
-                              <th
-                                style={{
-                                  color: (v?.completed && "green") || "red",
-                                }}
-                              >
-                                {(v?.completed && "Принят") || "Отказ"}
-                              </th>
-                            )}
-
-                        
+                          <th>{v?.major?.name}</th>
+                          {v?.step == "university" ? (
+                            <th style={{ color: "yellow" }}>Ожидание</th>
+                          ) : (
                             <th
                               style={{
-                                color:
-                                  (v?.university_invoice_confirmed &&
-                                    "green") ||
-                                  "red",
+                                color: (v?.completed && "green") || "red",
                               }}
                             >
-                              {(v?.university_invoice_confirmed && "Оплачен") ||
-                                "Не оплачен"}
+                              {(v?.completed && "Принят") || "Отказ"}
                             </th>
-                            <th>{v?.notary_sent_manager?.slice(0, 10)}</th>
-                            {(selector.role == "supermanager" && (
-                              <th>
-                                {v?.manager.first_name}
-                                {v?.manager.last_name}
-                              </th>
-                            )) ||
-                              ""}
-                            {(selector.role == "supermanager" && (
-                              <th>{v?.manager.phone_number}</th>
-                            )) ||
-                              ""}
-                          </tr>
-                        );
-                      })
+                          )}
+
+                          <th
+                            style={{
+                              color:
+                                (v?.university_invoice_confirmed && "green") ||
+                                "red",
+                            }}
+                          >
+                            {(v?.university_invoice_confirmed && "Оплачен") ||
+                              "Не оплачен"}
+                          </th>
+                          <th>{v?.notary_sent_manager?.slice(0, 10)}</th>
+                          {(selector.role == "supermanager" && (
+                            <th>
+                              {v?.manager.first_name}
+                              {v?.manager.last_name}
+                            </th>
+                          )) ||
+                            ""}
+                          {(selector.role == "supermanager" && (
+                            <th>{v?.manager.phone_number}</th>
+                          )) ||
+                            ""}
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </table>
-            {/* <table  id="table_excel">
+              {/* <table  id="table_excel">
               <thead>
                 <tr className="table-line">
                   <th>ФИО</th>
@@ -511,198 +506,204 @@ export default function SuperManager() {
                 )}
               </tbody>
             </table> */}
-            <TablePagination
-              rowsPerPageOptions={[20, 40, 60]}
-              component="table"
-              count={count}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </div>
-
-          {/* NOTES */}
-          <div className="n_glavny">
-            <h1>Примечания</h1>
-            <div className="zametki">
-              <div
-                onClick={addCard}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                }}
-                className="paper"
-              >
-                <img src={plus} alt="plus" />
-              </div>
-              {items.map((data, index) => {
-                const { description, id } = data;
-                return (
-                  <div onBlur={() => saveCard(id)} key={id} className="paper">
-                    <span onClick={() => deleteCard(id)}>x</span>
-                    <h1>Заметка {index + 1}</h1>
-                    <textarea onChange={(e) => inputHandler(e, id)}></textarea>
-                    {/* <p onClick={saveCard} className="saveButton">сохранит</p> */}
-                  </div>
-                );
-              })}
-
-              {note.map((data, index) => {
-                const { id, text } = data;
-                return (
-                  <div key={id} className="paper">
-                    <span onClick={() => deleteFetchedCard(id)}>x</span>
-                    <h1>Заметка {index + 1}</h1>
-                    <p style={{ textAlign: "justify" }}>{text}</p>
-                  </div>
-                );
-              })}
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </div>
-          </div>
-          {/* end Filter */}
 
-          <div
-            className="abitFilBox"
-            style={
-              fixEnd
-                ? { width: "100%" }
-                : { width: "0", transition: "0.5s step-end" }
-            }
-          >
-            <div className="abitFilCl" onClick={() => setFix(!fixEnd)}></div>
+            {/* NOTES */}
+            <div className="n_glavny">
+              <h1>Примечания</h1>
+              <div className="zametki">
+                <div
+                  onClick={addCard}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                  }}
+                  className="paper"
+                >
+                  <img src={plus} alt="plus" />
+                </div>
+                {items.map((data, index) => {
+                  const { description, id } = data;
+                  return (
+                    <div onBlur={() => saveCard(id)} key={id} className="paper">
+                      <span onClick={() => deleteCard(id)}>x</span>
+                      <h1>Заметка {index + 1}</h1>
+                      <textarea
+                        onChange={(e) => inputHandler(e, id)}
+                      ></textarea>
+                      {/* <p onClick={saveCard} className="saveButton">сохранит</p> */}
+                    </div>
+                  );
+                })}
+
+                {note.map((data, index) => {
+                  const { id, text } = data;
+                  return (
+                    <div key={id} className="paper">
+                      <span onClick={() => deleteFetchedCard(id)}>x</span>
+                      <h1>Заметка {index + 1}</h1>
+                      <p style={{ textAlign: "justify" }}>{text}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {/* end Filter */}
+
             <div
-              className="FilterFix"
+              className="abitFilBox"
               style={
                 fixEnd
-                  ? { transform: "translateX(0)", transition: "0.5s" }
-                  : { transform: "translateX(100%)", transition: "0.5s" }
+                  ? { width: "100%" }
+                  : { width: "0", transition: "0.5s step-end" }
               }
             >
+              <div className="abitFilCl" onClick={() => setFix(!fixEnd)}></div>
               <div
-                className="fixLeft"
-                onClick={() => {
-                  setFix(!fixEnd);
-                }}
-              ></div>
-              <div className="FilterUniver">
-                <button
+                className="FilterFix"
+                style={
+                  fixEnd
+                    ? { transform: "translateX(0)", transition: "0.5s" }
+                    : { transform: "translateX(100%)", transition: "0.5s" }
+                }
+              >
+                <div
+                  className="fixLeft"
                   onClick={() => {
                     setFix(!fixEnd);
                   }}
-                  className="ab_2_close"
-                >
-                  <img src={closeFilter} alt="" />
-                </button>
-                <h4>Фильтры</h4>
-                <p>Выберите период</p>
-                <div className="datapickBlock">
-                  <div>
-                    <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      selectsStart
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                      placeholderText="dan"
-                    />
-                  </div>
-                  <div>
-                    <DatePicker
-                      selected={endDate}
-                      onChange={(date) => setEndDate(date)}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                      placeholderText="gacha"
-                    />
-                  </div>
-                </div>
-                <FormFilter>
-                  <InputDiv>
-                    <input
-                      value="false"
-                      onChange={handleRadio}
-                      type="radio"
-                      name="has_univer"
-                      id="registered"
-                    />
-                    <label htmlFor="registered">Registered</label>
-                  </InputDiv>
-                  <InputDiv>
-                    <input
-                      value="true"
-                      onChange={handleRadio}
-                      type="radio"
-                      name="has_univer"
-                      id="univer"
-                    />
-                    <label htmlFor="univer">Univer tanlangan</label>
-                  </InputDiv>
-                  <div
-                    style={
-                      radio?.has_univer === "true"
-                        ? { visibility: "visible" }
-                        : { visibility: "hidden" }
-                    }
+                ></div>
+                <div className="FilterUniver">
+                  <button
+                    onClick={() => {
+                      setFix(!fixEnd);
+                    }}
+                    className="ab_2_close"
                   >
-                    <p>Выберите Университет</p>
-                    <div className="selectCountry">
-                      <select name="university" onChange={handleSelect}>
-                        {univer.map((item) => {
-                          const { id, name } = item;
-                          return <option value={id}>{name}</option>;
-                        })}
-                      </select>
-                    </div>
-                    <p>Выберите факультет</p>
-                    <div className="selectCountry">
-                      <select name="faculty" onChange={handleSelect} id="">
-                        {faculty.map((item) => {
-                          const { id, name } = item;
-                          return <option value={id}>{name}</option>;
-                        })}
-                      </select>
+                    <img src={closeFilter} alt="" />
+                  </button>
+                  <h4>Фильтры</h4>
+                  <p>Выберите период</p>
+                  <div className="datapickBlock">
+                    <div>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
+                        placeholderText="dan"
+                      />
                     </div>
                     <div>
-                      <p>Выберите тип образования</p>
-                      <div className="selectCountry">
-                        <select
-                          onChange={handleSelect}
-                          name="education_type"
-                          id=""
-                        >
-                          <option value="full_time">очное</option>
-                          <option value="distance">дистанционный</option>
-                          <option value="part_time"> Заочное обучение </option>
-                          <option value="night_time">Вечернее обучение</option>
-                        </select>
-                      </div>
+                      <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
+                        selectsEnd
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
+                        placeholderText="gacha"
+                      />
                     </div>
                   </div>
-                </FormFilter>
+                  <FormFilter>
+                    <InputDiv>
+                      <input
+                        value="false"
+                        onChange={handleRadio}
+                        type="radio"
+                        name="has_univer"
+                        id="registered"
+                      />
+                      <label htmlFor="registered">Registered</label>
+                    </InputDiv>
+                    <InputDiv>
+                      <input
+                        value="true"
+                        onChange={handleRadio}
+                        type="radio"
+                        name="has_univer"
+                        id="univer"
+                      />
+                      <label htmlFor="univer">Univer tanlangan</label>
+                    </InputDiv>
+                    <div
+                      style={
+                        radio?.has_univer === "true"
+                          ? { visibility: "visible" }
+                          : { visibility: "hidden" }
+                      }
+                    >
+                      <p>Выберите Университет</p>
+                      <div className="selectCountry">
+                        <select name="university" onChange={handleSelect}>
+                          {univer.map((item) => {
+                            const { id, name } = item;
+                            return <option value={id}>{name}</option>;
+                          })}
+                        </select>
+                      </div>
+                      <p>Выберите факультет</p>
+                      <div className="selectCountry">
+                        <select name="faculty" onChange={handleSelect} id="">
+                          {faculty.map((item) => {
+                            const { id, name } = item;
+                            return <option value={id}>{name}</option>;
+                          })}
+                        </select>
+                      </div>
+                      <div>
+                        <p>Выберите тип образования</p>
+                        <div className="selectCountry">
+                          <select
+                            onChange={handleSelect}
+                            name="education_type"
+                            id=""
+                          >
+                            <option value="full_time">очное</option>
+                            <option value="distance">дистанционный</option>
+                            <option value="part_time">
+                              {" "}
+                              Заочное обучение{" "}
+                            </option>
+                            <option value="night_time">
+                              Вечернее обучение
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </FormFilter>
 
-                <button onClick={handleSubmit}>Применить</button>
+                  <button onClick={handleSubmit}>Применить</button>
+                </div>
+                {/* end FilterUniver */}
               </div>
-              {/* end FilterUniver */}
             </div>
           </div>
+          <a href="#top" title="Go to top" className="backTop">
+            <img src={blueStroke} alt="back to top" />
+          </a>
         </div>
-        <a href="#top" title="Go to top" className="backTop">
-          <img src={blueStroke} alt="back to top" />
-        </a>
-      </div>
       </Table>
     </>
   );
 }
 
-const FormFilter = styled.div`
-`
+const FormFilter = styled.div``;
 const InputDiv = styled.div`
   margin: 18px 0;
   font-size: 18px;
@@ -719,8 +720,7 @@ const InputDiv = styled.div`
   }
 `;
 const Table = styled.div`
-.SidebarUniverstitet .univerList table tr th{
-  padding: 0 10px !important;
-}
-
+  .SidebarUniverstitet .univerList table tr th {
+    padding: 0 10px !important;
+  }
 `;
