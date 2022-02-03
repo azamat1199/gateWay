@@ -16,7 +16,7 @@ import styled from "styled-components";
 import "../../../style/css/SidebarUniverstitet.css";
 import "../../../style/css/fakultet.css";
 import "react-datepicker/dist/react-datepicker.css";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import Axios from "../../../utils/axios";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
@@ -415,142 +415,150 @@ export default function SuperManager() {
               <img src={filterImg} className="" alt="" />
             </button>
           </div>
-          <div className="univerList talabalar" id="scroll_bar">
-            <table id="table_excel">
-              <thead>
-                <tr className="table-line">
-                  <th>ФИО</th>
-                  <th>Университет</th>
-                  <th>Тип обучения</th>
-                  <th>Факультет</th>
-                  <th>Телефон</th>
-                  <th>Реферальный</th>
-                  <th>Менеджер</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <Loader
-                    type="spinner-circle"
-                    bgColor={"#FFFFFF"}
-                    color={"#FFFFFF"}
-                    size={80}
-                  />
-                ) : (
-                  students
-                    ?.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                    .map((item, i) => {
-                      const {
-                        id,
-                        first_name,
-                        last_name,
-                        university,
-                        service_price,
-                        phone_number,
-                        contract_created_date,
-                        invoice,
-                        manager,
-                        contract,
-                        invoice_confirmed,
-                        faculty,
-                        education_type,
-                        referral,
-                      } = item;
-                      return (
-                        <tr key={id}>
-                          <td>
-                            <td
-                              onClick={() => history.push(`/m-glavny/${id}`)}
-                              style={{ cursor: "pointer" }}
-                            >
-                              {first_name} {last_name}
+          <Table>
+            <div className="univerList talabalar" id="scroll_bar">
+              <table id="table_excel">
+                <thead>
+                  <tr className="table-line">
+                    <th>ФИО</th>
+                    <th>Университет</th>
+                    <th>Тип обучения</th>
+                    <th>Факультет</th>
+                    <th>Телефон</th>
+                    <th>Реферальный</th>
+                    <th>Менеджер</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <Loader
+                      type="spinner-circle"
+                      bgColor={"#FFFFFF"}
+                      color={"#FFFFFF"}
+                      size={80}
+                    />
+                  ) : (
+                    students
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((item, i) => {
+                        const {
+                          id,
+                          first_name,
+                          last_name,
+                          university,
+                          service_price,
+                          phone_number,
+                          contract_created_date,
+                          invoice,
+                          manager,
+                          contract,
+                          major,
+                          invoice_confirmed,
+                          faculty,
+                          education_type,
+                          referral,
+                        } = item;
+                        return (
+                          <tr key={id}>
+                            <td>
+                              <td
+                                onClick={() => history.push(`/m-glavny/${id}`)}
+                                style={{ cursor: "pointer" }}
+                              >
+                                {first_name} {last_name}
+                              </td>
                             </td>
-                          </td>
-                          <td>{university}</td>
-                          <td>
-                            {(education_type == "full_time" && "Очный") ||
-                              "Заочный"}
-                          </td>
-                          <td> {faculty} </td>
-                          <td>{phone_number}</td>
-                          <td>{referral}</td>
-                          <td className="search-td">
-                            {IdUser.has(id) ? (
-                              <Autocomplete
-                                disabled={
-                                  (confirms[`confirms_${id}`] && true) || false
-                                }
-                                onChange={(e) => onChange(e, id)}
-                                className="manager-search w-50"
-                                name={`confirm_${id}`}
-                                options={managersFrom}
-                                id="combo-box-demo"
-                                getOptionLabel={(option) =>
-                                  option ? option.first_name : " "
-                                }
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    label=""
-                                    variant="outlined"
-                                  />
-                                )}
-                              />
-                            ) : (
-                              <button
-                                className="table-manager"
-                                onClick={() => addItem(id)}
-                              >
-                                Выбрать менеджера
-                              </button>
-                            )}
-                            {IdUser.has(id) ? (
-                              <button
+                            <td>{major?.faculty?.university?.name}</td>
+                            <td>
+                              {(education_type == "full_time" && "Очный") ||
+                                (education_type === "part_time" && "Заочный") ||
+                                (education_type === "distance" &&
+                                  "Дистанционное обучение") ||
+                                (education_type === "night_time" &&
+                                  "Вечернее обучение")}
+                            </td>
+                            <td> {faculty} </td>
+                            <td>{phone_number}</td>
+                            <td>{referral}</td>
+                            <td className="search-td">
+                              {IdUser.has(id) ? (
+                                <Autocomplete
+                                  disabled={
+                                    (confirms[`confirms_${id}`] && true) ||
+                                    false
+                                  }
+                                  onChange={(e) => onChange(e, id)}
+                                  className="manager-search w-50"
+                                  name={`confirm_${id}`}
+                                  options={managersFrom}
+                                  id="combo-box-demo"
+                                  getOptionLabel={(option) =>
+                                    option ? option.first_name : " "
+                                  }
+                                  renderInput={(params) => (
+                                    <TextField
+                                      {...params}
+                                      label=""
+                                      variant="outlined"
+                                    />
+                                  )}
+                                />
+                              ) : (
+                                <button
+                                  className="table-manager"
+                                  onClick={() => addItem(id)}
+                                >
+                                  Выбрать менеджера
+                                </button>
+                              )}
+                              {IdUser.has(id) ? (
+                                <button
+                                  style={{
+                                    display: confirms[`confirms_${id}`]
+                                      ? "none"
+                                      : "flex",
+                                  }}
+                                  className="table-manager"
+                                  onClick={() => setManagers(id)}
+                                >
+                                  сохранять
+                                </button>
+                              ) : (
+                                ""
+                              )}
+                              <img
+                                width="20px"
+                                src={check}
+                                alt=""
                                 style={{
+                                  width: "25px",
+                                  marginLeft: "10px",
                                   display: confirms[`confirms_${id}`]
-                                    ? "none"
-                                    : "flex",
+                                    ? "flex"
+                                    : "none",
                                 }}
-                                className="table-manager"
-                                onClick={() => setManagers(id)}
-                              >
-                                сохранять
-                              </button>
-                            ) : (
-                              ""
-                            )}
-                            <img
-                              width="20px"
-                              src={check}
-                              alt=""
-                              style={{
-                                width: "25px",
-                                marginLeft: "10px",
-                                display: confirms[`confirms_${id}`]
-                                  ? "flex"
-                                  : "none",
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })
-                )}
-              </tbody>
-            </table>
-            <TablePagination
-              rowsPerPageOptions={[20, 40, 60]}
-              component="table"
-              count={count}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </div>
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })
+                  )}
+                </tbody>
+              </table>
+              <TablePagination
+                rowsPerPageOptions={[20, 40, 60]}
+                component="table"
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </div>
+          </Table>
 
           {/* NOTES */}
           <div className="n_glavny">
@@ -708,7 +716,8 @@ export default function SuperManager() {
                         >
                           <option value="full_time">очное</option>
                           <option value="distance">дистанционный</option>
-                          <option value="part_time">пол ставка</option>
+                          <option value="part_time">Заочный</option>
+                          <option value="night_time"> Вечернее обучение</option>
                         </select>
                       </div>
                     </div>
@@ -743,5 +752,26 @@ const InputDiv = styled.div`
     margin-left: 15px;
     font-weight: 600;
     cursor: pointer;
+  }
+`;
+const Table = styled.div`
+  overflow-x: hidden;
+  .Up_navbar {
+    padding-top: 70px;
+  }
+  @media (max-width: 768px) {
+    table .table-line th {
+      font-size: 14px !important;
+    }
+  }
+  @media (max-width: 425px) {
+    table .table-line th {
+      font-size: 12px !important;
+    }
+  }
+  @media (max-width: 320px) {
+    table .table-line th {
+      font-size: 10px !important;
+    }
   }
 `;
