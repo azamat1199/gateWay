@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NotariusSidebar from "../NotariusSidebar";
 import Axios from "../../../utils/axios";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import search from "../../../assets/icon/Search2.svg";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -47,7 +47,7 @@ const N_info = () => {
             <h1 className="link_h1">Информация по требованием государств</h1>
           </div>
           <div className="user_info">
-            <img src={avatar} alt="" />
+            <img src={userpic} alt="" />
             <div>
               <h1>
                 {first_name} {last_name}

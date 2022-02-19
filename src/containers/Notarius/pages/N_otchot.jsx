@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NotariusSidebar from "../NotariusSidebar";
-import userpic from "../../../assets/icon/userpic.svg";
+import userpic from "../../../assets/icon/LogoAsia.jpg";
 import {
   XAxis,
   YAxis,
@@ -11,6 +11,7 @@ import {
   Bar,
   Cell,
 } from "recharts";
+import avatar from "../../../assets/icon/Avatar.svg";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete } from "@material-ui/lab";
 import { scaleOrdinal } from "d3-scale";
@@ -52,6 +53,7 @@ const N_otchot = () => {
   const [startDate2, setStartDate2] = useState(null);
   const [startDate3, setStartDate3] = useState(null);
   const [priceData, setPriceData] = useState();
+  const [passport_confirmedE, setPassport_confirmedE] = useState();
   const handleUniver = (id) => {
     console.log(id);
     setUnivresities(id);
@@ -193,7 +195,8 @@ const N_otchot = () => {
   const getPrice = async () => {
     try {
       const res = await Axios.get("company/notary-price/");
-      setPriceData(res.data.results);
+      setPriceData(res.data);
+      setPassport_confirmedE(priceData[0]);
       console.log(res, "dsafasfasdf");
     } catch (error) {}
   };
@@ -517,42 +520,42 @@ const N_otchot = () => {
                             {" "}
                             <tr>
                               <th>пасспорт</th>
-                              <th>{passport_confirmed}</th>
+                              <th>{passport_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                             <tr>
                               <th>диплом</th>
-                              <th>{diploma_confirmed}</th>
+                              <th>{diploma_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                             <tr>
                               <th>паспорт матер</th>
-                              <th>{passport_mother_confirmed}</th>
+                              <th>{passport_mother_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                             <tr>
                               <th>свидетельство о браке</th>
-                              <th>{marriage_cert_confirmed}</th>
+                              <th>{marriage_cert_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                             <tr>
                               <th> рождение сертификат</th>
-                              <th>{birth_cert_confirmed}</th>
+                              <th>{birth_cert_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                             <tr>
                               <th>мед 063 сертификат</th>
-                              <th>{med_063_cert_confirmed}</th>
+                              <th>{med_063_cert_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                             <tr>
                               <th>мед 086 сертификат</th>
-                              <th>{med_086_cert_confirmed}</th>
+                              <th>{med_086_cert_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                             <tr>
                               <th>сертификат ВИЧ</th>
-                              <th>{hiv_cert_confirmed}</th>
+                              <th>{hiv_cert_confirmed}$</th>
                               <th>{}</th>
                             </tr>
                           </>
