@@ -6,10 +6,10 @@ import plus from "../../../assets/icon/plus.svg";
 import Loader from "react-js-loader";
 import Axios from "../../../utils/axios";
 import Swal from "sweetalert2";
-import {useSelector} from 'react-redux'
+import { useSelector } from "react-redux";
 const N_glavny = () => {
   const [items, setItems] = useState([]);
-//   const [tempNote, setTempNote] = useState([]);
+  //   const [tempNote, setTempNote] = useState([]);
   const [value, setValue] = useState();
   const [note, setNote] = useState([]);
   const [words, setWords] = useState();
@@ -20,7 +20,7 @@ const N_glavny = () => {
   const inputRef = useRef();
   const selector = useSelector((state) => state);
   const { payload } = selector?.payload;
-  const {  first_name,last_name} = payload?.data;
+  const { first_name, last_name } = payload?.data;
   //   const handleWords = (data, id) => {
   //     const data = items.filter((item) => item.id !== id);
   //     setItems(data);
@@ -37,19 +37,19 @@ const N_glavny = () => {
 
   const saveCard = async (id) => {
     let data = items.find((items) => items.id === id);
-    let newData = items.filter(item=> item.id !== id);
-    setItems(newData)
+    let newData = items.filter((item) => item.id !== id);
+    setItems(newData);
     try {
       const res = await Axios.post(`/company/note/`, {
         text: data.description,
-      })
+      });
       console.log(res);
     } catch (error) {
       console.log(error);
     }
-    fetchNote()
+    fetchNote();
   };
-console.log(items);
+  console.log(items);
   const deleteCard = (index) => {
     console.log(index);
     const filteredData = items.filter((item) => item.id != index);
@@ -79,33 +79,32 @@ console.log(items);
       setLoading(false);
     }
   };
- const deleteFetchedCard = async(id)=>{
-     Swal.fire({
-         icon:'warning',
-         text:'Вы уверены, что хотите удалить?',
-         showCancelButton:true,
-         showConfirmButton:true,
-     }).then(async(result) =>  {
-        if (result.isConfirmed) {
-            try {
-                const res = await Axios.delete(`/company/note/${id}/`)
-                const {status} = res;
-                if(status === 204){
-                    fetchNote()
-                }
-            } catch (error) {
-                console.log(error);
-            }
+  const deleteFetchedCard = async (id) => {
+    Swal.fire({
+      icon: "warning",
+      text: "Вы уверены, что хотите удалить?",
+      showCancelButton: true,
+      showConfirmButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await Axios.delete(`/company/note/${id}/`);
+          const { status } = res;
+          if (status === 204) {
+            fetchNote();
+          }
+        } catch (error) {
+          console.log(error);
+        }
         //   Swal.fire(
         //     'Deleted!',
         //     'Your file has been deleted.',
         //     'success'
         //   )
-        }
-      })
-     console.log(id);
-    
- }
+      }
+    });
+    console.log(id);
+  };
   useEffect(() => {
     fetchNote();
   }, []);
@@ -120,7 +119,9 @@ console.log(items);
           <div className="user_info">
             <img src={userpic} alt="" />
             <div>
-              <h1>{first_name} {last_name}</h1>
+              <h1>
+                {first_name} {last_name}
+              </h1>
               <h2>Нотариус</h2>
             </div>
           </div>
@@ -164,9 +165,9 @@ console.log(items);
                 const { id, text } = data;
                 return (
                   <div key={id} className="paper">
-                    <span onClick={()=>deleteFetchedCard(id)}>x</span>
+                    <span onClick={() => deleteFetchedCard(id)}>x</span>
                     <h1>Заметка {index + 1}</h1>
-                    <p style={{textAlign:'justify'}}>{text}</p>
+                    <p style={{ textAlign: "justify" }}>{text}</p>
                   </div>
                 );
               })
