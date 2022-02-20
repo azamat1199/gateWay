@@ -89,7 +89,7 @@ const StudentSidebar = () => {
   }, []);
   return (
     <>
-      <button id="none768" onClick={() => setSideFix(true)}>
+      <button id="none768" onClick={() => setSideFix(!sideFix)}>
         <div></div>
         <div></div>
         <div></div>

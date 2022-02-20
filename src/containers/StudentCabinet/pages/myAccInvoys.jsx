@@ -185,7 +185,7 @@ const MyAccInvoys = () => {
             ""
           )}
 
-          {invoice.university_invoice_confirmed === true ||
+          {invoice.university_invoice_confirmed === true &&
           currentStep === "completed" ? (
             <div className="bottom">
               <img src={goal} alt="waitforRESULT" />
@@ -242,13 +242,16 @@ const MyAccInvoys = () => {
                     <button
                       style={
                         inputEl1?.current?.files[0]
-                          ? { cursor: "pointer !important" }
-                          : { cursor: "not-allowe !important" }
+                          ? { cursor: "pointer !important", fontSize: "17px" }
+                          : {
+                              cursor: "not-allowe !important",
+                              fontSize: "17px",
+                            }
                       }
                       onClick={handleSubmit}
                       className="downloadBtn"
                     >
-                      Загрузить
+                      Загрузит квитанция
                     </button>
                   </>
                 </MyInvoice>
