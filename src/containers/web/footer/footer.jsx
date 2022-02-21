@@ -5,12 +5,13 @@ import { useTranslation } from "react-i18next";
 
 // import css
 import "../../../style/css/footer.css";
+import Swal from "sweetalert2";
 
 const Footer = () => {
   const { t, i18n } = useTranslation();
   console.log(t);
   const [phone, setPhone] = useState("");
-
+  console.log(phone);
   const [write, setWrite] = useState(false);
 
   const handlecheck = () => {
@@ -18,12 +19,64 @@ const Footer = () => {
   };
   const callMe = async () => {
     try {
-      const data = await Axios.post("/company/call-me-request/", {
+      const data = await Axios.post("/common/phone-consultation/", {
         phone_number: phone,
-        write_to_telegram: write,
+        // write_to_telegram: write,
       });
-    } catch (err) {
-      console.log(err);
+      console.log(data);
+      if (data.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: "Успешно отправлено",
+        });
+      }
+    } catch (error) {
+      console.log(error.response);
+      if (error.response.status === 400) {
+        const { phone_number } = error.response.data;
+        if (phone_number[0] === "This field may not be blank.") {
+          Swal.fire({
+            icon: "warning",
+            text: "Это поле не может быть пустым.",
+          });
+        } else if (
+          phone_number[0] === "The phone number entered is not valid."
+        ) {
+          Swal.fire({
+            icon: "warning",
+            text: "Введенный номер телефона недействителен.",
+          });
+        } else if (
+          phone_number[0] ===
+          "Phone Consultation with this phone number already exists."
+        ) {
+          Swal.fire({
+            icon: "warning",
+            text: "Консультация по телефону с этим номером телефона уже существует.",
+          });
+        }
+      }
+    }
+  };
+  const takeDailyNews = async () => {
+    try {
+      const res = await Axios.post("/common/email-newsletter/", {
+        email: phone,
+      });
+      if (res.status === 201) {
+        Swal.fire({
+          icon: "success",
+          text: "Успешно отправлено",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      if (error) {
+        Swal.fire({
+          icon: "warning",
+          text: "Пожалуйста, пришлите правильные данные.",
+        });
+      }
     }
   };
   return (
@@ -74,9 +127,13 @@ const Footer = () => {
           <h1>{t("part47")}</h1>
           <p> {t("part48")}</p>
           <div className="email">
-            <input type="text" placeholder="Ваш e-mail адрес" />
+            <input
+              type="email"
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Ваш e-mail адрес"
+            />
           </div>
-          <button>{t("part49")}</button>
+          <button onClick={takeDailyNews}>{t("part49")}</button>
           <h4>{t("part50")}</h4>
           <div className="social">
             {/* facebook icon */}
@@ -113,9 +170,9 @@ const Footer = () => {
 
             <h6 id="copyrightFooter">
               &copy; 2021 All rights reserved by{" "}
-              <Link style={{ color: "white" }} to="http://algorithmgateway.uz/">
+              <a style={{ color: "white" }} href1="http://algorithmgateway.uz/">
                 Algorithm Gateway
-              </Link>
+              </a>
             </h6>
           </div>
           {/* end right */}

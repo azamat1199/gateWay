@@ -1,17 +1,18 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useRef, useState, useEffect ,useCallback,useMemo} from "react";
 import { useSelector } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
 // SWIPPER
 import closeImg from "../../../assets/icon/close2.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
+import styled from "styled-components";
 import "swiper/swiper.min.css";
+import star1 from "../../../assets/icons/star1.svg";
+import univer_pic from "../../../assets/images/univer.jpg";
+import star2 from "../../../assets/icons/star2.svg";
+import star3 from "../../../assets/icons/star3.svg";
+import star4 from "../../../assets/icons/star4.svg";
+import star5 from "../../../assets/icons/star5.svg";
 import "swiper/components/pagination/pagination.min.css";
 import SwiperCore, { Pagination, Navigation } from "swiper/core";
 import search_icon from "../../../assets/icon/search.svg";
@@ -24,18 +25,19 @@ import StudentSidebar from "./SidebarStudent";
 import EmptyPic from "../../../assets/icon/empty.svg";
 import { useHistory } from "react-router";
 import Axios from "../../../utils/axios";
+import axios from "axios";
 SwiperCore.use([Pagination]);
 
 const Universitet = () => {
   const selector = useSelector((state) => state);
   const { payload } = selector?.payload;
   const { data } = payload;
-  const [favourites, setFavourites] = useState({
-    id: "",
-    description: "",
-    images: [],
-    name: "",
-  });
+  const [favourites,setFavourites] = useState({
+    id:'',
+    description:'',
+    images:[],
+    name:''
+  })
   const { first_name, last_name } = data;
   const [universities, setUniversities] = useState([]);
   const history = useHistory();
@@ -43,17 +45,31 @@ const Universitet = () => {
   const [loading, setLoading] = useState(false);
   const [degree, setDegree] = useState([]);
   const [major, setMajor] = useState([]);
-  const [univerId, setUniverId] = useState();
+  const [univerId,setUniverId] = useState()
   const [fixEnd, setFix] = useState(false);
   const [searchedData, setSearchedData] = useState({
     country: "",
     degree: "",
     major: "",
   });
-
+  const [univerCount,setUniverCount] = useState(8)
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState();
 
+  const fetchUniversities = async () => {
+    try {
+      const data = await axios.get(
+        `https://backend.edugateway.uz/api/v1/university/?limit=${univerCount}`
+      );
+      const { results } = data.data;
+      //console.log(results);
+      if (data.status === 200) {
+        setUniversities(results);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -76,13 +92,14 @@ const Universitet = () => {
   };
   console.log(searchedData?.major?.toString());
 
+
   const fetchCountry = async () => {
     try {
-      const res = await Axios.get("/company/country/?limit=1000");
-      const { status, data } = res;
+      const res = await Axios.get("/company/country/degree/major/?limit=1000");
+      const { status ,data} = res;
       console.log(res);
       if (status === 200) {
-        const { results } = data;
+        const {results} = data
         setCountries(results);
       }
     } catch (error) {
@@ -90,66 +107,67 @@ const Universitet = () => {
     }
   };
 
-  const fetchDegree = async () => {
-    try {
-      const res = await Axios.get("/university/degree/");
-      const { status } = res;
-      const { results } = res.data;
-      if (status === 200) {
-        setDegree(results);
-      }
-      console.log(results);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchDegree = async () => {
+  //   try {
+  //     const res = await Axios.get("/university/degree/");
+  //     const { status } = res;
+  //     const { results } = res.data;
+  //     if (status === 200) {
+  //       setDegree(results);
+  //     }
+  //     console.log(results);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const fetchMajor = async () => {
-    try {
-      const res = await Axios.get("/university/major/");
-      console.log(res);
-      const { status } = res;
-      const { results } = res.data;
-      if (status === 200) {
-        setMajor(results);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchMajor = async () => {
+  //   try {
+  //     const res = await Axios.get("/university/major/");
+  //     console.log(res);
+  //     const { status } = res;
+  //     const { results } = res.data;
+  //     if (status === 200) {
+  //       setMajor(results);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleRegion = (event, newValue) => {
     console.log(newValue);
     if (newValue?.id) {
       setSearchedData((state) => ({ ...state, country: newValue.id }));
+      const newFilter = countries.filter(item=> item.id === newValue.id)
+      setDegree(newFilter[0].degrees)
+      console.log(newFilter[0].degrees);
     }
   };
+  
+    const handleDegree = (event, newValue) => {
+      console.log(newValue);
+      if (newValue?.id) {
+        setSearchedData((state) => ({ ...state, degree: newValue.id }));
+        const newFilter = degree.filter(item=> item.id === newValue.id)
+        setMajor(newFilter[0].majors);
+        console.log(newFilter);
+      }
+    };
 
   const handleMajor = (event, newValue) => {
     console.log(newValue);
     if (newValue?.id) {
       setSearchedData((state) => ({ ...state, major: newValue.id }));
-      localStorage.setItem("majorId", newValue.id);
+      localStorage.setItem('majorId',newValue.id)
     }
   };
 
-  const handleSelect = (e) => {
-    console.log(e.target.value);
-    const { name, value } = e.target;
-    setSearchedData((state) => ({ ...state, [name]: value }));
-  };
-
-  const handleDegree = (event, newValue) => {
-    console.log(newValue);
-    if (newValue?.id) {
-      setSearchedData((state) => ({ ...state, degree: newValue.id }));
-    }
-  };
 
   const handleSearch = async (e) => {
     console.log(e.target.value);
     const { value } = e.target;
-    if (value.length > 2) {
+    if (value?.length > 2) {
       setLoading(true);
       try {
         const res = await Axios.get(`/university/?search=${value} `);
@@ -164,59 +182,64 @@ const Universitet = () => {
       }
     }
   };
-  const fetchUserFavourite = async () => {
-    setLoading(true);
+  const fetchUserFavourite = async()=>{
+    setLoading(true)
     try {
-      const res = await Axios.get("/applicant/chosen-university/");
-      const { status, data } = res;
-      if (status === 200) {
-        const { results } = data;
-        setLoading(true);
+      const res = await Axios.get("/applicant/me/")
+      const {status,data} = res;
+      console.log(res);
+      console.log(data?.major?.faculty?.university?.id);
+      if(status === 200){
+        const {id} = data?.major?.faculty?.university
+        setLoading(true)
         try {
-          const res = await Axios.get(
-            `/university/${results[0]?.major?.faculty?.university?.id}`
-          );
-          const { status, data } = res;
-          if (status === 200) {
-            setFavourites(data);
+          const res = await Axios.get(`/university/${id}`)
+          console.log(res,'loaded');
+          const {status,data} = res;
+          if(status === 200){
+            setFavourites(data)
           }
-          console.log(res);
-          setLoading(false);
+           console.log(res);
+           setLoading(false)
         } catch (error) {
-          setLoading(false);
+          setLoading(false)
         }
       }
       console.log(res);
-      setLoading(false);
+      setLoading(false)
     } catch (error) {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-  const fetchUserUniver = async () => {
-    setLoading(true);
+  }
+  const fetchUserUniver = async()=>{
+    setLoading(true)
     try {
-      const res = await Axios.get(`/university/${univerId}`);
-      const { status, data } = res;
-      if (status === 200) {
-        const { results } = data;
-        setUniverId(results);
+      const res = await Axios.get(`/university/${univerId}`)
+      const {status,data} = res;
+      if(status === 200){
+        const {results} = data;
+        setUniverId(results)
       }
-      console.log(res);
-      setLoading(false);
+       console.log(res);
+       setLoading(false)
     } catch (error) {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+  const handler = (univerId) => {
+    history.push(`/university/${univerId}`)
+};
 
   useEffect(() => {
     fetchCountry();
-    fetchDegree();
-    fetchMajor();
-    fetchUserFavourite();
+    // fetchDegree();
+    // fetchMajor();
+    fetchUserFavourite()
   }, []);
-  useEffect(() => {
-    fetchUserUniver();
-  }, [univerId]);
+  useEffect(()=>{
+    fetchUserUniver()
+    fetchUniversities()
+  },[univerId,univerCount])
   console.log(searchedData);
   console.log(favourites);
   return (
@@ -249,16 +272,12 @@ const Universitet = () => {
               }}
               className="settingsUniver"
             >
-              {loading ? (
-                <Loader
-                  type="spinner-circle"
-                  bgColor={"#FFFFFF"}
-                  color={"#FFFFFF"}
-                  size={60}
-                />
-              ) : (
-                ""
-              )}
+              {loading ?  <Loader
+                      type="spinner-circle"
+                      bgColor={"#FFFFFF"}
+                      color={"#FFFFFF"}
+                      size={60}
+                    />:''}
               <img src={settings} alt="" />
             </button>
           </div>
@@ -307,12 +326,7 @@ const Universitet = () => {
                     getOptionLabel={(option) => (option ? option.name : "")}
                     style={{ width: "100%" }}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label=""
-                        placeholder="Выберите страну"
-                        variant="outlined"
-                      />
+                      <TextField {...params} label="" placeholder="Выберите страну" variant="outlined" />
                     )}
                   />
                 </div>
@@ -326,12 +340,7 @@ const Universitet = () => {
                     getOptionLabel={(option) => (option ? option.title : "")}
                     style={{ width: "100%" }}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label=""
-                        placeholder="Выберите степень"
-                        variant="outlined"
-                      />
+                      <TextField {...params} label="" placeholder="Выберите степень" variant="outlined" />
                     )}
                   />
                 </div>
@@ -345,12 +354,7 @@ const Universitet = () => {
                     getOptionLabel={(option) => (option ? option.name : "")}
                     style={{ width: "100%" }}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label=""
-                        placeholder="Выберите направление"
-                        variant="outlined"
-                      />
+                      <TextField {...params} label="" placeholder="Выберите направление" variant="outlined" />
                     )}
                   />
                 </div>
@@ -382,12 +386,12 @@ const Universitet = () => {
           <h1
             className="result"
             style={
-              filteredData.length > 0
+              filteredData?.length > 0
                 ? { display: "block" }
                 : { display: "none" }
             }
           >
-            Результаты поиска ({filteredData.length}-университетов найдено )
+            Результаты поиска ({filteredData?.length}-университетов найдено )
           </h1>
 
           <div className="cardSwipperBlock">
@@ -455,90 +459,8 @@ const Universitet = () => {
                 },
               }}
             >
-              {filteredData.length > 0 ? (
-                // <div className="cardSwipperBlock">
-                filteredData.map((x) => {
-                  console.log(x);
-                  const { name, description, id, images } = x;
-                  return (
-                    <SwiperSlide>
-                      <div
-                        onClick={() => history.push(`/university/${id}`)}
-                        className="card"
-                      >
-                        <img
-                          src={
-                            images[0]?.image
-                              ? images[0].image
-                              : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
-                          }
-                          alt=""
-                        />
-                        <h1>{name}</h1>
-                        <p>
-                          {description.length > 100
-                            ? description.slice(0, 100) + "...  Read More"
-                            : description}
-                        </p>
-                        <div className="buttonContainer">
-                          <button onClick={() => history.push("/requisition")}>
-                            Подать заявку
-                          </button>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })
-              ) : favourites.id ? (
-                <div
-                  style={{ padding: "0 10px", marginTop: "0" }}
-                  className="document"
-                >
-                  <h1 style={{ marginBottom: "0" }}>Куда вы подали документ</h1>
-                  <div style={{ display: "flex", flexWrap: "wrap" }}>
-                    <div
-                      // onClick={() =>
-                      //   history.push(`/university/${favourites?.id}`)
-                      // }
-                      style={{ marginTop: "15px", cursor: "pointer" }}
-                      className="card"
-                    >
-                      <img
-                        src={
-                          favourites?.images[0]?.image
-                            ? favourites?.images[0].image
-                            : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
-                        }
-                        alt=""
-                      />
-                      <h1>{favourites?.name}</h1>
-                      <p>
-                        {favourites?.description.length > 100
-                          ? favourites?.description.slice(0, 100) + "..."
-                          : favourites?.description}
-                      </p>
-                      <h4>Качество обучения:</h4>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column ",
-                    alignItems: "center",
-                  }}
-                  className="emptyImgContainer"
-                >
-                  <img src={EmptyPic} style={{ height: "309px" }} />
-                  <p style={{ fontSize: "22px", fontWeight: "600" }}>
-                    У вас пока не имеется выбранных университетов
-                  </p>
-                </div>
-              )}
-            </Swiper>
-          </div>
-          {/* {favourites.id ? 
+              {
+                favourites.id ? 
           <div style={{padding:'0 10px',marginTop:'0'}} className="document">
             <h1 style={{marginBottom:'0'}}>Куда вы подали документ</h1>
             <div style={{display:"flex",flexWrap:'wrap'}}>
@@ -557,14 +479,129 @@ const Universitet = () => {
                                       alt=""
                                     />
                                     <h1>{favourites?.name}</h1>
-                                    <p>{favourites?.description.length > 100 ? favourites?.description.slice(0,100) + '...': favourites?.description}</p>
+                                    <p>{favourites?.description?.length > 100 ? favourites?.description?.slice(0,100) + '...': favourites?.description}</p>
                                     <h4>Качество обучения:</h4>
                                 </div>
             </div>
+          </div>:''
+              }
+               
+                          {filteredData.length > 0 ? (
+                            // <div className="cardSwipperBlock">
+                            filteredData.map((x) => {
+                              console.log(x);
+                              const { name, description, id, images } = x;
+                              return (
+                                <SwiperSlide>
+                                  <div
+                                    onClick={() =>
+                                      history.push(`/university/${id}`)
+                                    }
+                                    className="card"
+                                  >
+                                    <img
+                                      src={
+                                        images[0]?.image
+                                          ? images[0].image
+                                          : "https://www.princeton.edu//sites/default/files/images/2017/06/20060425_NassauHall_JJ_IMG_5973.jpg"
+                                      }
+                                      alt=""
+                                    />
+                                    <h1>{name}</h1>
+                                    <p>
+                                      {description?.length > 100
+                                        ? description.slice(0, 100) +
+                                          "...  Read More"
+                                        : description}
+                                    </p>
+                                    <div className="buttonContainer">
+                                      <button
+                                        onClick={() =>
+                                          history.push("/requisition")
+                                        }
+                                      >
+                                        Подать заявку
+                                      </button>
+                                    </div>
+                                  </div>
+                                </SwiperSlide>
+                              );
+                            })
+                          ) :
+                             <><h2 style={{padding: '17px'}}>Университеты</h2>
+                           <CardContainer>
+                             <div className="cards">
+                             {
+                                universities.map(item=>{
+                                  const { id,
+                                    name,
+                                    description,
+                                    education_quality,
+                                    rating,
+                                    living_price_per_annum,
+                                    city,
+                                    images,} = item
+                                  return(
+                                    <Card onClick={()=> history.push(`/university/${id}`)}>
+                                      <img className="univerPic" src={
+                                        item?.images?.length === 0
+                                          ? univer_pic
+                                          : item.images[0].image.toString()
+                                         } alt="univerPicture" />
+                                       <div className="main">
+                                          {name?.length > 35 ? (
+                                            <h1>{name?.substring(0, 35)}...</h1>
+                                          ) : (
+                                            <h1>{name}</h1>
+                                          )}
+                                           {description?.length > 100 ? (
+                                            <p onClick={() => handler(id)}>
+                                              {description.substring(0, 180)}...
+                                            </p>
+                                          ) : (
+                                            <p onClick={() => handler(id)}>{description}</p>
+                                          )}
+                                       </div>
+                                    <div className = 'footer'>
+                                      <h2 onClick={() => handler(id)}>
+                                        Рейтинг:{" "}
+                                        <span>
+                                          {rating} место {city.name}
+                                        </span>
+                                      </h2>
+                                      <h3 onClick={() => handler(id)}>
+                                        Качество обучения:
+                                        <img
+                                          className="star_image"
+                                          src={
+                                            education_quality === 1
+                                              ? star1
+                                              : education_quality === 2
+                                              ? star2
+                                              : education_quality === 3
+                                              ? star3
+                                              : education_quality === 4
+                                              ? star4
+                                              : star5
+                                          }
+                                          alt="   "
+                                        />
+                                      </h3>
+                                      <h4 onClick={() => handler(id)}>
+                                        Цена за один год: <span>${living_price_per_annum}</span>
+                                      </h4>
+                                    </div>
+                                    </Card>
+                                  )
+                                })
+                              }
+                             </div>
+                              <button onClick={()=> setUniverCount(10000)}>все</button>
+                           </CardContainer>
+                           </> 
+                          }
+            </Swiper>
           </div>
-          :
-          ''
-          } */}
         </div>
       </div>
     </>
@@ -572,3 +609,61 @@ const Universitet = () => {
 };
 
 export default Universitet;
+const CardContainer = styled.div`
+position:relative;
+.cards{
+  display: flex;
+  flex-wrap: wrap;
+}
+button{
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
+    right: 52px;
+    padding: 10px 30px;
+    background: #00587f;
+    color: white;
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    -webkit-transition: 0.4s all ease;
+    transition: 0.4s all ease;
+    cursor: pointer;
+
+}
+`
+const Card = styled.div`
+padding-bottom: 36px;
+    width: 420px;
+    height: 600px;
+    position: relative;
+    background: #e2f1f8;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0px -2px 8px rgb(0 0 0 / 9%), 2px 4px 9px rgb(0 0 0 / 10%);
+    margin: 15px;
+    cursor: pointer;
+    .main{
+      height: 46%;
+      padding: 15px;
+      h1{
+        font-size:22px;
+      }
+      p{
+        font-size: 21px;
+        font-weight: 600;
+        padding: 10px 0;
+        line-height: 1.2;
+      }
+    }
+    .footer{
+      padding: 15px;
+    }
+    .univerPic{
+      height: 40%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    }
+
+`
