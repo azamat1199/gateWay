@@ -74,6 +74,7 @@ function SinglePage(props) {
     faculties: [],
     images: [],
   });
+  const priceType = univer.bachelor_degree_fee_per_annum.split(" ")[1];
 
   const {
     name,
@@ -116,18 +117,7 @@ function SinglePage(props) {
     if (!selector?.payload?.payload) {
       history.push("/login");
     } else if (selector?.payload?.payload) {
-      try {
-        const res = await Axios.post("/applicant/chosen-university/", {
-          major_id: majorId,
-        });
-        const { status } = res;
-        console.log(res);
-        if (status === 201) {
-          history.push("/requisition");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      history.push("/requisition");
     }
   };
   useEffect(() => {
@@ -184,15 +174,15 @@ function SinglePage(props) {
                   </tr>
                   <tr>
                     <td>Бакалавриат</td>
-                    <td>${bachelor_degree_fee_per_annum}/год</td>
+                    <td>{bachelor_degree_fee_per_annum}/год</td>
                   </tr>
                   <tr>
                     <td>Магистратура</td>
-                    <td>${masters_degree_fee_per_annum}/год</td>
+                    <td>{masters_degree_fee_per_annum}/год</td>
                   </tr>
                   <tr>
                     <td>Цена прожив -ния</td>
-                    <td>${living_price_per_annum}/год</td>
+                    <td>{living_price_per_annum}/год</td>
                   </tr>
                 </table>
               </div>
@@ -341,8 +331,7 @@ function SinglePage(props) {
                     <tr>
                       <th>Факультет</th>
                       <th>Квоты</th>
-                      <th>Бюджет</th>
-                      <th>Тип обучения</th>
+                      <th>Стоимость контракта</th>
                       <th>Стоимость услуги</th>
                       <th>Принятие</th>
                     </tr>
@@ -353,16 +342,20 @@ function SinglePage(props) {
                         <tr>
                           <td>{f.name}</td>
                           <td>{f.quota} </td>
-                          <td>{f.education_fee}</td>
                           <td>
-                            {f.education_type === "full_time"
-                              ? "Полный занятость"
-                              : null}
-                            {f.education_type === "part_time"
-                              ? "Неполная занятость"
-                              : null}
+                            {f.education_fee} {priceType}
                           </td>
-                          <td>{f.service_price} $</td>
+                          {/* <td>
+                                 {(f.education_type == "full_time" &&"Очный") 
+                                ||
+                                  f.education_type === "part_time" && "Заочный"
+                                ||  
+                                f.education_type === "distance" && "Дистанционное обучение"
+                                ||
+                                f.education_type === "night_time" &&  "Вечернее обучение"
+                                  }
+                          </td> */}
+                          <td>{f.service_price} </td>
                           <td>
                             {f.status === "open" ? "Открыть" : null}
                             {f.status === "close" ? "Закрыто" : null}

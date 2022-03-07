@@ -98,6 +98,7 @@ function SingUp() {
   const fetchCountries = async () => {
     try {
       const res = await Axios.get("/common/country/all/");
+      console.log(res);
       const { status, data } = res;
       const { results } = res?.data;
       console.log(results);
@@ -148,26 +149,120 @@ function SingUp() {
     gender: loginData.gender,
   };
   console.log(finalData);
+
+  const handleSubmit = async (e) => {
+    localStorage.clear();
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `https://backend.edugateway.uz/api/v1/applicant/send-code/`,
+        {
+          phone_number: finalData.phone_number,
+          to_register: true,
+        }
+      );
+      const { status } = res;
+      if (status === 200) {
+        const { value: text } = await Swal.fire({
+          text: `Пожалуйста введите код который отправлен на ваш номер!`,
+          input: "text",
+          timer: 120000,
+          timerProgressBar: true,
+        });
+        if (text) {
+          try {
+            const res = await axios.post(
+              "https://backend.edugateway.uz/api/v1/applicant/register/",
+              Object.assign(finalData, { code: text })
+            );
+            console.log(res);
+            const { status } = res;
+            const { data } = res;
+            console.log(data);
+            if (status == 201) {
+              dispatch(signUpAction({ data: data }));
+              localStorage.setItem("profile", JSON.stringify(data));
+              localStorage.setItem("enrolle_user", data?.id);
+              localStorage.removeItem("referral");
+              Swal.fire({
+                icon: "success",
+                text: "Успешно зарегистрирован",
+                showCancelButton: false,
+              }).then(() => {
+                Axios.post("/common/token/obtain", {
+                  phone_number: `${finalData.phone_number}`,
+                  password: `${finalData.password_1}`,
+                })
+                  .then((res) => {
+                    const { refresh, access } = res.data;
+                    localStorage.setItem("acces", access);
+                    localStorage.setItem("refresh", refresh);
+                  })
+                  .then(() => history.push("/my-account"));
+              });
+            }
+            console.log(data);
+            setLoading(false);
+          } catch (err) {
+            console.log(err?.response);
+            const { status } = err?.response;
+            if (status == 500) {
+              Swal.fire({
+                icon: "error",
+                text: "Внутренняя ошибка сервера, попробуйте позже",
+              });
+            }
+            if (status == 400) {
+              const { data } = err?.response;
+              if (data?.passport_number) {
+                Swal.fire({
+                  icon: "error",
+                  text: "Этот паспорт зарегистрирован",
+                });
+              } else if (data?.passport_given_date) {
+                Swal.fire({
+                  icon: "error",
+                  text: "в паспорте указана дата в неправильном формате",
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  text: "Пожалуйста, введите действительный номер",
+                });
+              }
+            }
+            if (status == 409) {
+              Swal.fire({
+                icon: "error",
+                text: "Этот номер уже зарегистрирован",
+              });
+            }
+            setLoading(false);
+          }
+        }
+      }
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error.response);
+      const { status } = error?.response;
+      if (status === 400) {
+        Swal.fire({
+          text: "Код уже отправлен, повторите попытку позже!",
+          icon: "error",
+        });
+      }
+      setLoading(false);
+    }
+  };
+
   // const handleSubmit = async (e) => {
   //   localStorage.clear();
   //   e.preventDefault();
   //   setLoading(true);
-  //   try {
-  //     const res = await Axios.post(`/applicant/send-code/`,{
-  //       phone_number:finalData.phone_number,
-  //       to_register:true
-  //     })
-  //     const {status} = res;
-  //     if(status === 200){
-  //       const {value:text} =  await Swal.fire({
-  // 				text:`Пожалуйста введите код который отправлен на ваш номер!`,
-  // 				input:'text',
-  // 				timer:120000,
-  // 				timerProgressBar: true,
-  // 			})
-  //       if(text){
   //         try {
-  //           const res = await Axios.post("/applicant/register/", Object.assign(finalData,{code:text}));
+  //           const res = await Axios.post("/applicant/register/",finalData);
   //           console.log(res);
   //           const { status } = res;
   //           const { data } = res;
@@ -234,93 +329,6 @@ function SingUp() {
   //           setLoading(false);
   //         }
   //       }
-  //     }
-  //     console.log(res);
-  //     setLoading(false)
-  //   } catch (error) {
-  //     console.log(error.response);
-  //     const {status} = error?.response
-  //     if(status === 400){
-  //       Swal.fire({
-  //         text:'Код уже отправлен, повторите попытку позже!',
-  //         icon:'error'
-  //       })
-  //     }
-  //     setLoading(false)
-  //   }
-
-  // };
-  const handleSubmit = async (e) => {
-    localStorage.clear();
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await Axios.post("/applicant/register/", finalData);
-      console.log(res);
-      const { status } = res;
-      const { data } = res;
-      console.log(data);
-      if (status == 201) {
-        dispatch(signUpAction({ data: data }));
-        localStorage.setItem("profile", JSON.stringify(data));
-        localStorage.setItem("enrolle_user", data?.id);
-        localStorage.removeItem("referral");
-        Swal.fire({
-          icon: "success",
-          text: "Успешно зарегистрирован",
-          showCancelButton: false,
-        }).then(() => {
-          Axios.post("/common/token/obtain", {
-            phone_number: `${finalData.phone_number}`,
-            password: `${finalData.password_1}`,
-          })
-            .then((res) => {
-              const { refresh, access } = res.data;
-              localStorage.setItem("acces", access);
-              localStorage.setItem("refresh", refresh);
-            })
-            .then(() => history.push("/my-account"));
-        });
-      }
-      console.log(data);
-      setLoading(false);
-    } catch (err) {
-      console.log(err?.response);
-      const { status } = err?.response;
-      if (status == 500) {
-        Swal.fire({
-          icon: "error",
-          text: "Внутренняя ошибка сервера, попробуйте позже",
-        });
-      }
-      if (status == 400) {
-        const { data } = err?.response;
-        if (data?.passport_number) {
-          Swal.fire({
-            icon: "error",
-            text: "Этот паспорт зарегистрирован",
-          });
-        } else if (data?.passport_given_date) {
-          Swal.fire({
-            icon: "error",
-            text: "в паспорте указана дата в неправильном формате",
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            text: "Пожалуйста, введите действительный номер",
-          });
-        }
-      }
-      if (status == 409) {
-        Swal.fire({
-          icon: "error",
-          text: "Этот номер уже зарегистрирован",
-        });
-      }
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     fetchCities();
@@ -331,7 +339,7 @@ function SingUp() {
       window.scrollTo(0, 0);
     };
   }, []);
-  console.log(citiess);
+  console.log(countriess);
   return (
     <React.Fragment>
       <div className="navRegist">{/* <Navbar /> */}</div>
@@ -372,7 +380,7 @@ function SingUp() {
             <InputErrorMsg type="last_name" errorObj={error} />
           </div>
           <div className="form_div">
-            <p>Пасспорт намбер анд серия</p>
+            <p>Паспорт номер и серия</p>
             <input
               onChange={handleInputChange}
               type="text"
