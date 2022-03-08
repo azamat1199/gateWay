@@ -292,14 +292,12 @@
   }
 }
 
-// // 1024
-// @media(max-width:1024px){
-//     .footer{
-//         .down .right .email input{
-
-//         }
-
+// 1024
+// @media (max-width: 1024px) {
+//   .footer {
+//     .down .right .email input {
 //     }
+//   }
 // }
 
 // 768
@@ -316,38 +314,24 @@
           margin-bottom: 20px;
           font-size: 20px;
         }
-        // h2 {
-        //   font-size: 15px;
-        // }
-        // p {
-        // }
+        h2 {
+          font-size: 15px;
+        }
       }
       .center {
         h1 {
           margin-bottom: 20px;
         }
-        // p {
-        // }
       }
       .right {
         h1 {
           margin-bottom: 20px;
         }
-        // p {
-        // }
-        // .email {
-        //   input {
-        //   }
-        // }
         button {
           font-size: 20px;
           padding-top: 10px;
           padding-bottom: 10px;
         }
-        // h4 {
-        // }
-        // .social {
-        // }
       }
     }
   }
@@ -361,8 +345,6 @@
       margin-bottom: 15px;
       text-align: center;
     }
-    // .down .right .email input {
-    // }
     .top {
       padding: 20px 20px 40px 20px;
       h1 {
@@ -418,8 +400,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        // h1 {
-        // }
         p {
           text-align: center;
         }
@@ -428,8 +408,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        // h1 {
-        // }
         p {
           text-align: center;
         }
@@ -438,10 +416,6 @@
             width: 220px;
           }
         }
-        // button {
-        // }
-        // h4 {
-        // }
         .social {
           svg {
             height: 24px;

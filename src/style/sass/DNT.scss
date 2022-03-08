@@ -1,0 +1,421 @@
+// ! Do Not Touch
+// ! Do Not Touch
+// ! Do Not Touch
+.DNT_SideGlavBtnDate {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+  grid-gap: 30px;
+  margin-top: 30px;
+  width: 100%;
+
+  & > button {
+    background: #fff;
+    border-radius: 14px;
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: #696a6b;
+    opacity: 0.6;
+    border: none;
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    text-align: center;
+    cursor: pointer;
+  }
+  button:hover {
+    color: #000;
+  }
+  .datapickBlock {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+
+    .react-datepicker-wrapper {
+      .react-datepicker__input-container {
+        input {
+          height: 50px;
+          border: none;
+          box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09),
+            2px 4px 9px rgba(0, 0, 0, 0.1);
+          border-radius: 14px;
+          padding: 10px;
+          background: #fff;
+          border-radius: 14px;
+          font-family: Raleway;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 18px;
+          color: #696a6b;
+        }
+      }
+    }
+  }
+}
+.DNT_SideGlavBox {
+  margin-top: 30px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 30px;
+
+  .card {
+    padding: 15px;
+    background: #ffffff;
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.09), 2px 4px 9px rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    height: 120px;
+
+    & > * {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 26px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    h4 {
+      color: #00121a;
+      font-size: 22px;
+    }
+    h3 {
+      font-size: 32px;
+      padding-top: 15px;
+      color: #00587f;
+    }
+  }
+}
+
+.SidebarUniverstitet .univerList .univerOfficeNapravfakultetTable tr td {
+  padding: 10px 0;
+}
+.SidebarUniverstitet .univerList .univerOfficeNapravfakultetTable {
+  tbody tr td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+.SidebarUniverstitet .univerList .univerOfficeNapravfakultetTable {
+  thead th {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  tbody {
+    text-align: center;
+  }
+}
+.DNT_univerOfficeInfo1 .img_big {
+  left: -42px;
+  width: 105%;
+  // top: -42px;
+}
+
+.DNT_studentUniversitet {
+  width: auto;
+}
+
+//
+.accountant-ticket,
+.accountant-analytics {
+  .SidebarUniverstitet .univerList {
+    padding-top: 12px;
+    table {
+      .accTickTableTr td {
+        padding: 12px 10px;
+        text-align: center;
+      }
+      thead th {
+        padding: 12px 10px;
+        text-align: center;
+      }
+    }
+  }
+}
+.accountant-analytics {
+  .block_1 {
+    margin: 30px 0;
+  }
+  .sideOtdel .block_5 {
+    margin-top: 0;
+  }
+}
+//
+
+.infoDanJs {
+  width: 100%;
+  height: 320px;
+  position: relative;
+  & > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .user_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+    .infoBottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      h1,
+      h2 {
+        font-family: Raleway;
+        font-weight: 500;
+        font-size: 18px;
+        letter-spacing: 0.01em;
+        color: #f2f2f2;
+        text-align: center;
+        margin-top: 5px;
+      }
+    }
+  }
+  .infoTop {
+    padding: 20px 10px 10px 10px;
+    h1 {
+      font-family: Raleway;
+      font-weight: bold;
+      font-size: 26px;
+      color: #ffffff;
+    }
+  }
+}
+
+@media (max-width: 1080px) {
+  .accountant-ticket,
+  .accountant-analytics {
+    .SidebarUniverstitet .univerList {
+      padding-top: 12px;
+      table {
+        .accTickTableTr td {
+          padding: 12px 10px;
+        }
+        thead th {
+          padding: 12px 10px;
+        }
+      }
+    }
+  }
+  .DNT_SideGlavBox {
+    .card {
+      padding: 10px;
+      height: 90px;
+      h4 {
+        font-size: 15px;
+      }
+      h3 {
+        padding-top: 0;
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .up_nav {
+    .user_info {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 60px;
+      left: 0;
+      justify-content: flex-start;
+      padding: 0 0 0 70px;
+      background: #fff;
+      z-index: 10;
+      img {
+        margin: 0 14px;
+      }
+      & > div {
+        padding: 0;
+        height: auto;
+        h1,
+        h2 {
+          padding: 0;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .DNT_univerOfficeInfo1 {
+    .up_nav .user_info {
+      position: static;
+      height: auto;
+      background: none;
+    }
+    .info_h1 {
+      top: -40px;
+    }
+  }
+}
+
+.tableAccTableDef {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .accountant-ticket,
+  .accountant-analytics,
+  .ConsultSideStrana,
+  .consultSidebarUniverstitet,
+  .consultFakulteet,
+  .consultSidebarFiliial,
+  .consultTaalabalar,
+  .consultDoccuments,
+  .consultAnnalitika,
+  .consultPlatejji,
+  .consultDoogovori,
+  .consultAgennts,
+  .consultSiideOtdel {
+    padding-top: 70px;
+    .switch_asos {
+      .Up_navbar > div:nth-child(2) {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        left: 0;
+        justify-content: flex-start;
+        padding: 0 0 0 70px;
+        background: #fff;
+        z-index: 10;
+        img {
+          margin: 0 14px;
+        }
+        & > div {
+          padding: 0;
+          height: auto;
+        }
+      }
+    }
+    .asos {
+      padding-top: 0;
+      .Up_navbar {
+        margin-left: 0;
+        justify-content: flex-start;
+        flex-direction: row;
+        & > div:nth-child(1) {
+          .nav-bugalter {
+            margin: 0;
+            padding: 0;
+            flex-direction: row;
+            align-items: center;
+            align-items: center;
+            h5 {
+              margin: 0 0 0 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .DNT_univerOfficeInfo1 {
+    .img_big {
+      height: 200px;
+    }
+    .info_h1 {
+      padding-top: 0;
+    }
+    .info_h1 .user_info img {
+      width: 80px;
+      height: 80px;
+    }
+    .up_nav .user_info > div {
+      padding-top: 8px;
+    }
+    .info_h1 h1 {
+      margin-left: 65px;
+    }
+  }
+  .DNT_SideGlavBox {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    // .card{
+    //     h4{
+    //     }
+    //     h3{
+    //     }
+    // }
+  }
+}
+
+@media (max-width: 425px) {
+  .accountant-ticket,
+  .accountant-analytics {
+    .SidebarUniverstitet .FilterFix .FilterUniver {
+      z-index: 102;
+    }
+  }
+
+  .accountant-ticket,
+  .accountant-analytics {
+    .asos {
+      .Up_navbar {
+        & > div:nth-child(1) {
+          .nav-bugalter {
+            h4 {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .consultAgennts .SidebarAgentlar > button {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+//
+//
+//
+
+@media (max-width: 768px) {
+  .unniversitetBlock,
+  .Personal,
+  .dogovor,
+  .status {
+    .top {
+      padding-top: 70px;
+      h1 {
+        font-size: 18px;
+      }
+      & > div {
+        position: fixed;
+        background: #fff;
+        width: 100%;
+        top: 0;
+        left: 0;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        padding-left: 80px;
+      }
+    }
+  }
+  .kabinet {
+    .Personal,
+    .dogovor,
+    .status {
+      .top {
+        padding-top: 20px;
+      }
+    }
+  }
+}
