@@ -145,16 +145,13 @@
 @media (max-width: 1024px) {
   .kabinet {
     grid-template-columns: 2fr 5fr;
-    .sidebarFix {
-      // width: 28%;
-    }
   }
 }
 
 @media (max-width: 768px) {
   .kabinet #none768 {
     width: 48px;
-    z-index: 12;
+    z-index: 1000;
     position: fixed;
     top: 12px;
     left: 12px;
